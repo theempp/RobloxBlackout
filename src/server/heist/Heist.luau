@@ -93,7 +93,8 @@ function Heist.finish(S, outcome, amounts, detail)
 			S.profiles:save(p, false) -- save at run end, not on the next autosave
 			S.pushProfile(p)
 		end)
-		S.remotes.HeistEvent:FireClient(p, "results", { outcome = outcome, credits = amt, detail = detail and detail[p] })
+		local prof = S.profiles.loaded[p]
+		S.remotes.HeistEvent:FireClient(p, "results", { outcome = outcome, credits = amt, total = prof and prof.credits, detail = detail and detail[p] })
 	end
 	table.insert(Heist.results, { outcome = outcome, granted = granted })
 	task.delay(H.ReturnDelay, Heist.returnToLobby, S)

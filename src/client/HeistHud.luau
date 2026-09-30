@@ -325,8 +325,9 @@ function HeistHud.init(c)
 			r.title.Text = d.outcome == "done" and "HEIST COMPLETE" or "CREW DOWN"
 			r.credits.Text = "+" .. tostring(d.credits or 0) .. " CREDITS"
 			local x = d.detail
-			r.detail.Text = x and string.format("Loot %d  |  Heavy %s  |  Crew x%d\nReturning to the lobby...", x.small or 0,
-				x.outcome and (x.outcome:upper() .. " " .. (x.heavy or 0)) or "none", x.crewSize or 1) or "Returning to the lobby..."
+			r.detail.Text = (x and string.format("Loot %d  |  Heavy %s  |  Crew x%d", x.small or 0,
+				x.outcome and (x.outcome:upper() .. " " .. (x.heavy or 0)) or "none", x.crewSize or 1) or "")
+				.. (d.total and ("\nSaved total: " .. d.total .. " Credits") or "") .. "\nReturning to the lobby..."
 			r.frame.Visible = true
 			task.delay(C.Heist.ReturnDelay, function()
 				r.frame.Visible = false
