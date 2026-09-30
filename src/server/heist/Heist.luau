@@ -10,7 +10,8 @@ local Twists = require(shared.Twists)
 local Session = require(script.Parent.Session)
 local H = Config.Heist
 
-local Heist = { systems = {}, run = nil, results = {}, paused = false } -- paused: specs drive ticks themselves
+local Heist = { systems = {}, run = nil, results = {}, paused = false, -- paused: specs drive ticks themselves
+	stats = { n = 0, total = 0, max = 0 } } -- server cost of one 10 Hz tick (all systems)
 
 local function now()
 	return workspace:GetServerTimeNow()
@@ -218,11 +219,15 @@ function Heist.init(S)
 				S.session:tick()
 				local run = Heist.run
 				if run and not run.ended then
+					local c0 = os.clock()
 					for _, sys in ipairs(Heist.systems) do
 						if sys.tick then
 							sys.tick(S, run, dt)
 						end
 					end
+					local cost = os.clock() - c0
+					local st = Heist.stats
+					st.n, st.total, st.max = st.n + 1, st.total + cost, math.max(st.max, cost)
 				end
 			end)
 			if not ok then

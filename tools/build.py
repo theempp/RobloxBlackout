@@ -2,7 +2,7 @@
 """Minimal Rojo-compatible builder: project.json -> .rbxlx (Rojo isn't installed; `rojo build` is a drop-in).
 
 Supports: $className, $path (dir -> Folder, *.server.luau -> Script, *.client.luau -> LocalScript,
-*.luau -> ModuleScript), $properties (bool/int/float/string). Usage: build.py [project.json] [out.rbxlx]
+*.luau -> ModuleScript), $properties (bool/int/float/string). Usage: build.py (both places) | build.py project.json [out.rbxlx]
 """
 import json, os, sys
 from xml.sax.saxutils import escape
@@ -69,6 +69,8 @@ def build(project, out):
 
 
 if __name__ == '__main__':
-    proj = sys.argv[1] if len(sys.argv) > 1 else 'default.project.json'
-    out = sys.argv[2] if len(sys.argv) > 2 else 'build/place.rbxlx'
-    print(build(proj, out))
+    if len(sys.argv) > 1:  # one project: build.py project.json [out.rbxlx]
+        print(build(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else 'build/place.rbxlx'))
+    else:  # both shipping places (Build 2: lobby + heist)
+        print(build('default.project.json', 'build/lobby.rbxlx'))
+        print(build('heist.project.json', 'build/heist.rbxlx'))

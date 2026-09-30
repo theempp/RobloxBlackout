@@ -134,7 +134,8 @@ local ok, err = pcall(function()
 	end
 	if clientReport and clientReport.perf then
 		local f = clientReport.perf
-		print("BC_PERF", string.format("meanFPS=%.1f p95ms=%.1f frames=%d (Studio CLI; not a phone number)", f.meanFPS, f.p95ms, f.frames))
+		print("BC_PERF", string.format("meanFPS=%.1f p95ms=%.1f frames=%d%s (Studio CLI; not a phone number)", f.meanFPS, f.p95ms, f.frames,
+			f.sendsPerSec and string.format(" idleSends/s=%.2f", f.sendsPerSec) or ""))
 	end
 	finish(pass .. "/" .. total)
 end)

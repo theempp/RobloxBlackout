@@ -61,6 +61,37 @@ end
 local okA, a = pcall(audit)
 data.ui = okA and a or { error = tostring(a) }
 
+-- Short frame probe in the live heist (enemies, drones, karts, HUD) + remote sends/s at idle.
+-- Studio CLI numbers are not phone numbers; the harness flags throttled (unfocused) runs as invalid.
+do
+	local RunService = game:GetService("RunService")
+	local cs0 = require(lp.PlayerScripts:WaitForChild("BlackoutCrew"):WaitForChild("ClientState"))
+	local samples, total, elapsed, done = {}, 0, 0, false
+	local sends0 = cs0.netSends
+	local conn
+	conn = RunService.RenderStepped:Connect(function(dt)
+		elapsed += dt
+		if elapsed < 1 then
+			return
+		end
+		table.insert(samples, dt)
+		total += dt
+		if total >= 3 then
+			conn:Disconnect()
+			done = true
+		end
+	end)
+	local t1 = os.clock()
+	repeat
+		task.wait(0.1)
+	until done or os.clock() - t1 > 30
+	if #samples > 0 then
+		table.sort(samples)
+		data.perf = { meanFPS = #samples / total, p95ms = samples[math.ceil(#samples * 0.95)] * 1000, frames = #samples,
+			sendsPerSec = (cs0.netSends - sends0) / math.max(total + 1, 1) }
+	end
+end
+
 -- Server -> probe commands. Each returns a table over BCTestReport as { cmd = name, ... }.
 local report = RS:WaitForChild("BCTestReport")
 local cs = require(lp.PlayerScripts:WaitForChild("BlackoutCrew"):WaitForChild("ClientState"))
