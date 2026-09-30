@@ -32,7 +32,7 @@ Config.Cosmetics = {} :: { { id: string } }
 Config.Camera = {
 	Mode = "FirstPerson", -- Build 1 decision (brief is silent; §6 budgets a first-person gun). Owner may veto.
 	Fov = 70,
-	EyeHeight = 0.4, -- camera offset above the Head centre
+	EyeFromRoot = 1.9, -- camera height above HumanoidRootPart (R15 head centre + 0.4); root-based = no walk-anim bob
 	PitchLimit = 80,
 	TouchSens = 0.30, -- degrees per pixel of drag (x user sensitivity)
 	MouseSens = 0.22, -- degrees per mouse delta pixel
@@ -87,6 +87,7 @@ Config.Colors = {
 	Body = Color3.fromRGB(28, 28, 32), -- matte black
 	Foam = Color3.fromRGB(255, 120, 40), -- dart tips
 	Hit = Color3.fromRGB(255, 255, 255),
+	Predict = Color3.fromRGB(200, 200, 200),
 	Head = Color3.fromRGB(255, 214, 64),
 	Kill = Color3.fromRGB(255, 70, 70),
 	Text = Color3.fromRGB(255, 255, 255),
@@ -254,6 +255,7 @@ Config.Hud = {
 Config.Touch = {
 	UserScale = { 0.6, 1.6 },
 	FireDragAims = true, -- dragging from the Fire button also aims
+	ForceShow = false, -- show touch buttons without a touchscreen (tests force this on)
 	Buttons = {
 		fire = { x = 0.885, y = 0.72, size = 86, label = "FIRE" },
 		ads = { x = 0.765, y = 0.585, size = 60, label = "ADS" },

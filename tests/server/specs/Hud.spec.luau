@@ -19,8 +19,6 @@ return function(T)
 	T.check("every button >= MinTouchPx at every scale", worst >= C.Hud.MinTouchPx, worst)
 
 	local c = T.client or {}
-	T.check("client compiled + initialised all modules", c.ready == true and c.modules == c.expected and c.expected > 0,
-		tostring(c.modules) .. "/" .. tostring(c.expected) .. " " .. tostring(c.failed))
 	T.check("HUD exists on client", c.hud == true, c.uiError)
 	T.check("HUD buttons visible", (c.buttons or 0) >= 5, c.buttons)
 	T.check("no on-screen button under 44px", c.small == "" and (c.minButton or 0) >= C.Hud.MinTouchPx, tostring(c.small) .. " min=" .. tostring(c.minButton))

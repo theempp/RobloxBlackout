@@ -40,6 +40,9 @@ Remotes.bind(remotes, "ClientReady", function(player, report)
 		Log.warn("Server", "client modules failed for", player.Name, table.concat(report.failed, " | "))
 	end
 	pushProfile(player)
+	if S.Weapons then
+		S.Weapons.push(player) -- resend gun state in case the join push arrived before the client listened
+	end
 end)
 
 MarketplaceService.ProcessReceipt = Receipts.handler({

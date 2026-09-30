@@ -78,4 +78,5 @@ return function(T)
 		end
 	end
 	T.check("store name", C.Profile.StoreName == "BlackoutCrew_Profile_v1")
+	T.check("place has StreamingEnabled", workspace.StreamingEnabled == true)
 end

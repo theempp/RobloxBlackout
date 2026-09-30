@@ -3,13 +3,58 @@
 -- a client that failed to compile.
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
 
 local shared = ReplicatedStorage:WaitForChild("BlackoutCrew")
 local Net = require(shared:WaitForChild("Net"))
-local ORDER = {}
+local Rules = require(shared:WaitForChild("Rules"))
+local ORDER = { "Hud", "CameraRig", "Fx", "ViewModel", "Controls", "GunClient", "Wheel", "SettingsUI", "PerfOverlay" }
 
 local lp = Players.LocalPlayer
-local ctx = { Config = require(shared.Config), Log = require(shared.Log), remotes = Net.client(), shared = shared }
+local ctx = require(script.Parent:WaitForChild("ClientState"))
+ctx.Config = require(shared.Config)
+ctx.Log = require(shared.Log)
+ctx.remotes = Net.client()
+ctx.shared = shared
+ctx.settings = Rules.defaultSettings()
+ctx.netSends = 0 -- remote sends (perf overlay)
+ctx.cursorFree = false -- true while a menu/wheel needs the mouse
+
+-- Tiny event bus: ctx.on("fire", fn) / ctx.emit("fire", true)
+local handlers = {}
+function ctx.on(name, fn)
+	handlers[name] = handlers[name] or {}
+	table.insert(handlers[name], fn)
+end
+function ctx.emit(name, ...)
+	for _, fn in ipairs(handlers[name] or {}) do
+		local ok, err = pcall(fn, ...)
+		if not ok then
+			ctx.Log.warn("Client", "handler", name, err)
+		end
+	end
+end
+
+-- Input kind drives touch HUD visibility and aim assist.
+local function kindOf(t)
+	if t == Enum.UserInputType.Touch then
+		return "Touch"
+	elseif t.Name:find("Gamepad") then
+		return "Gamepad"
+	elseif t == Enum.UserInputType.Keyboard or t.Name:find("Mouse") then
+		return "Keyboard"
+	end
+	return nil
+end
+ctx.inputKind = UserInputService.TouchEnabled and "Touch" or (UserInputService.GamepadEnabled and not UserInputService.KeyboardEnabled and "Gamepad" or "Keyboard")
+UserInputService.LastInputTypeChanged:Connect(function(t)
+	local k = kindOf(t)
+	if k and k ~= ctx.inputKind then
+		ctx.inputKind = k
+		ctx.emit("inputKind", k)
+	end
+end)
+
 local loaded, failed = {}, {}
 for _, name in ipairs(ORDER) do
 	local ok, mod = pcall(function()
@@ -34,9 +79,22 @@ end
 for _, f in ipairs(failed) do
 	ctx.Log.warn("Client", "module failed", f)
 end
-local report = { loaded = loaded, failed = failed, expected = #ORDER }
+
+ctx.remotes.Profile.OnClientEvent:Connect(function(p)
+	if type(p) == "table" then
+		ctx.profile = p
+		ctx.settings = Rules.cleanSettings(p.settings)
+		ctx.emit("settings", ctx.settings)
+		ctx.emit("profile", p)
+	end
+end)
+function ctx.saveSettings()
+	ctx.remotes.SaveSettings:FireServer(ctx.settings)
+	ctx.netSends += 1
+end
+
 lp:SetAttribute("BCClientModules", #loaded)
 lp:SetAttribute("BCClientExpected", #ORDER)
 lp:SetAttribute("BCClientFailed", table.concat(failed, " | "))
 lp:SetAttribute("BCClientReady", #failed == 0)
-ctx.remotes.ClientReady:FireServer(report)
+ctx.remotes.ClientReady:FireServer({ loaded = loaded, failed = failed, expected = #ORDER })

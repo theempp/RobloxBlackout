@@ -50,6 +50,48 @@ local ok, err = pcall(function()
 end)
 data.uiError = not ok and tostring(err) or nil
 
+-- End-to-end through the real input path: aim at a range dummy, pull the trigger, wait for the
+-- server-confirmed Hit. Runs BEFORE the flood (the flood empties the Fire rate-limit bucket).
+local okE2E, errE2E = pcall(function()
+	local cs = require(lp.PlayerScripts:WaitForChild("BlackoutCrew"):WaitForChild("ClientState"))
+	local gc, rig = cs.GunClient, cs.CameraRig
+	local t1 = os.clock()
+	repeat
+		task.wait(0.1)
+	until (gc and gc.stats) or os.clock() - t1 > 10
+	local target = workspace:WaitForChild("Range", 10):WaitForChild("Static10", 10)
+	local body = target and target:WaitForChild("Body", 5)
+	data.e2eGun = gc.gunId
+	rig.lookAt(body.Position)
+	task.wait(0.8) -- draw time + camera settle
+	data.e2eAimOnTarget = rig.assistActive(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector)
+	local ammo0, hits0, shots0 = gc.ammo[gc.gunId], gc.confirmedHits, gc.shots
+	cs.emit("fire", true)
+	task.wait(0.1)
+	cs.emit("fire", false)
+	local t2 = os.clock()
+	repeat
+		task.wait(0.05)
+	until gc.confirmedHits > hits0 or os.clock() - t2 > 3
+	data.e2eShots = gc.shots - shots0
+	data.e2eAmmoDelta = ammo0 - gc.ammo[gc.gunId]
+	data.e2eConfirmed = gc.confirmedHits - hits0
+	cs.emit("adsToggle")
+	task.wait(0.4)
+	data.adsOn = gc.ads
+	data.adsFov = workspace.CurrentCamera.FieldOfView
+	cs.emit("adsToggle")
+	task.wait(0.3)
+	data.hipFov = workspace.CurrentCamera.FieldOfView
+	data.comingSoon = select(2, gc.equip(4))
+	data.wheelOpenable = cs.Wheel ~= nil
+	cs.emit("wheelOpen")
+	data.wheelOpened = cs.Wheel.open
+	cs.emit("wheelRelease")
+	data.wheelClosed = not cs.Wheel.open
+end)
+data.e2eError = not okE2E and tostring(errE2E) or nil
+
 -- Remote flood: 60 Fire events in one frame; the server's rate limiter must drop most of them.
 local remotes = RS:FindFirstChild("BlackoutCrew") and RS.BlackoutCrew:FindFirstChild("Remotes")
 if remotes and remotes:FindFirstChild("Fire") then
