@@ -12,7 +12,7 @@ local Queue = require(shared.Queue)
 local Log = require(shared.Log)
 local L = Config.Lobby
 
-local Lobby = { pads = {}, parts = {}, launches = {} }
+local Lobby = { pads = {}, parts = {}, launches = {}, paused = false } -- paused: tests drive tick() themselves
 
 local function now()
 	return workspace:GetServerTimeNow()
@@ -199,7 +199,10 @@ function Lobby.init(S)
 	task.spawn(function()
 		while true do
 			task.wait(L.Tick)
-			local ok, err = pcall(Lobby.tick, S)
+			local ok, err = true, nil
+			if not Lobby.paused then
+				ok, err = pcall(Lobby.tick, S)
+			end
 			if not ok then
 				Log.warn("Lobby", "tick", err)
 			end

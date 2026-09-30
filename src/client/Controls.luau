@@ -6,7 +6,7 @@
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 
-local Controls = { buttons = {}, editing = false, selected = nil }
+local Controls = { buttons = {}, editing = false, selected = nil, contextShown = {} }
 local ctx, C, Hud, HudScale
 local lp = Players.LocalPlayer
 
@@ -42,7 +42,25 @@ function Controls.layout()
 		b.Size = UDim2.fromOffset(size, size)
 		b.Position = UDim2.fromOffset(x * Hud.W, y * Hud.H)
 		b.TextSize = math.max(11, math.floor(size * 0.22))
-		b.Visible = show and (not def.optional or ctx.settings.mirrorFire or Controls.editing)
+		local vis = show and (not def.optional or ctx.settings.mirrorFire or Controls.editing)
+		if def.heist and ctx.role ~= "heist" then
+			vis = false
+		elseif not Controls.editing and (def.context and not Controls.contextShown[id] or ctx.driving and not def.driving) then
+			vis = false -- context button only with something in reach; on-foot buttons hide in a kart
+		end
+		b.Visible = vis
+	end
+end
+
+-- Show/hide a context button (heist action) without relaying out everything else.
+function Controls.setContext(id, on, label)
+	local b = Controls.buttons[id]
+	if b and label then
+		b.Text = label
+	end
+	if (Controls.contextShown[id] == true) ~= (on == true) then
+		Controls.contextShown[id] = on == true
+		Controls.layout()
 	end
 end
 
@@ -149,6 +167,7 @@ local function makeButtons()
 		ctx.emit("fire", false)
 		ctx.CameraRig.releaseTouch(input)
 	end
+	Controls.press = press
 	press("fire", fireDown, fireUp)
 	press("fireLeft", fireDown, fireUp)
 	press("ads", function()
@@ -252,7 +271,20 @@ local function bindKeys()
 			end
 		end
 	end)
+	UserInputService.InputBegan:Connect(function(input, gp)
+		if gp then
+			return
+		end
+		if input.KeyCode == K.Action or input.KeyCode == K.PadAction then
+			ctx.emit("actionPress", true)
+		elseif input.KeyCode == K.Sneak or input.KeyCode == K.PadSneak then
+			ctx.emit("sneakToggle")
+		end
+	end)
 	UserInputService.InputEnded:Connect(function(input)
+		if input.KeyCode == K.Action or input.KeyCode == K.PadAction then
+			ctx.emit("actionPress", false)
+		end
 		local t, k = input.UserInputType, input.KeyCode
 		if t == K.Fire or k == K.PadFire then
 			ctx.emit("fire", false)

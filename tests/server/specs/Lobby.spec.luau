@@ -118,6 +118,7 @@ return function(T)
 	if not (Lobby and root) then
 		return
 	end
+	Lobby.paused = true -- this spec drives tick() itself (no race with the 4 Hz loop)
 	local part = workspace.Lobby.PadA:Clone()
 	part.Name = "PadT"
 	part.Position = root.Position - Vector3.new(0, 2.8, 0)
@@ -154,4 +155,5 @@ return function(T)
 
 	Lobby.parts.T, Lobby.pads.T = nil, nil
 	part:Destroy()
+	Lobby.paused = false
 end

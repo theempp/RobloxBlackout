@@ -195,7 +195,8 @@ local function tick()
 			ctx.Hud.setReload(1 - (reloadEnd - now) / s.reload)
 		end
 	end
-	if trigger and (s.auto or not consumed) and now >= nextShot and now >= drawnAt and reloadEnd == 0 and not ctx.cursorFree then
+	if trigger and (s.auto or not consumed) and now >= nextShot and now >= drawnAt and reloadEnd == 0 and not ctx.cursorFree
+		and not ctx.holstered then
 		if GunClient.ammo[GunClient.gunId] > 0 then
 			shoot(now)
 			consumed = true
@@ -239,6 +240,13 @@ function GunClient.init(c)
 		if type(msg.loadout) == "table" then
 			loadout = msg.loadout
 			ctx.emit("loadout", loadout)
+		end
+		if (msg.holstered == true) ~= (ctx.holstered == true) then
+			ctx.holstered = msg.holstered == true
+			if ctx.holstered then
+				GunClient.setAds(false)
+			end
+			ctx.emit("holster", ctx.holstered)
 		end
 		if msg.gun ~= "" and (msg.gun ~= GunClient.gunId or msg.slot ~= GunClient.slot) then
 			equipLocal(msg.slot, msg.gun) -- server switched us (join, range loan)

@@ -38,7 +38,7 @@ function ViewModel.set(gunId)
 	w.Part0, w.Part1 = root, flash
 	w.Parent = flash
 	flash.Parent = model
-	model.Parent = camera
+	model.Parent = (ctx.holstered or ctx.driving) and nil or camera
 end
 
 function ViewModel.setAds(on, time)
@@ -74,8 +74,13 @@ function ViewModel.init(c)
 	ctx = c
 	C = ctx.Config
 	GunModel = require(ctx.shared.GunModel)
+	ctx.on("holster", function(on)
+		if model then
+			model.Parent = (on or ctx.driving) and nil or camera
+		end
+	end)
 	RunService:BindToRenderStep("BCViewModel", Enum.RenderPriority.Camera.Value + 2, function(dt)
-		if not root then
+		if not root or not model.Parent then
 			return
 		end
 		local step = dt / adsTime

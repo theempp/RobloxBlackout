@@ -147,9 +147,16 @@ end
 function Weapons.setAds(player, on)
 	local st = Weapons.state(player)
 	st.ads = on == true
+	Weapons.applySpeed(player)
+end
+
+-- One writer for WalkSpeed: base (heist: walk/sneak/heavy/downed via Weapons.baseSpeed) x ADS slow.
+function Weapons.applySpeed(player)
+	local st = Weapons.state(player)
 	local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
 	if hum then
-		hum.WalkSpeed = Config.Movement.WalkSpeed * ((st.ads and st.stats) and st.stats.adsSpeedMult or 1)
+		local base = Weapons.baseSpeed and Weapons.baseSpeed(player) or Config.Movement.WalkSpeed
+		hum.WalkSpeed = base * ((st.ads and st.stats) and st.stats.adsSpeedMult or 1)
 	end
 end
 
@@ -180,6 +187,9 @@ function Weapons.fire(player, seq, origin, dir, ads)
 	local st = Weapons.states[player]
 	if not st or not st.stats then
 		return false, "noGun"
+	end
+	if st.holstered then
+		return false, "holstered" -- heavy loot, downed or driving
 	end
 	local char = player.Character
 	local hum = char and char:FindFirstChildOfClass("Humanoid")
@@ -253,7 +263,22 @@ end
 function Weapons.stateMessage(player, reason)
 	local st = Weapons.state(player)
 	return { slot = st.slot, gun = st.gunId or "", ammo = st.gunId and st.ammo[st.gunId] or 0,
-		reloading = st.reloadEnd > 0, loadout = Weapons.loadout(player), reason = reason }
+		reloading = st.reloadEnd > 0, loadout = Weapons.loadout(player), reason = reason, holstered = st.holstered == true }
+end
+
+-- Heavy loot / downed / driving holster the gun (§5b). Pushed to the client, enforced in fire().
+function Weapons.setHolstered(player, on)
+	local st = Weapons.state(player)
+	on = on == true
+	if (st.holstered == true) ~= on then
+		st.holstered = on
+		if on then
+			Weapons.setAds(player, false)
+		end
+		if Weapons.push then
+			Weapons.push(player)
+		end
+	end
 end
 
 function Weapons.init(S)
@@ -291,6 +316,9 @@ function Weapons.init(S)
 	Weapons.push = push
 	Remotes.bind(remotes, "Fire", function(player, seq, origin, dir, ads)
 		local ok, reason, hits, endPoint = Weapons.fire(player, seq, origin, dir, ads)
+		if ok and Weapons.onFired then
+			Weapons.onFired(player, origin) -- heist: noise + alarm (§5h, §5b)
+		end
 		if ok then
 			if #hits > 0 then
 				remotes.Hit:FireClient(player, seq, hits)

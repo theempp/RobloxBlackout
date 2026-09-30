@@ -35,7 +35,7 @@ Config.Heist = {
 	ArrivalTimeout = 25, -- live: start without missing roster members after this
 	LocalStartDelay = 3, -- Studio/unpublished: gather whoever joins within this
 	ReturnDelay = 12, -- results screen, then back to the lobby (local: the run restarts)
-	Systems = { "Map" },
+	Systems = { "Map", "Crew", "Interact", "Loot", "Gauntlet" },
 }
 
 -- Profiles / persistence (ported from roblox 1 Profiles.luau)
@@ -83,7 +83,17 @@ Config.AimAssist = {
 	TouchAndGamepadOnly = true,
 }
 
-Config.Movement = { WalkSpeed = 16 }
+-- Movement + noise (§5h REC-AUTO): walk 16, sneak 8 (toggle); heavy loot ~40% slower (§5b).
+-- Noise radius: sneak 6, walk 15 while moving, gunfire 60 for GunfireNoiseTime seconds.
+Config.Movement = {
+	WalkSpeed = 16,
+	SneakSpeed = 8,
+	HeavySpeedMult = 0.6,
+	CrawlSpeed = 3, -- downed
+	Noise = { Sneak = 6, Walk = 15, Gunfire = 60 },
+	GunfireNoiseTime = 1.5,
+	MovingSpeed = 1.5, -- horizontal studs/s above which a player counts as moving
+}
 
 Config.Fire = {
 	OriginTolerance = 6, -- max studs between claimed shot origin and server-side head
@@ -112,6 +122,8 @@ Config.RateLimits = {
 	ClientReady = { 1, 2 },
 	RangeEquip = { 3, 5 },
 	Queue = { 4, 6 },
+	Action = { 10, 16 },
+	Sneak = { 4, 6 },
 }
 
 -- Tri budgets (§6 REC-AUTO, verify on low-end phone) and per-primitive estimates used to check them.
@@ -298,6 +310,9 @@ Config.Touch = {
 		jump = { x = 0.935, y = 0.43, size = 56, label = "JUMP" },
 		weapon = { x = 0.65, y = 0.86, size = 58, label = "GUN" },
 		fireLeft = { x = 0.07, y = 0.42, size = 64, label = "FIRE", optional = true }, -- mirrored, off by default
+		-- Heist only. action = context HOLD button (§5f), shown only when something is in reach.
+		action = { x = 0.64, y = 0.62, size = 72, label = "", heist = true, context = true },
+		sneak = { x = 0.935, y = 0.25, size = 50, label = "SNEAK", heist = true },
 	},
 }
 
@@ -314,6 +329,42 @@ Config.Keys = {
 	PadAds = Enum.KeyCode.ButtonL2,
 	PadReload = Enum.KeyCode.ButtonX,
 	PadSwap = Enum.KeyCode.ButtonY,
+	Action = Enum.KeyCode.E,
+	Sneak = Enum.KeyCode.C,
+	PadAction = Enum.KeyCode.ButtonB,
+	PadSneak = Enum.KeyCode.ButtonL3,
+}
+
+-- Context actions (§5f [CONFIRM] interpretation): hold seconds + reach (studs). A target's own
+-- Hold / Range attributes override (heavy loot 1.0 s; cameras are mounted high). Revive 3 s (§5c).
+Config.Actions = {
+	override = { hold = 2, label = "OVERRIDE" },
+	revive = { hold = 3, range = 7, label = "REVIVE" },
+	repair = { hold = 0, range = 9, label = "REPAIR" }, -- opens the timing-wheel minigame (§5d)
+	load = { hold = 1, range = 10, label = "LOAD" },
+	hack = { hold = 2.5, range = 7, label = "HACK" },
+	pickup = { hold = 0.4, range = 7, label = "GRAB" },
+	handoff = { hold = 0.8, range = 7, label = "GIVE" },
+	drive = { hold = 0.2, range = 9, label = "DRIVE" },
+	drop = { hold = 0.3, label = "DROP" },
+}
+
+-- Loot (§5b, §5d, §5g placeholders): avg clean run ~1,000 Credits per player incl. bonuses.
+Config.Loot = {
+	HeavyValue = 600,
+	SmallValue = 30,
+	HeavyHold = 1.0,
+	CarryOffset = CFrame.new(0, 0.4, 1.7), -- behind the back, relative to the root
+}
+
+-- Laser gauntlet: touch = alarm bump + damage; hack = off for HackOff seconds, then re-arms.
+Config.Lasers = {
+	Radius = 0.9,
+	Samples = { -2.2, 0, 1.8 }, -- feet / torso / head offsets from the root
+	Damage = 20,
+	Cooldown = 1.5, -- per player after a touch
+	HackOff = 25,
+	SpeedByTier = { 1, 1.35, 1.7 }, -- §5b: tiers add laser speed
 }
 
 Config.Settings = { -- defaults; Rules.cleanSettings enforces types and ranges
