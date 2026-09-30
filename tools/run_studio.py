@@ -11,25 +11,29 @@ STUDIO = os.environ.get('BC_STUDIO', '/Applications/RobloxStudio.app/Contents/Ma
 THROTTLE = 'Pushing throttle render state'
 # Real script output only. Studio also echoes the script source (lines starting "> " or unprefixed),
 # so a bare substring match on "BC_" would read source text as results.
-OUT = re.compile(r',(Info|Warning|Error) \[FLog::CreatorOutput\] (?!> )(.*)$')
+# Runtime/compile errors arrive on a separate channel ([FLog::CreatorError]); their stack lines come back on
+# CreatorOutput as "Info: Script '...', Line N". Both must surface or a crash reads as "no output".
+OUT = re.compile(r',(Info|Warning|Error) \[FLog::Creator(Output|Error)\] (?!> )(.*)$')
 
 
 def parse(line):
     m = OUT.search(line)
     if not m:
         return None
-    level, msg = m.groups()
+    level, chan, msg = m.groups()
     if msg.startswith('BC_'):
         return msg
-    if level == 'Error':
+    if chan == 'Error' or level == 'Error':
         return 'BC_ERR ' + msg
+    if msg.startswith("Info: Script '"):
+        return 'BC_ERR   at ' + msg[6:]
     return None
 
 
 def run(place, script, timeout=120, log=None, quiet=False):
     place, script = os.path.abspath(place), os.path.abspath(script)
     log = os.path.abspath(log or os.path.splitext(script)[0] + '.log')
-    outfile = log + '.studio'
+    outfile = log[:-4] + '.studio.log' if log.endswith('.log') else log + '.studio.log'  # Studio rejects non-.log names
     for p in (log, outfile):
         if os.path.exists(p):
             os.remove(p)

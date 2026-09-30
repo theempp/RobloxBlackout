@@ -11,6 +11,8 @@ local server = script.Parent
 local Profiles = require(server.Profiles)
 local Receipts = require(server.Receipts)
 local Remotes = require(server.Remotes)
+local Weapons = require(server.Weapons)
+local Range = require(server.Range)
 
 local remotes = Net.server()
 local profiles = Profiles.new()
@@ -21,7 +23,7 @@ server:SetAttribute("BCServerReady", false)
 local function pushProfile(player)
 	local d = profiles.loaded[player]
 	if d then
-		remotes.Profile:FireClient(player, { settings = d.settings, guns = d.guns, credits = d.credits })
+		remotes.Profile:FireClient(player, { settings = d.settings, guns = d.guns, attachments = d.attachments, credits = d.credits })
 	end
 end
 S.pushProfile = pushProfile
@@ -49,9 +51,15 @@ MarketplaceService.ProcessReceipt = Receipts.handler({
 	onGranted = pushProfile,
 })
 
+Weapons.init(S)
+S.Weapons = Weapons
+S.range = Range.build(S)
+
 local function join(player)
 	if profiles:load(player) then
 		pushProfile(player)
+		Weapons.equip(player, 1)
+		Weapons.push(player)
 	end
 end
 Players.PlayerAdded:Connect(join)

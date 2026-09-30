@@ -31,6 +31,7 @@ local ok, err = pcall(function()
 	local player = Players:GetPlayers()[1]
 	assert(player and player.Character, "no player character within 45s")
 	player.Character:WaitForChild("Humanoid")
+	player.Character:WaitForChild("Head")
 	repeat
 		task.wait(0.1)
 	until clientReport or os.clock() > deadline + 30

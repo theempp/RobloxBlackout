@@ -54,11 +54,12 @@ Config.Movement = { WalkSpeed = 16 }
 Config.Fire = {
 	OriginTolerance = 6, -- max studs between claimed shot origin and server-side head
 	Bunch = 2, -- shots of rate allowance banked for network jitter (token bucket capacity)
+	MinGap = 0.5, -- and never two shots closer than interval * MinGap
+	Grace = 0.1, -- reload/draw completion slack for one-way latency
 	DrawTime = 0.3, -- after equip before firing is allowed
 	MaxSeqJump = 1000,
 	MaxRange = 500, -- absolute cap regardless of gun
 	FxRadius = 250, -- other players within this get tracer FX
-	SpreadSeedPrime = 100003,
 }
 
 Config.Recoil = {
