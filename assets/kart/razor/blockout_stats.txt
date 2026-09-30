@@ -1,0 +1,28 @@
+Body           364
+Splitter        12
+Diffuser        36
+Wing            72
+Canards         48
+Hoop            36
+Seat            24
+Steering        44
+Wheels         240
+Headlight       24
+Taillight       24
+DecalPlates     24
+Underglow       12
+  z[Body] 0.28..3.10
+  z[Splitter] 0.22..0.38
+  z[Diffuser] 0.10..0.90
+  z[Wing] 1.76..3.40
+  z[Canards] 0.53..0.77
+  z[Hoop] 2.00..3.30
+  z[Seat] 0.99..2.41
+  z[Steering] 1.53..2.17
+  z[Wheels] 0.00..1.84
+  z[Headlight] 0.96..1.04
+  z[Taillight] 1.51..1.58
+  z[DecalPlates] 0.85..2.05
+  z[Underglow] 0.21..0.25
+TOTAL          960
+bbox L/W/H  11.20 / 5.14 / 3.40  y[-5.55,5.65]

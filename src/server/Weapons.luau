@@ -36,7 +36,8 @@ function Weapons.state(player)
 	if not st then
 		local now = Weapons.clock()
 		st = { slot = 1, gunId = nil, stats = nil, ammo = {}, reloadEnd = 0, drawnAt = 0, allowance = F.Bunch,
-			allowAt = now, lastShot = -math.huge, lastSeq = 0, ads = false, loan = {} }
+			allowAt = now, lastShot = -math.huge, lastSeq = 0, ads = false,
+			loan = Config.Range.LoanAllGuns and table.clone(Config.Range.DefaultLoan) or {} }
 		Weapons.states[player] = st
 	end
 	return st

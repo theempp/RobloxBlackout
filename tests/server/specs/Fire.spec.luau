@@ -43,6 +43,8 @@ return function(T)
 		T.check("equip slot 1", Weapons.equip(player, 1))
 		local st = Weapons.states[player]
 		T.eq("slot 1 = free gun", st.gunId, "dart9")
+		T.eq("range default loan fills slot 2", Weapons.gunInSlot(player, 2), C.Range.DefaultLoan[2])
+		st.loan = {} -- below: profile-only loadout
 		T.eq("coming-soon slot rejected", select(2, Weapons.equip(player, 4)), "comingSoon")
 		T.eq("invalid slot rejected", select(2, Weapons.equip(player, 9)), "invalid")
 		T.eq("empty slot rejected", select(2, Weapons.equip(player, 2)), "empty")

@@ -54,6 +54,14 @@ function ViewModel.flash()
 	flashT = 0.04
 end
 
+function ViewModel.adsProgress()
+	return adsAlpha
+end
+
+function ViewModel.rootPart()
+	return root
+end
+
 -- World position of the muzzle (tracer start); falls back to just below the camera.
 function ViewModel.muzzle()
 	if muzzle then

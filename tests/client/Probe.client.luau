@@ -47,6 +47,34 @@ local ok, err = pcall(function()
 		end
 	end
 	data.small = table.concat(data.small, ",")
+	-- Layout audit: visible buttons must not overlap each other or leave the screen.
+	local rects, bad, off = {}, {}, {}
+	local screen = gui and gui.AbsoluteSize or Vector2.zero
+	for _, b in ipairs(gui and gui:GetDescendants() or {}) do
+		if b:IsA("GuiButton") and b:GetAttribute("TouchTarget") and b.Visible and b.Parent.Visible ~= false and b.AbsoluteSize.X > 0 then
+			local shown = true
+			local a = b.Parent
+			while a and a ~= gui do
+				if a:IsA("GuiObject") and not a.Visible then
+					shown = false
+				end
+				a = a.Parent
+			end
+			if shown then
+				local p0, p1 = b.AbsolutePosition, b.AbsolutePosition + b.AbsoluteSize
+				if p0.X < -1 or p0.Y < -1 or p1.X > screen.X + 1 or p1.Y > screen.Y + 1 then
+					table.insert(off, b.Name)
+				end
+				for _, r in ipairs(rects) do
+					if p0.X < r[3] and p1.X > r[1] and p0.Y < r[4] and p1.Y > r[2] then
+						table.insert(bad, r[5] .. "+" .. b.Name)
+					end
+				end
+				table.insert(rects, { p0.X, p0.Y, p1.X, p1.Y, b.Name })
+			end
+		end
+	end
+	data.overlaps, data.offscreen = table.concat(bad, ","), table.concat(off, ",")
 end)
 data.uiError = not ok and tostring(err) or nil
 
@@ -76,12 +104,27 @@ local okE2E, errE2E = pcall(function()
 	data.e2eShots = gc.shots - shots0
 	data.e2eAmmoDelta = ammo0 - gc.ammo[gc.gunId]
 	data.e2eConfirmed = gc.confirmedHits - hits0
+	local cam = workspace.CurrentCamera
+	local vm = cs.ViewModel.rootPart()
+	local vp = cam.ViewportSize
+	local hip = vm and cam:WorldToViewportPoint(vm.Position)
+	data.vmHip = hip and hip.Z > 0 and hip.X > vp.X * 0.5 and hip.Y > vp.Y * 0.5 and hip.X < vp.X and hip.Y < vp.Y
 	cs.emit("adsToggle")
-	task.wait(0.4)
+	-- Wait for the blend to finish, not a fixed time: the unfocused CLI window throttles rendering.
+	local t3 = os.clock()
+	repeat
+		task.wait(0.05)
+	until (cs.ViewModel.adsProgress() >= 0.999 and cam.FieldOfView < cs.Config.Camera.Fov - 5) or os.clock() - t3 > 4
+	data.adsBlend = cs.ViewModel.adsProgress()
+	local ads = vm and cam:WorldToViewportPoint(vm.Position)
+	data.vmAds = ads and ads.Z > 0 and math.abs(ads.X - vp.X / 2) < vp.X * 0.08
 	data.adsOn = gc.ads
 	data.adsFov = workspace.CurrentCamera.FieldOfView
 	cs.emit("adsToggle")
-	task.wait(0.3)
+	local t4 = os.clock()
+	repeat
+		task.wait(0.05)
+	until (cs.ViewModel.adsProgress() <= 0.001 and cam.FieldOfView > cs.Config.Camera.Fov - 3) or os.clock() - t4 > 4
 	data.hipFov = workspace.CurrentCamera.FieldOfView
 	data.comingSoon = select(2, gc.equip(4))
 	data.wheelOpenable = cs.Wheel ~= nil

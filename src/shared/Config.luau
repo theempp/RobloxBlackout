@@ -299,6 +299,7 @@ Config.Perf = {
 
 Config.Range = {
 	LoanAllGuns = true, -- test range lets anyone try every gun without owning it (no profile write)
+	DefaultLoan = { [2] = "buzz", [3] = "ranger" }, -- range only: fills wheel slots 2-3 so the wheel is testable at once
 	RespawnTime = 3,
 	DummyHealth = 150,
 	SentryHealth = 250,
