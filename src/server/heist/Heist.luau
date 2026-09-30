@@ -5,10 +5,11 @@ local Players = game:GetService("Players")
 local shared = game:GetService("ReplicatedStorage"):WaitForChild("BlackoutCrew")
 local Config = require(shared.Config)
 local Log = require(shared.Log)
+local Payout = require(shared.Payout)
 local Session = require(script.Parent.Session)
 local H = Config.Heist
 
-local Heist = { systems = {}, run = nil, results = {} }
+local Heist = { systems = {}, run = nil, results = {}, paused = false } -- paused: specs drive ticks themselves
 
 local function now()
 	return workspace:GetServerTimeNow()
@@ -50,7 +51,8 @@ function Heist.skip(S, player, why)
 end
 
 function Heist.start(S, players, info)
-	local run = { players = players, info = info, started = now(), slot = {}, ended = false, outcome = nil }
+	local run = { players = players, info = info, started = now(), slot = {}, ended = false, outcome = nil,
+		params = { alarmMult = 1, sentryMult = 1, visionMult = 1, bumpMult = {} } } -- twists overwrite these
 	for i, p in ipairs(players) do
 		run.slot[p] = i
 		p:SetAttribute("BC_Slot", i)
@@ -92,6 +94,33 @@ function Heist.finish(S, outcome, amounts, detail)
 	table.insert(Heist.results, { outcome = outcome, granted = granted })
 	task.delay(H.ReturnDelay, Heist.returnToLobby, S)
 	return granted
+end
+
+-- Per-player credits. heavyOutcome(player, item) -> "clean" | "rough" | "timeout" | "caught" | nil.
+function Heist.amounts(run, heavyOutcome)
+	local amounts, detail = {}, {}
+	local diff = (Config.Difficulty[run.info.difficulty] or Config.Difficulty.normal).payout
+	for _, p in ipairs(run.players) do
+		local item = run.loot and (run.loot.loaded[p] or run.loot.heavyOf[p])
+		local d = { small = run.loot and run.loot.small[p] or 0, heavy = item and item:GetAttribute("Value") or 0,
+			outcome = item and heavyOutcome(p, item) or nil, crewSize = run.info.crewSize, difficulty = diff }
+		amounts[p] = Payout.compute(d, Config.Payout, Config.Crew)
+		detail[p] = d
+	end
+	return amounts, detail
+end
+
+-- Crew wiped (§5c): small loot still pays 100%; heavy loot you held or loaded counts as "caught" (50%).
+function Heist.fail(S, why)
+	local run = Heist.run
+	if not run or run.ended then
+		return nil
+	end
+	run.failReason = why
+	local amounts, detail = Heist.amounts(run, function()
+		return "caught"
+	end)
+	return Heist.finish(S, "failed", amounts, detail)
 end
 
 function Heist.returnToLobby(S)
@@ -176,6 +205,9 @@ function Heist.init(S)
 			local dt = math.min(t - last, 0.5)
 			last = t
 			local ok, err = pcall(function()
+				if Heist.paused then
+					return
+				end
 				S.session:tick()
 				local run = Heist.run
 				if run and not run.ended then

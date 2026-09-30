@@ -49,6 +49,9 @@ function Targets.damage(model, amount)
 	setBar(model)
 	if h <= 0 then
 		Targets.setDown(model, true)
+		if model:GetAttribute("NoRespawn") then
+			return dealt, true -- heist enemies stay down for the run
+		end
 		task.delay(model:GetAttribute("RespawnTime") or Config.Range.RespawnTime, function()
 			if model.Parent then
 				Targets.setDown(model, false)

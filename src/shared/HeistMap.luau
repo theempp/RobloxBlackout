@@ -117,10 +117,10 @@ M.GuardSets = {
 			{ V(62, 11, 140), V(152, 11, 140), V(152, 11, 156), V(62, 11, 156) },
 		},
 		cameras = { -- pos, centre yaw (deg), sweep half-angle
-			{ pos = V(157, 12, 43), yaw = 45, sweep = 45 },
-			{ pos = V(43, 12, 87), yaw = -135, sweep = 45 },
-			{ pos = V(132, 12, 103), yaw = 45, sweep = 45 },
-			{ pos = V(57, 12, 158), yaw = -135, sweep = 45 },
+			{ pos = V(157, 12, 43), yaw = 135, sweep = 45 }, -- lobby SE corner, looking NW into the room
+			{ pos = V(43, 12, 87), yaw = -45, sweep = 45 }, -- lobby NW corner, looking SE
+			{ pos = V(132, 12, 103), yaw = 135, sweep = 45 }, -- laser hall SE corner
+			{ pos = V(57, 12, 158), yaw = -45, sweep = 45 }, -- vault NW corner
 		},
 	},
 }

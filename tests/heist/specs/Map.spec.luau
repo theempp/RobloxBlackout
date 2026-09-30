@@ -46,4 +46,14 @@ return function(T)
 	T.check("front door open", not workspace:Raycast(Vector3.new(100, 3, 30), Vector3.new(0, 0, 20), rp))
 	T.check("arrival spawn", map and map:FindFirstChild("ArrivalSpawn") ~= nil and map.TowerSpawn.Enabled == false)
 	T.check("streaming on", workspace.StreamingEnabled)
+	-- Every camera's sweep centre looks into open room space, not into its own walls.
+	local P = require(RS.BlackoutCrew.Perception)
+	local blind = {}
+	for i, c in ipairs(M.GuardSets.A.cameras) do
+		local look = P.look(c.yaw, -25)
+		if workspace:Raycast(c.pos, look * 12, rp) then
+			table.insert(blind, i)
+		end
+	end
+	T.eq("cameras face into rooms", table.concat(blind, ","), "")
 end

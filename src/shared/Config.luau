@@ -35,7 +35,7 @@ Config.Heist = {
 	ArrivalTimeout = 25, -- live: start without missing roster members after this
 	LocalStartDelay = 3, -- Studio/unpublished: gather whoever joins within this
 	ReturnDelay = 12, -- results screen, then back to the lobby (local: the run restarts)
-	Systems = { "Map", "Crew", "Interact", "Loot", "Gauntlet" },
+	Systems = { "Map", "Interact", "Crew", "Loot", "Gauntlet", "Security", "Enemies" },
 }
 
 -- Profiles / persistence (ported from roblox 1 Profiles.luau)
@@ -356,6 +356,42 @@ Config.Loot = {
 	HeavyHold = 1.0,
 	CarryOffset = CFrame.new(0, 0.4, 1.7), -- behind the back, relative to the root
 }
+
+-- Alarm (§5b): 3 tiers of PerTier points. Bumps: gunfire big, camera small, downed medium; slow creep.
+-- Tiers drop only via the terminal hack. Sighting = a sentry/watcher spotting someone (same as camera).
+Config.Alarm = {
+	PerTier = 100,
+	Tiers = { "QUIET", "LOCKDOWN", "PURGE" },
+	Bumps = { gunfire = 30, camera = 10, sighting = 10, downed = 20, laser = 8 },
+	Creep = 0.25, -- points per second (~6.7 min from empty to Lockdown on creep alone)
+	HackCooldown = 45,
+	SightingCooldown = 8, -- per enemy per player
+}
+
+-- Enemies (§5b, §5h REC-AUTO). Cap = moving AI (sentries + watchers + repo drones; cameras are fixtures).
+-- Counts per alarm tier for a full crew; CrewScale x0.5 solo / x0.75 duo applies to tower AI.
+Config.Enemies = {
+	Cap = 8,
+	Counts = {
+		{ sentries = 2, watchers = 0, repo = 2 }, -- Quiet
+		{ sentries = 3, watchers = 1, repo = 3 }, -- Lockdown
+		{ sentries = 3, watchers = 1, repo = 4 }, -- Purge (+ faster lasers)
+	},
+	CrewScale = { 0.5, 0.75, 1, 1 },
+	Sentry = { Health = 150, Speed = 7, TurnRate = 160, Cone = 70, Range = 35, Hover = 2.8, Damage = 10, FireInterval = 0.8,
+		AttackRange = 45, SpotTime = 0.6, LoseTime = 3, InvestigateTime = 4 },
+	Watcher = { Health = 80, Speed = 10, TurnRate = 220, Cone = 90, Range = 40, Pitch = -35, Damage = 6, FireInterval = 0.5,
+		AttackRange = 40, SpotTime = 0.5, LoseTime = 3, InvestigateTime = 3 },
+	Camera = { Health = 40, Cone = 50, Range = 45, Period = 8, Pitch = -25, SpotTime = 0.8, Cooldown = 6, CallRadius = 60, HackRange = 16 },
+}
+
+-- Downed (§5c): bleed-out 25 s, revive 3 s hold (Config.Actions), 1 Override per player per run,
+-- bleed-out -> recalled: respawn at the tower entrance after 30 s, carried loot dropped.
+-- Run fails only if the whole crew is down at once (and nobody can Override).
+Config.Downed = { MaxHP = 100, BleedOut = 25, ReviveHP = 50, Overrides = 1, Recall = 30, RegenDelay = 6, RegenRate = 8 }
+
+-- Payout (§5d): heavy loot multiplier by outcome; small loot always 100%.
+Config.Payout = { HeavyMult = { clean = 1.15, rough = 0.9, timeout = 0.5, caught = 0.5 } }
 
 -- Laser gauntlet: touch = alarm bump + damage; hack = off for HackOff seconds, then re-arms.
 Config.Lasers = {
