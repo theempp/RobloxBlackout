@@ -1,0 +1,10 @@
+{
+  "name": "BlackoutCrew",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": { "BlackoutCrew": { "$path": "src/shared" } },
+    "ServerScriptService": { "BlackoutCrew": { "$path": "src/server" } },
+    "StarterPlayer": { "StarterPlayerScripts": { "BlackoutCrew": { "$path": "src/client" } } },
+    "Workspace": { "$properties": { "StreamingEnabled": true } }
+  }
+}
