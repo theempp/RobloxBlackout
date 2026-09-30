@@ -2,13 +2,47 @@
 -- Units: studs, seconds, degrees. Product id 0 = hidden/disabled.
 local Config = {}
 
-Config.Build = "build1"
+Config.Build = "build2"
+
+-- Places + teleport (§11). Place ids = publish target [OPEN owner]; 0 = unpublished -> "local" mode:
+-- nothing teleports (Studio: open build/heist.rbxlx to play the heist directly).
+Config.Places = { Lobby = 0, Heist = 0 }
+Config.Teleport = { Retries = 1, RetryDelay = 2, PadResetAfter = 20 }
+
+-- Crews (ported from roblox 1): cap 4; haul bonus +8% per extra member, capped at +24% (§4).
+Config.Crew = { MaxSize = 4, InviteTtl = 30, BonusPerMember = 0.08, BonusCap = 0.24 }
+
+-- Difficulty is passed at teleport (§11) but the brief never defines levels: one placeholder level.
+Config.Difficulty = { normal = { ai = 1, alarm = 1, payout = 1 } }
+
+-- Minimal lobby: queue pads beside the range spawn. Countdown seconds.
+Config.Lobby = {
+	Pads = { { id = "A", x = -40, z = 28 }, { id = "B", x = 40, z = 28 } },
+	PadRadius = 7,
+	PadHeight = 8,
+	MaxSquad = 4,
+	Countdown = 20, -- first join starts it
+	JoinGrace = 8, -- a newcomer always gets this long
+	ReadyCountdown = 3, -- everyone on the pad pressed READY
+	FullCountdown = 5, -- squad full
+	DefaultDifficulty = "normal",
+	Tick = 0.25,
+}
+
+-- Heist server: session + loop. Systems run in this order each tick.
+Config.Heist = {
+	Tick = 0.1,
+	ArrivalTimeout = 25, -- live: start without missing roster members after this
+	LocalStartDelay = 3, -- Studio/unpublished: gather whoever joins within this
+	ReturnDelay = 12, -- results screen, then back to the lobby (local: the run restarts)
+	Systems = { "Map" },
+}
 
 -- Profiles / persistence (ported from roblox 1 Profiles.luau)
 Config.Profile = {
 	StoreName = "BlackoutCrew_Profile_v1",
 	Persistence = true, -- live DataStore outside Studio; Studio is always session-only
-	SchemaVersion = 1,
+	SchemaVersion = 2, -- 2: heist { runs, lastObvious }
 	LockSeconds = 180,
 	AutosaveSeconds = 55,
 	Retries = 3,
@@ -77,6 +111,7 @@ Config.RateLimits = {
 	SaveSettings = { 1, 3 },
 	ClientReady = { 1, 2 },
 	RangeEquip = { 3, 5 },
+	Queue = { 4, 6 },
 }
 
 -- Tri budgets (§6 REC-AUTO, verify on low-end phone) and per-primitive estimates used to check them.

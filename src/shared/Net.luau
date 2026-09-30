@@ -1,8 +1,12 @@
 -- Remote names in one place. Server creates them; clients wait for them.
 -- Client -> server: Fire(seq, origin, dir, ads), Reload(), Aim(on), Equip(slot), SaveSettings(tbl), ClientReady(report), RangeEquip(gunId)
--- Server -> client: Hit(list), State(tbl), Profile(tbl); FX is unreliable (others' tracers).
+-- Queue(action, on)
+-- Server -> client: Hit(list), State(tbl), Profile(tbl), Notify(text), HeistEvent(kind, data);
+-- FX is unreliable (others' tracers). Run state travels as attributes, not remotes.
 local Net = {}
-Net.Events = { "Fire", "Reload", "Aim", "Equip", "SaveSettings", "ClientReady", "RangeEquip", "Hit", "State", "Profile" }
+Net.Events = { "Fire", "Reload", "Aim", "Equip", "SaveSettings", "ClientReady", "RangeEquip", "Queue",
+	"Hit", "State", "Profile", "Notify", "HeistEvent" }
+Net.ToClient = { Hit = true, State = true, Profile = true, Notify = true, HeistEvent = true }
 Net.Unreliable = { "FX" }
 
 local function folder()

@@ -1,24 +1,31 @@
--- Server bootstrap: remotes, profiles, receipts, guns, test range.
+-- Server bootstrap: remotes, profiles, receipts, guns, teleport adapter, then the place role:
+-- lobby (range + queue pads) or heist (the run). Role is baked per place build (shared/Place).
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local TeleportService = game:GetService("TeleportService")
 local shared = ReplicatedStorage:WaitForChild("BlackoutCrew")
 local Config = require(shared.Config)
 local Rules = require(shared.Rules)
 local Net = require(shared.Net)
 local Log = require(shared.Log)
+local Place = require(shared.Place)
 local server = script.Parent
 local Profiles = require(server.Profiles)
 local Receipts = require(server.Receipts)
 local Remotes = require(server.Remotes)
 local Weapons = require(server.Weapons)
-local Range = require(server.Range)
+local Teleport = require(server.Teleport)
 
 local remotes = Net.server()
 local profiles = Profiles.new()
 local S = require(server.ServerState)
 S.remotes, S.profiles, S.Remotes, S.clientReports = remotes, profiles, Remotes, {}
+S.role = Place.role()
+S.onJoin = {} -- role hooks, called after the profile loads
 server:SetAttribute("BCServerReady", false)
+server:SetAttribute("BCRole", S.role)
 
 local function pushProfile(player)
 	local d = profiles.loaded[player]
@@ -27,6 +34,10 @@ local function pushProfile(player)
 	end
 end
 S.pushProfile = pushProfile
+
+function S.notify(player, text)
+	remotes.Notify:FireClient(player, text)
+end
 
 Remotes.bind(remotes, "SaveSettings", function(player, raw)
 	local d = profiles.loaded[player]
@@ -56,15 +67,56 @@ MarketplaceService.ProcessReceipt = Receipts.handler({
 
 Weapons.init(S)
 S.Weapons = Weapons
-S.range = Range.build(S)
+
+S.teleport = Teleport.new({
+	service = TeleportService,
+	places = Config.Places,
+	studio = RunService:IsStudio(),
+	retries = Config.Teleport.Retries,
+	retryDelay = Config.Teleport.RetryDelay,
+	onGiveUp = function(players, why)
+		if S.onTeleportGiveUp then
+			S.onTeleportGiveUp(players, why)
+		end
+	end,
+})
+TeleportService.TeleportInitFailed:Connect(function(player, _, message)
+	S.teleport:initFailed(player, message)
+end)
 
 local function join(player)
 	if profiles:load(player) then
 		pushProfile(player)
 		Weapons.equip(player, 1)
 		Weapons.push(player)
+		for _, hook in ipairs(S.onJoin) do
+			task.spawn(hook, player)
+		end
 	end
 end
+-- Take a released session lock back (a teleport that failed after its retry).
+function S.rejoin(player)
+	if not profiles.loaded[player] and profiles:load(player) then
+		pushProfile(player)
+	end
+end
+
+if S.role == "heist" then
+	S.Heist = require(server.heist.Heist)
+	S.Heist.init(S)
+else
+	S.range = require(server.Range).build(S)
+	S.Lobby = require(server.Lobby)
+	S.Lobby.init(S)
+	S.onTeleportGiveUp = function(players, why)
+		for _, p in ipairs(players) do
+			S.rejoin(p)
+			S.notify(p, "Teleport failed twice. Try again.")
+		end
+		Log.warn("Lobby", "teleport gave up", why)
+	end
+end
+
 Players.PlayerAdded:Connect(join)
 for _, p in ipairs(Players:GetPlayers()) do
 	task.spawn(join, p)
@@ -76,4 +128,4 @@ end)
 profiles:start()
 
 server:SetAttribute("BCServerReady", true)
-Log.info("Server", "ready", Config.Build, profiles.sessionOnly and "(session-only saves)" or "")
+Log.info("Server", "ready", Config.Build, S.role, profiles.sessionOnly and "(session-only saves)" or "")

@@ -1,5 +1,5 @@
 {
-  "name": "BlackoutCrew",
+  "name": "BlackoutCrewHeist",
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {
@@ -9,7 +9,7 @@
       "BCPlace": {
         "$className": "StringValue",
         "$properties": {
-          "Value": "lobby"
+          "Value": "heist"
         }
       }
     },

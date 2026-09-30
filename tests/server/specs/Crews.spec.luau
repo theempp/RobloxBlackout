@@ -1,0 +1,38 @@
+-- Crews (ported): join/leave/promotion, cap, invites + expiry, removal, haul bonus.
+local RS = game:GetService("ReplicatedStorage")
+local C = require(RS.BlackoutCrew.Config)
+local Crews = require(RS.BlackoutCrew.Crews)
+
+return function(T)
+	local a, b, c, d, e = {}, {}, {}, {}, {}
+	local k = Crews.new(4, 30)
+	T.check("solo = crew of one", k:size(a) == 1 and k:members(a)[1] == a)
+	T.check("start crew", k:join(a, nil))
+	T.check("join leader", k:join(b, a) and k:join(c, a) and k:join(d, a))
+	T.eq("size 4", k:size(c), 4)
+	local ok, why = k:join(e, a)
+	T.check("cap 4", not ok and why == "full", why)
+	T.check("members in join order", k:members(b)[1] == a and k:members(b)[4] == d)
+	T.check("can't join twice", not k:join(b, a))
+	k:leave(a)
+	T.check("leader leaving promotes next", k:crewOf(b) == b and k:crewOf(d) == b and k:size(d) == 3)
+	T.check("leaver is solo", k:crewOf(a) == nil and k:size(a) == 1)
+	k:leave(c)
+	T.eq("member leave shrinks", k:size(b), 2)
+	T.check("join non-leader refused", not k:join(e, d))
+
+	local k2 = Crews.new(4, 30)
+	T.check("invite", k2:invite(a, b, 100))
+	T.check("accept in time", k2:accept(b, 110) and k2:crewOf(b) == a and k2:size(a) == 2)
+	T.check("invite expires", k2:invite(a, c, 100) and not k2:accept(c, 131))
+	T.check("member can't invite", not k2:invite(b, d, 100))
+	T.check("no self invite", not k2:invite(a, a, 100))
+	k2:invite(a, d, 100)
+	k2:remove(a)
+	T.check("removal clears invites from leaver", not k2:accept(d, 101))
+	T.check("removal promotes", k2:crewOf(b) == b)
+
+	T.near("bonus solo", Crews.bonus(1, C.Crew.BonusPerMember, C.Crew.BonusCap), 0)
+	T.near("bonus duo", Crews.bonus(2, C.Crew.BonusPerMember, C.Crew.BonusCap), 0.08)
+	T.near("bonus capped", Crews.bonus(9, C.Crew.BonusPerMember, C.Crew.BonusCap), 0.24)
+end

@@ -1,5 +1,5 @@
 {
-  "name": "BlackoutCrew",
+  "name": "BlackoutCrewHeistTest",
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {
@@ -9,19 +9,31 @@
       "BCPlace": {
         "$className": "StringValue",
         "$properties": {
-          "Value": "lobby"
+          "Value": "heist"
         }
       }
     },
     "ServerScriptService": {
       "BlackoutCrew": {
         "$path": "src/server"
+      },
+      "BCTests": {
+        "$className": "Folder",
+        "Runner": {
+          "$path": "tests/server/Runner.server.luau"
+        },
+        "specs": {
+          "$path": "tests/heist/specs"
+        }
       }
     },
     "StarterPlayer": {
       "StarterPlayerScripts": {
         "BlackoutCrew": {
           "$path": "src/client"
+        },
+        "BCTestProbe": {
+          "$path": "tests/heistclient"
         }
       }
     },

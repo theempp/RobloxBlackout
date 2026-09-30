@@ -11,9 +11,18 @@ local STS = game:GetService("StudioTestService")
 local report = Instance.new("RemoteEvent")
 report.Name = "BCTestReport"
 report.Parent = RS
+-- Server -> probe commands (heist probe): T.cmd(name, ...) waits for the matching reply.
+local cmd = Instance.new("RemoteEvent")
+cmd.Name = "BCTestCmd"
+cmd.Parent = RS
 local clientReport
+local replies, nextId = {}, 0
 report.OnServerEvent:Connect(function(_, data)
-	clientReport = data
+	if type(data) == "table" and data.cmdId then
+		replies[data.cmdId] = data
+	else
+		clientReport = data
+	end
 end)
 
 local function finish(summary)
@@ -44,6 +53,17 @@ local ok, err = pcall(function()
 	for _, spec in ipairs(specs) do
 		local p, t = 0, 0
 		local T = { player = player, client = clientReport }
+		function T.cmd(name, ...)
+			nextId += 1
+			local id = nextId
+			cmd:FireClient(player, id, name, ...)
+			local t = os.clock()
+			repeat
+				task.wait(0.05)
+			until replies[id] or os.clock() - t > 8
+			local r = replies[id]
+			return r ~= nil and r.ok, r and r.res
+		end
 		function T.check(name, cond, detail)
 			t += 1
 			if cond then

@@ -25,9 +25,10 @@ function Rules.find(list, id)
 	return nil
 end
 
--- Payout with crew bonus (kept for Build 2): +8% per extra member, capped at +24%.
+-- Payout with crew bonus: +8% per extra member, capped at +24% (Config.Crew).
 function Rules.payout(base, crewCount)
-	return math.floor(base * (1 + math.clamp(crewCount - 1, 0, 3) * 0.08))
+	local c = Config.Crew
+	return math.floor(base * (1 + math.min(math.max(crewCount - 1, 0) * c.BonusPerMember, c.BonusCap)) + 1e-9)
 end
 
 function Rules.freeGuns()
@@ -63,6 +64,7 @@ function Rules.defaultProfile()
 		karts = { owned = {} },
 		cosmetics = { owned = {} },
 		wheel = { freeSpins = 0, pity = 0, season = 0 },
+		heist = { runs = 0, lastObvious = false }, -- schema 2
 		settings = Rules.defaultSettings(),
 		receipts = {},
 	}
@@ -175,6 +177,11 @@ function Rules.clean(raw)
 		p.wheel.freeSpins = count(raw.wheel.freeSpins, P.MaxCounter) or 0
 		p.wheel.pity = count(raw.wheel.pity, P.MaxCounter) or 0
 		p.wheel.season = count(raw.wheel.season, P.MaxCurrency) or 0
+	end
+
+	if type(raw.heist) == "table" then
+		p.heist.runs = count(raw.heist.runs, P.MaxCurrency) or 0
+		p.heist.lastObvious = raw.heist.lastObvious == true
 	end
 
 	p.settings = Rules.cleanSettings(raw.settings)

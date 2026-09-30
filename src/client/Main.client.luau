@@ -8,7 +8,9 @@ local UserInputService = game:GetService("UserInputService")
 local shared = ReplicatedStorage:WaitForChild("BlackoutCrew")
 local Net = require(shared:WaitForChild("Net"))
 local Rules = require(shared:WaitForChild("Rules"))
+local Place = require(shared:WaitForChild("Place"))
 local ORDER = { "Hud", "CameraRig", "Fx", "ViewModel", "Controls", "GunClient", "Wheel", "SettingsUI", "PerfOverlay" }
+local ROLE_MODULES = { lobby = { "LobbyClient" }, heist = {} }
 
 local lp = Players.LocalPlayer
 local ctx = require(script.Parent:WaitForChild("ClientState"))
@@ -19,6 +21,10 @@ ctx.shared = shared
 ctx.settings = Rules.defaultSettings()
 ctx.netSends = 0 -- remote sends (perf overlay)
 ctx.cursorFree = false -- true while a menu/wheel needs the mouse
+ctx.role = Place.role()
+for _, name in ipairs(ROLE_MODULES[ctx.role]) do
+	table.insert(ORDER, name)
+end
 
 -- Tiny event bus: ctx.on("fire", fn) / ctx.emit("fire", true)
 local handlers = {}
@@ -86,6 +92,11 @@ ctx.remotes.Profile.OnClientEvent:Connect(function(p)
 		ctx.settings = Rules.cleanSettings(p.settings)
 		ctx.emit("settings", ctx.settings)
 		ctx.emit("profile", p)
+	end
+end)
+ctx.remotes.Notify.OnClientEvent:Connect(function(text)
+	if ctx.Hud and type(text) == "string" then
+		ctx.Hud.toast(text, 4)
 	end
 end)
 function ctx.saveSettings()

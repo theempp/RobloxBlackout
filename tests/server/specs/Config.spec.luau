@@ -73,7 +73,7 @@ return function(T)
 		T.check("button " .. name .. " on screen", b.x >= 0 and b.x <= 1 and b.y >= 0 and b.y <= 1)
 	end
 	for _, n in ipairs(Net.Events) do
-		if n ~= "Hit" and n ~= "State" and n ~= "Profile" then
+		if not Net.ToClient[n] then
 			T.check("rate limit for " .. n, C.RateLimits[n] ~= nil)
 		end
 	end

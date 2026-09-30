@@ -2,15 +2,39 @@
   "name": "BlackoutCrewTest",
   "tree": {
     "$className": "DataModel",
-    "ReplicatedStorage": { "BlackoutCrew": { "$path": "src/shared" } },
-    "ServerScriptService": {
-      "BlackoutCrew": { "$path": "src/server" },
-      "BCTests": { "$path": "tests/server" }
+    "ReplicatedStorage": {
+      "BlackoutCrew": {
+        "$path": "src/shared"
+      },
+      "BCPlace": {
+        "$className": "StringValue",
+        "$properties": {
+          "Value": "lobby"
+        }
+      }
     },
-    "StarterPlayer": { "StarterPlayerScripts": {
-      "BlackoutCrew": { "$path": "src/client" },
-      "BCTestProbe": { "$path": "tests/client" }
-    } },
-    "Workspace": { "$properties": { "StreamingEnabled": true } }
+    "ServerScriptService": {
+      "BlackoutCrew": {
+        "$path": "src/server"
+      },
+      "BCTests": {
+        "$path": "tests/server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "BlackoutCrew": {
+          "$path": "src/client"
+        },
+        "BCTestProbe": {
+          "$path": "tests/client"
+        }
+      }
+    },
+    "Workspace": {
+      "$properties": {
+        "StreamingEnabled": true
+      }
+    }
   }
 }
