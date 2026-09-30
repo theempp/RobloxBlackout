@@ -15,15 +15,21 @@ report.Parent = RS
 local cmd = Instance.new("RemoteEvent")
 cmd.Name = "BCTestCmd"
 cmd.Parent = RS
-local clientReport
+local multi = workspace:GetAttribute("BCMulti") -- 2-client run (tools/run_multi.luau)
+local reports = {}
 local replies, nextId = {}, 0
-report.OnServerEvent:Connect(function(_, data)
+report.OnServerEvent:Connect(function(plr, data)
 	if type(data) == "table" and data.cmdId then
 		replies[data.cmdId] = data
 	else
-		clientReport = data
+		reports[plr] = data
 	end
 end)
+if multi then
+	pcall(function() -- gather every client before the local session starts (no one is a late joiner)
+		require(game:GetService("ReplicatedStorage"):WaitForChild("BlackoutCrew"):WaitForChild("Config")).Heist.LocalStartDelay = 60
+	end)
+end
 
 local function finish(summary)
 	print("BC_TOTAL", summary)
@@ -33,36 +39,62 @@ local function finish(summary)
 end
 
 local ok, err = pcall(function()
-	local deadline = os.clock() + 45
+	local need = multi or 1
+	local deadline = os.clock() + (multi and 90 or 45)
+	local function ready()
+		local list = Players:GetPlayers()
+		if #list < need then
+			return false
+		end
+		for _, p in ipairs(list) do
+			if not p.Character or not reports[p] then
+				return false
+			end
+		end
+		return true
+	end
 	repeat
 		task.wait(0.1)
-	until (#Players:GetPlayers() > 0 and Players:GetPlayers()[1].Character) or os.clock() > deadline
-	local player = Players:GetPlayers()[1]
-	assert(player and player.Character, "no player character within 45s")
+	until ready() or os.clock() > deadline
+	local players = Players:GetPlayers()
+	table.sort(players, function(a, b)
+		return a.UserId < b.UserId
+	end)
+	local player = players[1]
+	assert(player and player.Character, "no player character in time")
 	player.Character:WaitForChild("Humanoid")
 	player.Character:WaitForChild("Head")
-	repeat
-		task.wait(0.1)
-	until clientReport or os.clock() > deadline + 30
+	local clientReport = reports[player]
+	if multi then
+		pcall(function()
+			local S = require(game:GetService("ServerScriptService").BlackoutCrew.ServerState)
+			if S.session and S.session.state == "waiting" then
+				S.session:start()
+			end
+		end)
+	end
 
 	local pass, total = 0, 0
-	local specs = script.Parent.specs:GetChildren()
+	local specs = (multi and script.Parent:FindFirstChild("multi") or script.Parent.specs):GetChildren()
 	table.sort(specs, function(a, b)
 		return a.Name < b.Name
 	end)
 	for _, spec in ipairs(specs) do
 		local p, t = 0, 0
-		local T = { player = player, client = clientReport }
-		function T.cmd(name, ...)
+		local T = { player = player, client = clientReport, players = players, clients = reports }
+		function T.cmdTo(target, name, ...)
 			nextId += 1
 			local id = nextId
-			cmd:FireClient(player, id, name, ...)
+			cmd:FireClient(target, id, name, ...)
 			local t = os.clock()
 			repeat
 				task.wait(0.05)
 			until replies[id] or os.clock() - t > 8
 			local r = replies[id]
 			return r ~= nil and r.ok, r and r.res
+		end
+		function T.cmd(name, ...)
+			return T.cmdTo(player, name, ...)
 		end
 		function T.check(name, cond, detail)
 			t += 1

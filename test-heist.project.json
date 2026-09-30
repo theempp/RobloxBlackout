@@ -24,6 +24,9 @@
         },
         "specs": {
           "$path": "tests/heist/specs"
+        },
+        "multi": {
+          "$path": "tests/heist/multi"
         }
       }
     },
