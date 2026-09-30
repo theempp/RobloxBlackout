@@ -1,0 +1,9 @@
+# Gun refs (owner-supplied Sept 30). Shape language only; no generation until plan + cost quotes approved.
+Filenames are as received (1-7.jpg); original names were not preserved. Several are other studios' designs/marks: no copying, no logos/text.
+- `1.jpg`: white + black bullpup PDW, side orthographic render. Thumbhole grip loop (P90-like), gold trigger, top rail + flip sight, vertical ribbed mag behind grip, side ammo window, +/- buttons, slotted vents, stock pad. Sci-fi, not a named in-game gun. Has "CONSTRUCTION SITE / DANGER" label text.
+- `2.jpg`: Riot/Valorant concept sheet (credit: Timur Mutsaev). Chunky toy-colour SMG (MP5/Spectre silhouette) in blue/yellow/orange, 4 angles + pink/purple graffiti skin + first-person ring sight. Best match for the locked foam look.
+- `3.jpg`: white + black sci-fi bullpup with big round dial/drum on the receiver, angular folding stock, top rail, small screen on top, "Suzu Luo Engineering" engraving. 3/4 view, hard-surface render. Bulky: reads shotgun/heavy.
+- `4.jpg`: Valorant-style AK-pattern rifle skin, black/steel with red trim lines, angular stock, curved mag, flared muzzle, small top sight. Side view. Silhouette only (Riot design).
+- `5.jpg`: Boundary (game) precision/sniper rifle pair, teal + white + chrome. Very long tube barrel, transparent energy cylinder on top, bullpup-style hooked stock, chunky thumb-hole trigger group. Two views of the same gun.
+- `6.jpg`: Valorant-style toy assault rifle in pink/purple/white (Phantom-like), long muzzle tube with white grip sleeve, fat mag. Below it: first-person blue/yellow ring sight (looks like the same sheet as 2.jpg).
+- `7.jpg`: white + black + gold bullpup carbine, side view on black. Triangle-cutout stock/foregrip, brass coil strip under a top rail, green medical-cross marks. Clean large flat panels.

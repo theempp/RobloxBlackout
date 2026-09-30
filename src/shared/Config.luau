@@ -314,7 +314,9 @@ Config.Touch = {
 		reload = { x = 0.765, y = 0.87, size = 50, label = "R" },
 		jump = { x = 0.935, y = 0.43, size = 56, label = "JUMP" },
 		weapon = { x = 0.65, y = 0.86, size = 58, label = "GUN" },
-		fireLeft = { x = 0.07, y = 0.42, size = 64, label = "FIRE", optional = true }, -- mirrored, off by default
+		-- Mirrored, off by default. Right of the heist minimap (§5e puts the map top-left) so the claw-grip
+		-- index finger still reaches it without covering the map.
+		fireLeft = { x = 0.34, y = 0.4, size = 64, label = "FIRE", optional = true },
 		-- Heist only. action = context HOLD button (§5f), shown only when something is in reach.
 		action = { x = 0.64, y = 0.62, size = 72, label = "", heist = true, context = true },
 		sneak = { x = 0.935, y = 0.25, size = 50, label = "SNEAK", heist = true },

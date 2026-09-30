@@ -107,6 +107,7 @@ return function(T)
 	E.cameraStep(run, c, 1, os.clock(), sNow, { inView })
 	E.cameraStep(run, c, 1, os.clock(), sNow, { inView })
 	T.eq("hacked camera is blind", run.alarm.value, C.Alarm.Bumps.camera)
+	c.model:SetAttribute("Hacked", false) -- restore for later specs
 	-- Downed players are ignored; killed bots stay down.
 	S.crew.down(player)
 	local hpD = player:GetAttribute("BC_HP")
