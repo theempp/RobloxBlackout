@@ -78,9 +78,9 @@ function handlers.emit(name, ...)
 	cs.emit(name, ...)
 	return {}
 end
-function handlers.eval(key)
+function handlers.eval(key, ...)
 	local f = cs.probe and cs.probe[key]
-	return f and f() or { missing = key }
+	return f and f(...) or { missing = key }
 end
 local cmd = RS:WaitForChild("BCTestCmd", 30)
 if cmd then

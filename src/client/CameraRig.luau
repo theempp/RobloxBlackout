@@ -92,6 +92,13 @@ local function step(dt)
 	if camera.CameraType ~= Enum.CameraType.Scriptable then
 		camera.CameraType = Enum.CameraType.Scriptable
 	end
+	if ctx.driving then -- KartClient owns the camera; show our own character in third person
+		UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+		for _, p in ipairs(hidden) do
+			p.LocalTransparencyModifier = 0
+		end
+		return
+	end
 	UserInputService.MouseBehavior = (ctx.inputKind == "Keyboard" and not ctx.cursorFree) and Enum.MouseBehavior.LockCenter or Enum.MouseBehavior.Default
 	UserInputService.MouseIconEnabled = ctx.cursorFree or ctx.inputKind ~= "Keyboard"
 

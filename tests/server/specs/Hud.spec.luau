@@ -26,10 +26,12 @@ return function(T)
 		local w, h = d[2] - 2 * d[4], d[3] - d[5]
 		local S = HudScale.scale(w, h, false)
 		local W, H = w / S, h / S
-		local circles = { { "gear", 40, 40, 26 } }
+		-- Visibility groups: on-foot and kart buttons are never shown together, so only same-group pairs
+		-- (and the always-visible gear) must stay apart.
+		local circles = { { "gear", 40, 40, 26, "any" } }
 		for id, b in pairs(C.Touch.Buttons) do
 			if not b.optional then
-				table.insert(circles, { id, b.x * W, b.y * H, HudScale.touchSize(b.size, S, 1) / 2 })
+				table.insert(circles, { id, b.x * W, b.y * H, HudScale.touchSize(b.size, S, 1) / 2, b.driving and "kart" or "foot" })
 			end
 		end
 		local problems = {}
@@ -42,7 +44,8 @@ return function(T)
 			end
 			for j = i + 1, #circles do
 				local b = circles[j]
-				if (Vector2.new(a[2], a[3]) - Vector2.new(b[2], b[3])).Magnitude < a[4] + b[4] + 2 then
+				local together = a[5] == b[5] or a[5] == "any" or b[5] == "any"
+				if together and (Vector2.new(a[2], a[3]) - Vector2.new(b[2], b[3])).Magnitude < a[4] + b[4] + 2 then
 					table.insert(problems, a[1] .. "+" .. b[1])
 				end
 			end

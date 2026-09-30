@@ -88,6 +88,15 @@ local ok, err = pcall(function()
 			print("BC_FAIL", spec.Name .. ": crashed", tostring(e))
 		end
 		print("BC_SUITE", spec.Name, p .. "/" .. t)
+		pcall(function() -- a crashed spec must not leave a system's loop paused for the next one
+			local S = require(game:GetService("ServerScriptService").BlackoutCrew.ServerState)
+			if S.Heist then
+				S.Heist.paused = false
+			end
+			if S.Lobby then
+				S.Lobby.paused = false
+			end
+		end)
 		pass += p
 		total += t
 	end

@@ -35,7 +35,7 @@ Config.Heist = {
 	ArrivalTimeout = 25, -- live: start without missing roster members after this
 	LocalStartDelay = 3, -- Studio/unpublished: gather whoever joins within this
 	ReturnDelay = 12, -- results screen, then back to the lobby (local: the run restarts)
-	Systems = { "Map", "Twist", "Interact", "Crew", "Loot", "Gauntlet", "Security", "Enemies" },
+	Systems = { "Map", "Twist", "Interact", "Crew", "Loot", "Gauntlet", "Security", "Enemies", "Karts", "Drones", "Escape" },
 }
 
 -- Profiles / persistence (ported from roblox 1 Profiles.luau)
@@ -124,6 +124,8 @@ Config.RateLimits = {
 	Queue = { 4, 6 },
 	Action = { 10, 16 },
 	Sneak = { 4, 6 },
+	KartInput = { 20, 30 }, -- server-physics mode only
+	Repair = { 6, 10 },
 }
 
 -- Tri budgets (§6 REC-AUTO, verify on low-end phone) and per-primitive estimates used to check them.
@@ -141,6 +143,9 @@ Config.Colors = {
 	Panel = Color3.fromRGB(14, 16, 24),
 	Accent = Color3.fromRGB(64, 220, 255),
 	Muted = Color3.fromRGB(150, 158, 180),
+	-- Squad slots (§5e REC-AUTO, Okabe-Ito, CVD-distinguishable; no red = alarm, no yellow = roll-up door).
+	-- Same colour on tag, minimap dot, parking glow, kart underglow. Always shown with the name.
+	Slots = { Color3.fromHex("56B4E9"), Color3.fromHex("E69F00"), Color3.fromHex("009E73"), Color3.fromHex("CC79A7") },
 }
 
 --[[ Guns. Fictional names, placeholder foam-tactical primitives.
@@ -313,6 +318,10 @@ Config.Touch = {
 		-- Heist only. action = context HOLD button (§5f), shown only when something is in reach.
 		action = { x = 0.64, y = 0.62, size = 72, label = "", heist = true, context = true },
 		sneak = { x = 0.935, y = 0.25, size = 50, label = "SNEAK", heist = true },
+		-- Kart (shown only while driving; left thumb = Roblox stick steers + throttles).
+		gas = { x = 0.885, y = 0.72, size = 86, label = "GAS", heist = true, driving = true },
+		brake = { x = 0.75, y = 0.8, size = 62, label = "BRAKE", heist = true, driving = true },
+		exit = { x = 0.935, y = 0.25, size = 50, label = "EXIT", heist = true, driving = true },
 	},
 }
 
@@ -333,6 +342,9 @@ Config.Keys = {
 	Sneak = Enum.KeyCode.C,
 	PadAction = Enum.KeyCode.ButtonB,
 	PadSneak = Enum.KeyCode.ButtonL3,
+	PadGas = Enum.KeyCode.ButtonR2,
+	PadBrake = Enum.KeyCode.ButtonL2,
+	KartBrake = Enum.KeyCode.LeftShift,
 }
 
 -- Context actions (§5f [CONFIRM] interpretation): hold seconds + reach (studs). A target's own
@@ -401,6 +413,40 @@ Config.Twists = {
 	},
 	doublePatrol = { name = "DOUBLE PATROL", sentryMult = 2 },
 }
+
+-- One-seat kart (§3b, §7), physics ported from roblox 1 Vehicles.luau. The driver's client steps the
+-- physics (responsive on phones); ServerPhysics = true restores v0.3's server-owned model for an A/B
+-- phone test. Size/proportions follow the razor blockout (~11 x 5 x 3.4 studs).
+Config.Kart = {
+	ServerPhysics = false,
+	MaxSpeed = 60, Accel = 42, Reverse = 20, Brake = 95, Drag = 0.13,
+	Steer = 32, SteerFalloff = 48, Grip = 12,
+	Track = 4.4, Wheelbase = 7.2, MountY = 0.3, Rest = 1.85, Spring = 300, Damp = 22, RayLen = 2.4,
+	FlipTime = 1.5,
+	EmpTime = 1.2, EmpSpin = 7, EmpSpeedMult = 0.35, EmpAccelMult = 0.3, EmpGripMult = 0.25, -- EMP: tyres lose grip = spin-out
+	InputRate = 15, InputTimeout = 0.5, -- server-physics mode only
+	SpeedTolerance = 1.35, Strikes = 2, -- anti-cheat on driver-owned karts: rubber-band on repeat overspeed
+	IdleAnchor = 2, -- an empty kart at rest anchors after this many seconds (cheap physics)
+	Camera = { Back = 15, Up = 6.5, Ahead = 10, Lerp = 8, Fov = 75 },
+}
+
+-- Parking (§5d): park = leave the kart within Radius of your spot. Teammates' spots show within GlowRange.
+Config.Parking = { Radius = 7, GlowRange = 60 }
+
+-- Repo + pursuit drones (§3b, §5d). Repo: loops ~LoopTime s over stash zones; a kart seen continuously
+-- fills its sabotage ring in SabotageTime[tier] s, draining at DrainMult speed out of sight.
+-- Pursuit: chase karts on a dash and EMP them (spin + slow, no kills), from the AI budget left over.
+Config.Drones = {
+	Repo = { LoopTime = 22, Cone = 80, Range = 70, Pitch = -55, SabotageTime = { 4, 3, 2.5 }, DrainMult = 0.5, Health = 60, TurnRate = 180 },
+	Pursuit = { PerTier = { 1, 2, 3 }, Speed = 52, Height = 12, EmpRange = 14, Cooldown = 6, Health = 60, TurnRate = 240 },
+}
+
+-- Escape (§5d): per-player gate timer from driving away (after the breach); run cap = safety net.
+Config.Escape = { DashTime = 75, RunCap = 720, MinDashMult = 1.3, StepRate = 0.5 }
+
+-- Repair minigame (§5d): 3 steps; needle period per revolution (owner self-repair is slower).
+Config.Repair = { Steps = 3, Period = 2.9, SelfPeriod = 4.8, ZoneMin = 0.45, ZoneMax = 0.8, ZoneWidth = 0.14,
+	Slack = 0.03, Latency = 0.6, MissPenalty = 0.5 }
 
 -- Payout (§5d): heavy loot multiplier by outcome; small loot always 100%.
 Config.Payout = { HeavyMult = { clean = 1.15, rough = 0.9, timeout = 0.5, caught = 0.5 } }

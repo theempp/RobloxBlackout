@@ -41,7 +41,7 @@ local function part(parent, name, size, cf, color, material, root)
 	return p
 end
 
-local function robot(kind, pos, cfg)
+local function robot(kind, pos, cfg, parent)
 	local m = Instance.new("Model")
 	m.Name = kind
 	m.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
@@ -91,10 +91,12 @@ local function robot(kind, pos, cfg)
 	m:SetAttribute("State", "patrol")
 	CollectionService:AddTag(m, "BC_Target")
 	CollectionService:AddTag(m, "BC_Enemy")
-	m.Parent = Enemies.folder
+	m.Parent = parent or Enemies.folder
 	root:SetNetworkOwner(nil) -- after parenting (Build 1 gotcha)
 	return m, root, ap, ao, eye
 end
+Enemies.robot = robot
+Enemies.EYE = EYE
 
 local function spawn(run, kind, route, startWp)
 	local cfg = kind == "sentry" and E.Sentry or E.Watcher

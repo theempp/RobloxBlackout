@@ -45,8 +45,10 @@ function Controls.layout()
 		local vis = show and (not def.optional or ctx.settings.mirrorFire or Controls.editing)
 		if def.heist and ctx.role ~= "heist" then
 			vis = false
-		elseif not Controls.editing and (def.context and not Controls.contextShown[id] or ctx.driving and not def.driving) then
-			vis = false -- context button only with something in reach; on-foot buttons hide in a kart
+		elseif (def.driving == true) ~= (ctx.driving == true) then
+			vis = false -- kart buttons only in a kart, on-foot buttons only on foot (also while editing)
+		elseif def.context and not Controls.contextShown[id] and not Controls.editing then
+			vis = false -- context button only with something in reach
 		end
 		b.Visible = vis
 	end

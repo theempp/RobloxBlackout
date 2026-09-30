@@ -21,7 +21,8 @@ return function(T)
 	end
 	local rp = RaycastParams.new()
 	rp.FilterType = Enum.RaycastFilterType.Exclude
-	rp.FilterDescendantsInstances = { workspace:FindFirstChild("HeistLoot") }
+	rp.FilterDescendantsInstances = { workspace:FindFirstChild("HeistLoot"), workspace:FindFirstChild("KartsFolder"),
+		workspace:FindFirstChild("Drones"), workspace:FindFirstChild("Enemies") }
 	local clear, covered, open = true, 0, 0
 	for _, s in ipairs(M.Spots) do
 		local down = workspace:Raycast(s.pos + Vector3.new(0, 4, 0), Vector3.new(0, -8, 0), rp)

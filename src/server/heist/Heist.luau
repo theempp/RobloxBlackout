@@ -198,6 +198,10 @@ function Heist.init(S)
 					sys.leave(S, run, p)
 				end
 			end
+			local i = table.find(run.players, p)
+			if i then
+				table.remove(run.players, i) -- nobody waits on (or wipes because of) a player who left
+			end
 		end
 	end)
 	task.spawn(function()

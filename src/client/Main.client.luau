@@ -10,7 +10,7 @@ local Net = require(shared:WaitForChild("Net"))
 local Rules = require(shared:WaitForChild("Rules"))
 local Place = require(shared:WaitForChild("Place"))
 local ORDER = { "Hud", "CameraRig", "Fx", "ViewModel", "Controls", "GunClient", "Wheel", "SettingsUI", "PerfOverlay" }
-local ROLE_MODULES = { lobby = { "LobbyClient" }, heist = { "HeistControls", "LaserView", "EnemyView" } }
+local ROLE_MODULES = { lobby = { "LobbyClient" }, heist = { "HeistControls", "LaserView", "EnemyView", "KartClient", "RepairUI", "ParkingGlow" } }
 
 local lp = Players.LocalPlayer
 local ctx = require(script.Parent:WaitForChild("ClientState"))

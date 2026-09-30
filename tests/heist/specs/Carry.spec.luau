@@ -1,4 +1,4 @@
--- Loot + carry: pure rules (speeds, noise, context-action priority/validation), then the real run with
+-- Loot + carry (runs before Escape/Kart, which consume the heavy item): pure rules (speeds, noise, context-action
 -- the test player (the probe moves the client-owned character; the server drives the hold timer).
 local RS = game:GetService("ReplicatedStorage")
 local SSS = game:GetService("ServerScriptService")
@@ -64,6 +64,7 @@ return function(T)
 		return
 	end
 	local I = S.interact
+	Heist.paused = true -- this spec drives the hold timer itself (no race with the 10 Hz loop)
 	local root = player.Character.HumanoidRootPart
 	local function go(pos)
 		T.cmd("moveTo", pos)
@@ -100,7 +101,12 @@ return function(T)
 	T.check("drop", I.start(player, "drop", nil, 10))
 	I.tick(S, run, 0, 10.31)
 	T.check("dropped", player:GetAttribute("BC_Heavy") == nil and heavy:GetAttribute("Carrier") == nil and heavy.PrimaryPart.Anchored)
-	T.check("dropped in front, on the floor", (heavy:GetPivot().Position - root.Position).Magnitude < 7 and math.abs(heavy:GetPivot().Position.Y - 1) < 0.6)
+	local rp = RaycastParams.new()
+	rp.FilterType = Enum.RaycastFilterType.Exclude
+	rp.FilterDescendantsInstances = { heavy, player.Character }
+	local below = workspace:Raycast(heavy:GetPivot().Position, V(0, -3, 0), rp)
+	T.check("dropped in reach, resting on a surface", (heavy:GetPivot().Position - root.Position).Magnitude < 7 and below
+		and math.abs(below.Distance - 1) < 0.3, below and below.Distance)
 	T.near("speed restored", player.Character.Humanoid.WalkSpeed, 16, 1e-3)
 	T.check("gun back", select(2, S.Weapons.fire(player, 999, player.Character.Head.Position, V(0, 0, -1), false)) ~= "holstered")
 
@@ -128,4 +134,8 @@ return function(T)
 	S.crew.gunfireAt[player] = now
 	T.eq("gunfire noise", S.crew.noise(player, now), C.Movement.Noise.Gunfire)
 	S.crew.gunfireAt[player] = nil
+	-- Restore what this spec changed: the pickup breached the vault (later specs expect a closed tower).
+	run.loot.breached = false
+	S.map.setServiceDoor(false)
+	Heist.paused = false
 end
