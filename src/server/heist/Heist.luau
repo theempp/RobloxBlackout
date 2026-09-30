@@ -6,6 +6,7 @@ local shared = game:GetService("ReplicatedStorage"):WaitForChild("BlackoutCrew")
 local Config = require(shared.Config)
 local Log = require(shared.Log)
 local Payout = require(shared.Payout)
+local Twists = require(shared.Twists)
 local Session = require(script.Parent.Session)
 local H = Config.Heist
 
@@ -51,8 +52,9 @@ function Heist.skip(S, player, why)
 end
 
 function Heist.start(S, players, info)
-	local run = { players = players, info = info, started = now(), slot = {}, ended = false, outcome = nil,
-		params = { alarmMult = 1, sentryMult = 1, visionMult = 1, bumpMult = {} } } -- twists overwrite these
+	local run = { players = players, info = info, started = now(), slot = {}, ended = false, outcome = nil }
+	run.twist = Twists.pick(Twists.seed(info.runId), Config.Twists)
+	run.params = Twists.apply({ alarmMult = 1, sentryMult = 1, visionMult = 1, bumpMult = {} }, run.twist and Config.Twists[run.twist])
 	for i, p in ipairs(players) do
 		run.slot[p] = i
 		p:SetAttribute("BC_Slot", i)
@@ -62,6 +64,7 @@ function Heist.start(S, players, info)
 	Heist.set("CrewSize", info.crewSize)
 	Heist.set("Difficulty", info.difficulty)
 	Heist.set("Started", run.started)
+	Heist.set("Twist", run.twist and Config.Twists[run.twist].name or "")
 	for _, sys in ipairs(Heist.systems) do
 		if sys.start then
 			sys.start(S, run)

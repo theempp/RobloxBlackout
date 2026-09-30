@@ -35,7 +35,7 @@ Config.Heist = {
 	ArrivalTimeout = 25, -- live: start without missing roster members after this
 	LocalStartDelay = 3, -- Studio/unpublished: gather whoever joins within this
 	ReturnDelay = 12, -- results screen, then back to the lobby (local: the run restarts)
-	Systems = { "Map", "Interact", "Crew", "Loot", "Gauntlet", "Security", "Enemies" },
+	Systems = { "Map", "Twist", "Interact", "Crew", "Loot", "Gauntlet", "Security", "Enemies" },
 }
 
 -- Profiles / persistence (ported from roblox 1 Profiles.luau)
@@ -389,6 +389,18 @@ Config.Enemies = {
 -- bleed-out -> recalled: respawn at the tower entrance after 30 s, carried loot dropped.
 -- Run fails only if the whole crew is down at once (and nobody can Override).
 Config.Downed = { MaxHP = 100, BleedOut = 25, ReviveHP = 50, Overrides = 1, Recall = 30, RegenDelay = 6, RegenRate = 8 }
+
+-- Twists (§5c): one per run. Numbers ending in Mult multiply the run's params. Force = an id for playtests.
+Config.Twists = {
+	Enabled = { "blackout", "doublePatrol" }, -- 3C adds laserStorm, shortFuse, glitchSurge, loudFloor
+	Force = nil,
+	blackout = {
+		name = "BLACKOUT",
+		visionMult = 0.6, -- lights out: bots see less far; the crew sees less too
+		lighting = { Brightness = 0.15, ClockTime = 0, Ambient = Color3.fromRGB(14, 14, 24), OutdoorAmbient = Color3.fromRGB(20, 20, 34), FogEnd = 420 },
+	},
+	doublePatrol = { name = "DOUBLE PATROL", sentryMult = 2 },
+}
 
 -- Payout (§5d): heavy loot multiplier by outcome; small loot always 100%.
 Config.Payout = { HeavyMult = { clean = 1.15, rough = 0.9, timeout = 0.5, caught = 0.5 } }

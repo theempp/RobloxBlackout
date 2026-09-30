@@ -36,4 +36,24 @@ return function(T)
 	T.eq("paid: small 100% + heavy caught 50%", d.credits - before, want)
 	T.check("second finish pays nothing", Heist.finish(S, "done", { [player] = 999 }) == nil and d.credits - before == want)
 	T.eq("run counted", d.heist.runs, 1)
+
+	-- Local mode replays: after ReturnDelay the run resets and a fresh one starts (forced Blackout).
+	C.Twists.Force = "blackout"
+	local t2 = os.clock()
+	repeat
+		task.wait(0.2)
+	until (Heist.run and Heist.run ~= run) or os.clock() - t2 > C.Heist.ReturnDelay + C.Heist.LocalStartDelay + 10
+	C.Twists.Force = nil
+	local run2 = Heist.run
+	T.check("local run restarts", run2 ~= nil and run2 ~= run and not run2.ended)
+	if run2 then
+		T.eq("forced twist", run2.twist, "blackout")
+		T.near("blackout lighting", game:GetService("Lighting").Brightness, C.Twists.blackout.lighting.Brightness, 1e-3)
+		T.eq("twist on HUD state", workspace.HeistState:GetAttribute("Twist"), "BLACKOUT")
+		T.check("player reset for the new run", player:GetAttribute("BC_Downed") == nil and player:GetAttribute("BC_HP") == C.Downed.MaxHP
+			and player:GetAttribute("BC_Heavy") == nil and player:GetAttribute("BC_Override") == C.Downed.Overrides)
+		T.check("fresh loot", workspace.HeistLoot:FindFirstChild("Heavy1") ~= nil and workspace.HeistLoot.Heavy1:GetAttribute("Carrier") == nil)
+		T.check("fresh enemies", #S.enemies.list >= 1 and not run2.towerCleared)
+		T.eq("service door shut again", S.map.serviceDoor.CanCollide, true)
+	end
 end

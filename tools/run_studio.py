@@ -16,6 +16,11 @@ THROTTLE = 'Pushing throttle render state'
 OUT = re.compile(r',(Info|Warning|Error) \[FLog::Creator(Output|Error)\] (?!> )(.*)$')
 
 
+# Engine asset-fetch noise, not our code (we load no animations): Roblox's default avatar Animate
+# script sometimes can't fetch its animations in an unpublished Studio place. Shown as BC_WARN, not a failure.
+ENGINE_NOISE = ('Failed to load animation with sanitized ID', 'Animation failed to load, assetId: https://assetdelivery')
+
+
 def parse(line):
     m = OUT.search(line)
     if not m:
@@ -23,6 +28,8 @@ def parse(line):
     level, chan, msg = m.groups()
     if msg.startswith('BC_'):
         return msg
+    if any(n in msg for n in ENGINE_NOISE):
+        return 'BC_WARN engine asset noise: ' + msg[:120]
     if chan == 'Error' or level == 'Error':
         return 'BC_ERR ' + msg
     if msg.startswith("Info: Script '"):

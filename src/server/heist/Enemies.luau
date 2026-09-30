@@ -158,8 +158,9 @@ function Enemies.reinforce(run)
 		return
 	end
 	local set = M.GuardSets.A
-	local want = Alarm.counts(run.alarm and run.alarm:tier() or 1, run.info.crewSize, run.params.sentryMult, E)
-	run.counts = want
+	local tier = run.alarm and run.alarm:tier() or 1
+	local want = Alarm.counts(tier, run.info.crewSize, run.params.sentryMult, E)
+	run.counts, run.countsTier = want, tier -- counts never shrink when a hack drops the tier
 	local used = {}
 	for _, e in ipairs(Enemies.list) do
 		if not e.dead then
