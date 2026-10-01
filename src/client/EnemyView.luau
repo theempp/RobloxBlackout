@@ -21,7 +21,7 @@ function EnemyView.init(ctx)
 		if not p then
 			p = Instance.new("Part")
 			p.Anchored, p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = true, false, false, false, false
-			p.Material = Enum.Material.Neon
+			p.Material = Enum.Material.SmoothPlastic
 			p.Color = Color3.fromRGB(255, 60, 60)
 			p.Transparency = 0.75
 			p.Size = Vector3.new(0.12, 0.12, 1)

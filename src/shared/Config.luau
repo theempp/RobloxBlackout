@@ -144,7 +144,7 @@ Config.Colors = {
 	Accent = Color3.fromRGB(64, 220, 255),
 	Muted = Color3.fromRGB(150, 158, 180),
 	-- Squad slots (§5e REC-AUTO, Okabe-Ito, CVD-distinguishable; no red = alarm, no yellow = roll-up door).
-	-- Same colour on tag, minimap dot, parking glow, kart underglow. Always shown with the name.
+	-- Same colour on tag, minimap dot, parking glow, kart number plate (flat colour; no neon, owner Sept 30). Always shown with the name.
 	Slots = { Color3.fromHex("56B4E9"), Color3.fromHex("E69F00"), Color3.fromHex("009E73"), Color3.fromHex("CC79A7") },
 }
 

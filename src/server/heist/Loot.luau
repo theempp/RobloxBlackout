@@ -29,7 +29,7 @@ local function makeHeavy(i, pos)
 	m.Name = "Heavy" .. i
 	m.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
 	local crate = part(m, "Crate", Vector3.new(2.6, 2, 2.6), CFrame.new(pos), Color3.fromRGB(28, 28, 34))
-	local band = part(m, "Band", Vector3.new(2.7, 0.4, 2.7), CFrame.new(pos + Vector3.new(0, 0.5, 0)), Color3.fromRGB(230, 159, 0), Enum.Material.Neon)
+	local band = part(m, "Band", Vector3.new(2.7, 0.4, 2.7), CFrame.new(pos + Vector3.new(0, 0.5, 0)), Color3.fromRGB(230, 159, 0), Enum.Material.SmoothPlastic)
 	band.CanCollide, band.CanQuery = false, false
 	local w = Instance.new("WeldConstraint")
 	w.Part0, w.Part1 = crate, band
@@ -44,7 +44,7 @@ local function makeHeavy(i, pos)
 end
 
 local function makeSmall(i, pos)
-	local p = part(Loot.folder, "Small" .. i, Vector3.new(0.9, 0.6, 0.9), CFrame.new(pos), Color3.fromRGB(0, 158, 115), Enum.Material.Neon)
+	local p = part(Loot.folder, "Small" .. i, Vector3.new(0.9, 0.6, 0.9), CFrame.new(pos), Color3.fromRGB(0, 158, 115), Enum.Material.SmoothPlastic)
 	p.CanCollide = false
 	p:SetAttribute("Heavy", false)
 	p:SetAttribute("Value", LC.SmallValue)

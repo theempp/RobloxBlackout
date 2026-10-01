@@ -6,6 +6,7 @@ local shared = game:GetService("ReplicatedStorage"):WaitForChild("BlackoutCrew")
 local Config = require(shared.Config)
 local M = require(shared.HeistMap)
 local V = Vector3.new
+local TRIM = "trim" -- marker: flat matte decor trim (was Neon)
 
 local Map = {}
 local COL = {
@@ -22,9 +23,9 @@ local function box(parent, name, size, cf, color, material, props)
 	p.CFrame = typeof(cf) == "Vector3" and CFrame.new(cf) or cf
 	p.Anchored = true
 	p.Color = color
-	p.Material = material or Enum.Material.SmoothPlastic
+	p.Material = material ~= TRIM and material or Enum.Material.SmoothPlastic
 	p.TopSurface, p.BottomSurface = Enum.SurfaceType.Smooth, Enum.SurfaceType.Smooth
-	if material == Enum.Material.Neon then
+	if material == TRIM then -- flat matte trim (owner: no neon/emissive, Sept 30): decor, no shadow, not hit-tested
 		p.CastShadow = false
 		p.CanQuery = false
 	end
@@ -45,7 +46,7 @@ local function building(parent, min, max, h)
 	local s = max - min
 	local c = V((min.X + max.X) / 2, h / 2, (min.Z + max.Z) / 2)
 	box(parent, "Building", V(s.X, h, s.Z), c, COL.building, Enum.Material.Concrete)
-	box(parent, "Trim", V(s.X + 0.2, 0.6, s.Z + 0.2), c + V(0, h / 2 - 3, 0), COL.trim, Enum.Material.Neon)
+	box(parent, "Trim", V(s.X + 0.2, 0.6, s.Z + 0.2), c + V(0, h / 2 - 3, 0), COL.trim, TRIM)
 end
 
 -- Garage in local space: -Z (look) faces the opening; back wall, two sides, roof.
@@ -59,7 +60,7 @@ local function garage(parent, g)
 		box(f, "Side", V(1, h, sz.Z), cf * CFrame.new(sgn * sz.X / 2, h / 2, 0), COL.wall)
 	end
 	box(f, "Roof", V(sz.X + 2, 1, sz.Z + 2), cf * CFrame.new(0, h + 0.5, 0), COL.wall)
-	box(f, "Trim", V(sz.X, 0.4, 0.4), cf * CFrame.new(0, h - 0.5, -sz.Z / 2), COL.trim2, Enum.Material.Neon)
+	box(f, "Trim", V(sz.X, 0.4, 0.4), cf * CFrame.new(0, h - 0.5, -sz.Z / 2), COL.trim2, TRIM)
 	f.Parent = parent
 end
 
@@ -116,13 +117,12 @@ function Map.buildCity(root)
 	end
 	for _, at in ipairs(M.Barricades) do
 		box(city, "Barricade", V(8, 5, 40), at + V(0, 2.5, 0), COL.block, Enum.Material.SmoothPlastic)
-		box(city, "BarricadeGlow", V(8.2, 0.6, 40.2), at + V(0, 4.2, 0), COL.trim2, Enum.Material.Neon)
 	end
 	local g = M.Gate
 	for _, sgn in ipairs({ -1, 1 }) do
-		box(city, "GatePost", V(3, 18, 3), g.pos + V(0, 9, sgn * (g.halfZ + 2)), COL.gate, Enum.Material.Neon)
+		box(city, "GatePost", V(3, 18, 3), g.pos + V(0, 9, sgn * (g.halfZ + 2)), COL.gate, TRIM)
 	end
-	box(city, "GateBeam", V(3, 3, g.halfZ * 2 + 7), g.pos + V(0, 19, 0), COL.gate, Enum.Material.Neon)
+	box(city, "GateBeam", V(3, 3, g.halfZ * 2 + 7), g.pos + V(0, 19, 0), COL.gate, TRIM)
 end
 
 function Map.buildTower(root)
@@ -138,13 +138,12 @@ function Map.buildTower(root)
 	box(t, "Ceiling", V(s.X + 2, 1, s.Z + 2), V(c.X, H + 0.5, c.Z), COL.tower, Enum.Material.Concrete)
 	box(t, "Facade", V(s.X - 10, 70, s.Z - 10), V(c.X, H + 1 + 35, c.Z), COL.tower, Enum.Material.Glass, { Transparency = 0.1 })
 	for i = 1, 3 do
-		box(t, "FacadeTrim", V(s.X - 9.6, 0.8, s.Z - 9.6), V(c.X, H + 1 + i * 20, c.Z), COL.trim, Enum.Material.Neon)
+		box(t, "FacadeTrim", V(s.X - 9.6, 0.8, s.Z - 9.6), V(c.X, H + 1 + i * 20, c.Z), COL.trim, TRIM)
 	end
-	box(t, "DoorGlow", V(12, 0.6, 0.6), M.Tower.door + V(0, H - 1, -1.4), COL.trim, Enum.Material.Neon)
 	-- Room ceiling strips (emissive, no light objects)
 	for _, r in ipairs(M.Rooms) do
 		local rs, rc = r.max - r.min, (r.min + r.max) / 2
-		box(t, "Strip", V(math.max(2, rs.X - 8), 0.3, 1), V(rc.X, H - 0.2, rc.Z), Color3.fromRGB(200, 210, 255), Enum.Material.Neon)
+		box(t, "Strip", V(math.max(2, rs.X - 8), 0.3, 1), V(rc.X, H - 0.2, rc.Z), Color3.fromRGB(200, 210, 255), TRIM)
 	end
 	local sd = M.ServiceDoor
 	Map.serviceDoor = box(t, "ServiceDoor", sd.s, sd.c, COL.door, Enum.Material.SmoothPlastic)
@@ -160,11 +159,11 @@ function Map.buildTower(root)
 			box(t, "Emitter", V(1, 1, 1), e, Color3.fromRGB(120, 20, 30), Enum.Material.SmoothPlastic, { CanCollide = false })
 		end
 	end
-	local panel = box(t, "LaserPanel", V(0.6, 2.4, 2), M.LaserPanel, Color3.fromRGB(255, 70, 70), Enum.Material.Neon, { CanQuery = true })
+	local panel = box(t, "LaserPanel", V(0.6, 2.4, 2), M.LaserPanel, Color3.fromRGB(255, 70, 70), TRIM, { CanQuery = true })
 	panel:SetAttribute("Kind", "laserPanel")
 	panel:SetAttribute("Range", 7)
 	CollectionService:AddTag(panel, "BC_Hackable")
-	local term = box(t, "Terminal", V(2, 3, 1.4), M.Terminal, Color3.fromRGB(86, 180, 233), Enum.Material.Neon, { CanQuery = true })
+	local term = box(t, "Terminal", V(2, 3, 1.4), M.Terminal, Color3.fromRGB(86, 180, 233), TRIM, { CanQuery = true })
 	term:SetAttribute("Kind", "terminal")
 	term:SetAttribute("Range", 7)
 	CollectionService:AddTag(term, "BC_Hackable")

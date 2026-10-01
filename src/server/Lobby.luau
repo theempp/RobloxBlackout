@@ -50,7 +50,7 @@ function Lobby.build(parent)
 		p.CFrame = CFrame.new(def.x, 0.2, def.z) * CFrame.Angles(0, 0, math.rad(90))
 		p.Anchored = true
 		p.CanCollide = false
-		p.Material = Enum.Material.Neon
+		p.Material = Enum.Material.SmoothPlastic
 		p.Color = Config.Colors.Accent
 		p.Transparency = 0.35
 		p:SetAttribute("PadId", def.id)

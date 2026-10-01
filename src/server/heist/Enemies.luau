@@ -54,14 +54,14 @@ local function robot(kind, pos, cfg, parent)
 		part(m, "Body", V(2.2, 2.4, 1.6), cf * CFrame.new(0, 0.4, 0), grey, nil, root)
 		part(m, "Skirt", V(2.6, 0.5, 2), cf * CFrame.new(0, -1.1, 0), dark, nil, root)
 		part(m, "Head", V(1.5, 1.1, 1.3), cf * CFrame.new(0, 2.2, 0), grey, nil, root)
-		eye = part(m, "Eye", V(1.1, 0.22, 0.1), cf * CFrame.new(0, 2.3, -0.67), EYE.patrol, Enum.Material.Neon, root)
+		eye = part(m, "Eye", V(1.1, 0.22, 0.1), cf * CFrame.new(0, 2.3, -0.67), EYE.patrol, Enum.Material.SmoothPlastic, root)
 	else
 		part(m, "Body", V(2.6, 0.6, 2.6), cf, dark, nil, root)
 		for _, o in ipairs({ V(1.8, 0.3, 1.8), V(-1.8, 0.3, 1.8), V(1.8, 0.3, -1.8), V(-1.8, 0.3, -1.8) }) do
 			part(m, "Rotor", V(1.4, 0.1, 1.4), cf * CFrame.new(o), grey, nil, root).CanQuery = false
 		end
 		part(m, "Head", V(1.1, 0.8, 1.1), cf * CFrame.new(0, -0.6, 0), grey, nil, root)
-		eye = part(m, "Eye", V(0.7, 0.2, 0.1), cf * CFrame.new(0, -0.6, -0.56), EYE.patrol, Enum.Material.Neon, root)
+		eye = part(m, "Eye", V(0.7, 0.2, 0.1), cf * CFrame.new(0, -0.6, -0.56), EYE.patrol, Enum.Material.SmoothPlastic, root)
 	end
 	eye.CanQuery = false
 	local att = Instance.new("Attachment")
@@ -118,7 +118,7 @@ local function camera(i, def)
 	part(m, "Mount", V(0.6, 0.6, 0.6), CFrame.new(def.pos + V(0, 0.8, 0)), grey)
 	local head = part(m, "Head", V(1, 0.8, 1.6), CFrame.new(def.pos) * CFrame.Angles(0, math.rad(def.yaw), 0), grey)
 	head.CanQuery = true
-	local lens = part(m, "Eye", V(0.5, 0.5, 0.1), head.CFrame * CFrame.new(0, 0, -0.82), EYE.alert, Enum.Material.Neon)
+	local lens = part(m, "Eye", V(0.5, 0.5, 0.1), head.CFrame * CFrame.new(0, 0, -0.82), EYE.alert, Enum.Material.SmoothPlastic)
 	lens.CanQuery = false
 	m.PrimaryPart = head
 	m:SetAttribute("Kind", "camera")

@@ -14,7 +14,7 @@ function LaserView.init(ctx)
 		local p = Instance.new("Part")
 		p.Name = "Beam" .. i
 		p.Anchored, p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = true, false, false, false, false
-		p.Material = Enum.Material.Neon
+		p.Material = Enum.Material.SmoothPlastic
 		p.Color = Color3.fromRGB(255, 40, 60)
 		p.Size = Vector3.new(0.18, 0.18, 1)
 		p.Parent = folder

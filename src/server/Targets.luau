@@ -86,7 +86,7 @@ function Targets.makeDummy(cf, opts)
 	block(m, "Leg", Vector3.new(0.6, 2.4, 0.6), cf * CFrame.new(0, 1.6, 0), dark)
 	block(m, "Body", Vector3.new(2, 2.2, 1), cf * CFrame.new(0, 3.9, 0), grey)
 	local head = block(m, "Head", Vector3.new(1.2, 1.1, 1.1), cf * CFrame.new(0, 5.6, 0), grey)
-	block(m, "Eye", Vector3.new(0.9, 0.18, 0.1), cf * CFrame.new(0, 5.7, -0.56), Config.Colors.Accent, Enum.Material.Neon).CanQuery = false
+	block(m, "Eye", Vector3.new(0.9, 0.18, 0.1), cf * CFrame.new(0, 5.7, -0.56), Config.Colors.Accent, Enum.Material.SmoothPlastic).CanQuery = false
 	m.PrimaryPart = base
 	local hp = opts.health or Config.Range.DummyHealth
 	m:SetAttribute("MaxHealth", hp)

@@ -25,7 +25,7 @@ function ParkingGlow.init(ctx)
 		ring.Size = Vector3.new(0.2, C.Parking.Radius * 2, C.Parking.Radius * 2)
 		ring.CFrame = CFrame.new(s.pos + Vector3.new(0, 0.15, 0)) * CFrame.Angles(0, 0, math.rad(90))
 		ring.Anchored, ring.CanCollide, ring.CanQuery, ring.CanTouch, ring.CastShadow = true, false, false, false, false
-		ring.Material = Enum.Material.Neon
+		ring.Material = Enum.Material.SmoothPlastic
 		ring.Parent = folder
 		local beam = ring:Clone()
 		beam.Shape = Enum.PartType.Block

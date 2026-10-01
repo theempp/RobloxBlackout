@@ -29,7 +29,7 @@ function ViewModel.set(gunId)
 	flash = Instance.new("Part")
 	flash.Name = "Flash"
 	flash.Size = Vector3.new(0.25, 0.25, 0.4)
-	flash.Material = Enum.Material.Neon
+	flash.Material = Enum.Material.SmoothPlastic
 	flash.Color = g.accent
 	flash.Transparency = 1
 	flash.CanCollide, flash.CanQuery, flash.CanTouch, flash.CastShadow, flash.Massless = false, false, false, false, true

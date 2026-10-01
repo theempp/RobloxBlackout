@@ -82,7 +82,7 @@ local function sentry(folder, at)
 	m.Name = "Sentry"
 	m.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
 	local head = part(m, "Head", Vector3.new(2.4, 1.6, 2.4), CFrame.new(at + Vector3.new(0, 4.3, 0)), Color3.fromRGB(120, 124, 136), nil, { Anchored = false })
-	local eye = part(m, "Eye", Vector3.new(1.4, 0.3, 0.1), head.CFrame * CFrame.new(0, 0.2, -1.22), Color3.fromRGB(255, 70, 70), Enum.Material.Neon, { Anchored = false, CanQuery = false, CanCollide = false })
+	local eye = part(m, "Eye", Vector3.new(1.4, 0.3, 0.1), head.CFrame * CFrame.new(0, 0.2, -1.22), Color3.fromRGB(255, 70, 70), Enum.Material.SmoothPlastic, { Anchored = false, CanQuery = false, CanCollide = false })
 	local w = Instance.new("WeldConstraint")
 	w.Part0, w.Part1 = head, eye
 	w.Parent = eye
@@ -116,9 +116,9 @@ function Range.build(S)
 		part(folder, "Wall", Vector3.new(2, 14, 280), CFrame.new(x, 7, -100), Color3.fromRGB(48, 50, 60))
 	end
 	part(folder, "BackWall", Vector3.new(160, 14, 2), CFrame.new(0, 7, 40), Color3.fromRGB(48, 50, 60))
-	part(folder, "FiringLine", Vector3.new(120, 0.05, 0.4), CFrame.new(0, 0.03, FIRING_Z), line, Enum.Material.Neon, { CanCollide = false, CanQuery = false })
+	part(folder, "FiringLine", Vector3.new(120, 0.05, 0.4), CFrame.new(0, 0.03, FIRING_Z), line, Enum.Material.SmoothPlastic, { CanCollide = false, CanQuery = false })
 	for _, d in ipairs({ 10, 25, 50, 100, 150 }) do
-		part(folder, "Mark" .. d, Vector3.new(120, 0.05, 0.2), CFrame.new(0, 0.03, FIRING_Z - d), Color3.fromRGB(90, 96, 120), Enum.Material.Neon, { CanCollide = false, CanQuery = false })
+		part(folder, "Mark" .. d, Vector3.new(120, 0.05, 0.2), CFrame.new(0, 0.03, FIRING_Z - d), Color3.fromRGB(90, 96, 120), Enum.Material.SmoothPlastic, { CanCollide = false, CanQuery = false })
 		label(part(folder, "Sign" .. d, Vector3.new(6, 0.1, 3), CFrame.new(-45, 0.06, FIRING_Z - d), dark, nil, { CanCollide = false, CanQuery = false }), d .. " studs")
 	end
 	part(folder, "Cover", Vector3.new(8, 3.5, 1), CFrame.new(0, 1.75, FIRING_Z - 18), Color3.fromRGB(70, 74, 86))

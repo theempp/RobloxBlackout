@@ -1,4 +1,4 @@
--- Placeholder foam-tactical blasters from primitives (Config.Guns[].shape): matte black body, neon accents,
+-- Placeholder foam-tactical blasters from primitives (Config.Guns[].shape): matte black body, flat matte accents (owner: no neon/emissive, Sept 30),
 -- foam dart tip. One swappable engraving layer (Config.Branding). Non-colliding, massless, no shadows.
 local Config = require(script.Parent.Config)
 local GunModel = {}
@@ -68,7 +68,7 @@ function GunModel.build(gun)
 			p.Size = spec.size
 		end
 		if spec.color == "Accent" then
-			p.Material = Enum.Material.Neon -- emissive, no dynamic lights (mobile)
+			p.Material = Enum.Material.SmoothPlastic
 			p.Color = gun.accent
 		else
 			p.Material = Enum.Material.SmoothPlastic

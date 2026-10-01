@@ -10,10 +10,10 @@ local PARK = CFrame.new(0, -5000, 0)
 local tracers, impacts, numbers = {}, {}, {}
 local ti, ii, ni = 0, 0, 0
 
-local function neon(folder, size)
+local function flat(folder, size)
 	local p = Instance.new("Part")
 	p.Anchored, p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = true, false, false, false, false
-	p.Material = Enum.Material.Neon
+	p.Material = Enum.Material.SmoothPlastic
 	p.Size = size
 	p.Transparency = 1
 	p.CFrame = PARK
@@ -64,10 +64,10 @@ function Fx.init(c)
 	folder.Parent = workspace
 	Fx.folder = folder
 	for i = 1, P.TracerPool do
-		tracers[i] = { part = neon(folder, Vector3.new(0.07, 0.07, 1)), life = 0 }
+		tracers[i] = { part = flat(folder, Vector3.new(0.07, 0.07, 1)), life = 0 }
 	end
 	for i = 1, P.ImpactPool do
-		impacts[i] = { part = neon(folder, Vector3.new(0.35, 0.35, 0.35)), life = 0 }
+		impacts[i] = { part = flat(folder, Vector3.new(0.35, 0.35, 0.35)), life = 0 }
 	end
 	for i = 1, P.MarkerPool do
 		local att = Instance.new("Attachment")

@@ -67,7 +67,6 @@ function Karts.build(owner, slot, cf)
 	for _, w in ipairs(KartPhysics.wheels(K)) do
 		weldPart(m, root, "Wheel", V(1, 1.8, 1.8), CFrame.new(w.X * 1.08, -0.1, w.Z) * CFrame.Angles(0, 0, math.rad(90)), black, nil, Enum.PartType.Cylinder)
 	end
-	weldPart(m, root, "Underglow", V(4.4, 0.1, 8.4), CFrame.new(0, -0.45, 0), glow, Enum.Material.Neon)
 	local plate = weldPart(m, root, "Plate", V(1.8, 0.8, 0.1), CFrame.new(0, 0.6, 4.86), Color3.fromRGB(230, 230, 220))
 	local sg = Instance.new("SurfaceGui")
 	sg.Face = Enum.NormalId.Back
