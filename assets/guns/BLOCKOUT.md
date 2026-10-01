@@ -5,4 +5,4 @@ Rev 2 (owner): Scatterpop + Rattler cut from this batch; Dart-9/Buzzline/Ranger/
 Lead refs: Buzzline 2 · Ranger 7 · Needlepoint 5 · Dart-9 none (slim toy pistol).
 Colour: matte black/charcoal, steel barrel on Needlepoint, orange foam muzzle, grey engraving plate. No Accent part.
 Holstered: hip (Dart-9, Buzzline) / back (Ranger, Needlepoint); export flags held until kart Studio result.
-Not done: detail, UV/textures, attachment points, export (next chat, after owner approval).
+Detail pass + points done: see DETAIL.md. Not done: UV/textures, export, world LOD (after owner approval).

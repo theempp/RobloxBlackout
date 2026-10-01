@@ -1,6 +1,6 @@
 # Blackout Crew (Roblox co-op heist, phone-first; owner Enzo)
 Files: DIRECTIVE_GRAY.md (design truth) · BUILD_PLAN.md · SALVAGE.md (audit of ~/Desktop/roblox 1) · gates/ (gate reports) · refs/ (owner reference images + NOTES) · HANDOFF_PROMPT.md
-**Current build: 2** (update only after owner says "go" at a gate). Build ONLY it, then stop at its gate.
+**Current build: 3** (update only after owner says "go" at a gate). Build ONLY it, then stop at its gate.
 Read order: this file -> BUILD_PLAN.md (current build) -> SALVAGE.md -> ONLY the DIRECTIVE_GRAY.md sections in its Read map (`grep -n '^## '`, read by range). Never load the whole brief.
 Rules:
 - Terse, honest; disagree when warranted.
