@@ -1,0 +1,4 @@
+dart9    tris   100  L 1.46 H 0.84 W 0.24  muzzle y -1.16  parts ['Mover', 'Plate', 'Receiver']
+buzz     tris   140  L 2.42 H 1.09 W 0.27  muzzle y -1.36  parts ['Mag', 'Plate', 'Receiver']
+ranger   tris   136  L 3.38 H 1.19 W 0.27  muzzle y -2.08  parts ['Mag', 'Plate', 'Receiver']
+needle   tris   208  L 4.04 H 1.01 W 0.24  muzzle y -2.62  parts ['Mag', 'Plate', 'Receiver']

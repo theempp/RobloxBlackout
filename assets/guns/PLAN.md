@@ -1,3 +1,4 @@
+> **REV 2 (owner, Sept 30): NO neon/emissive accents on guns (or cars). Scatterpop + Rattler cut from this batch; remaining 4 slimmed. Below text still mentions Accent/Neon + 6 guns: superseded where it conflicts.**
 # Guns art plan (PLAN ONLY: nothing built, nothing generated, no credits spent)
 Sources: DIRECTIVE §6 §17 §5f, BUILD_PLAN Build 1, Config.Guns/TriBudget, GunModel/ViewModel/Weapons/Carry, refs/guns/NOTES.md, RAZOR scripts.
 
