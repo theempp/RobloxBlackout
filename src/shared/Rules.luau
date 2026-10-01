@@ -41,6 +41,75 @@ function Rules.freeGuns()
 	return owned
 end
 
+function Rules.freeCosmetics()
+	local owned = {}
+	for _, c in ipairs(Config.Cosmetics) do
+		if c.free then
+			owned[c.id] = true
+		end
+	end
+	return owned
+end
+
+-- Equipped cosmetics: slot -> id. Unknown ids, wrong slots and unowned items are dropped (empty = own look).
+function Rules.cleanEquipped(raw, owned)
+	local out = {}
+	if type(raw) ~= "table" then
+		return out
+	end
+	for _, slot in ipairs(Config.CosmeticSlots) do
+		local id = raw[slot]
+		local c = type(id) == "string" and Config.CosmeticsById[id]
+		if c and c.slot == slot and owned[id] then
+			out[slot] = id
+		end
+	end
+	return out
+end
+
+-- Station requests are a FULL replacement (slot -> id; a missing slot = empty), validated all-or-nothing.
+-- Returns the clean map, or nil + reason ("invalid" | "incompatible" | "locked").
+function Rules.cosmeticProposal(raw, owned)
+	if type(raw) ~= "table" then
+		return nil, "invalid"
+	end
+	local out, n = {}, 0
+	for slot, id in pairs(raw) do
+		n += 1
+		local c = type(id) == "string" and Config.CosmeticsById[id]
+		if n > #Config.CosmeticSlots or type(slot) ~= "string" or not table.find(Config.CosmeticSlots, slot) or not c then
+			return nil, "invalid"
+		elseif c.slot ~= slot then
+			return nil, "incompatible"
+		elseif not owned[id] then
+			return nil, "locked"
+		end
+		out[slot] = id
+	end
+	return out
+end
+
+function Rules.attachmentProposal(gunId, raw, owned)
+	local gun = type(gunId) == "string" and Config.GunsById[gunId]
+	if not gun or type(raw) ~= "table" then
+		return nil, "invalid"
+	end
+	local out, n = {}, 0
+	for slot, attId in pairs(raw) do
+		n += 1
+		local a = type(attId) == "string" and Config.AttachmentsById[attId]
+		if n > #Config.AttachmentSlots or type(slot) ~= "string" or not table.find(Config.AttachmentSlots, slot) or not a then
+			return nil, "invalid"
+		elseif a.slot ~= slot or not table.find(gun.slots, slot) then
+			return nil, "incompatible"
+		elseif not owned[attId] then
+			return nil, "locked"
+		end
+		out[slot] = attId
+	end
+	return out
+end
+
 function Rules.defaultSettings()
 	local s = { layout = {} }
 	for k, v in pairs(Config.Settings.Bools) do
@@ -62,9 +131,10 @@ function Rules.defaultProfile()
 		guns = { owned = free, loadout = { first, "", "" } },
 		attachments = { owned = {}, equipped = {} },
 		karts = { owned = {} },
-		cosmetics = { owned = {} },
+		cosmetics = { owned = Rules.freeCosmetics(), equipped = {} }, -- schema 4: equipped
 		wheel = { freeSpins = 0, pity = 0, season = 0 },
 		heist = { runs = 0, lastObvious = false }, -- schema 2
+		tutorial = { done = false }, -- schema 3
 		settings = Rules.defaultSettings(),
 		receipts = {},
 	}
@@ -171,7 +241,11 @@ function Rules.clean(raw)
 	end
 
 	p.karts.owned = ownedSet(type(raw.karts) == "table" and raw.karts.owned, Config.Karts)
-	p.cosmetics.owned = ownedSet(type(raw.cosmetics) == "table" and raw.cosmetics.owned, Config.Cosmetics)
+	local cos = type(raw.cosmetics) == "table" and raw.cosmetics or {}
+	for id in pairs(ownedSet(cos.owned, Config.Cosmetics)) do
+		p.cosmetics.owned[id] = true
+	end
+	p.cosmetics.equipped = Rules.cleanEquipped(cos.equipped, p.cosmetics.owned)
 
 	if type(raw.wheel) == "table" then
 		p.wheel.freeSpins = count(raw.wheel.freeSpins, P.MaxCounter) or 0
@@ -184,6 +258,7 @@ function Rules.clean(raw)
 		p.heist.lastObvious = raw.heist.lastObvious == true
 	end
 
+	p.tutorial.done = type(raw.tutorial) == "table" and raw.tutorial.done == true
 	p.settings = Rules.cleanSettings(raw.settings)
 
 	if type(raw.receipts) == "table" then

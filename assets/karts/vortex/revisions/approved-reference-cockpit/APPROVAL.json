@@ -1,0 +1,26 @@
+{
+  "status": "owner-approved",
+  "approval": "Owner: Lock this in. Lock all of these changes into the revision node saved within the project, with all of the other changes we are going to have codex do as well.",
+  "scope": "Blackout Vortex model and reference-led windshield/cockpit revision shown in this chat",
+  "production_import_pending": true,
+  "files": {
+    "blackout_vortex.blend": "40c987ab7eb9a7866cbfab102c4406acc2d4117001276e174bbbe0007e52b947",
+    "build_vortex.py": "a23849e945f0863e4d77e9cde0d015d1b9f7cbe947e7f04b18fc463da6fb9821",
+    "shape_vortex.py": "8ead30ffea8067cf77c10ac770468aec62e1496452fd610f1598b483498474cb",
+    "refine_canopy.py": "1e9b42094f150b23c8c5185a643b6cda3c49a7bb33e75c78afcf3da2bb59c110",
+    "render_preview.py": "81ffa895c671b9d12c8608529f07e49a99aa2e912bbf4d01290ff40e4086f2ae",
+    "verify_export.py": "fbddaff7e5b3654fad469ca3a11a53ee2697ffc689fa7c80161fdc0f0c01f866",
+    "merge_studio_import.py": "31d210501e862e76167250d6227855514c046e8905c044e46c7c8433f3cf73da",
+    "export/blackout_vortex.fbx": "fc136bbf2bba960d4026172569058faef579c8cf614d5cbfec47a41a9e8a56b5",
+    "export/blackout_vortex.glb": "4bb13943396a684af53a4d3505cbc48f4b1258e11d4883e54d18cd64f94a1bc0",
+    "export/vortex_shaped_body.fbx": "5e2c0c3287955eec9c74533e9f6f01e6c101a9731fd7ac54a8e10ed3de570b46",
+    "export/VortexKartProxy.rbxmx": "5aaaa94b48b23706ef791413f97a2cff460a193bc25a942e8feee36a264df8d3",
+    "export/manifest.json": "02acb1b483cb122ff358da8644fe857dec99eb6ca9c2f68bdded2e73a3d61277",
+    "export/preview.png": "2a5ecd255eb6de615216476011fa9d8746ca17d5069198569348b0110094b9f2",
+    "export/rear-preview.png": "90ef54b50072254eb2b0dab8c500faa701d5d38a13faa3e7ea70be048d1f84b2",
+    "export/side-preview.png": "cfd5b280a43030587c47e74b49aebda36d0547d575bc81f18ba8113410c01a7d",
+    "export/cockpit-preview.png": "7beb42938265efeffa36f4dc08b60dfd246d0016c499cd17cd82950edbb158a9",
+    "cockpit-reference.jpeg": "0c5afee7637a728ad46e73ddc955059eef40d2150bdd5e2fb949d70c7d333da5"
+  },
+  "approved_date": "2026-10-01"
+}

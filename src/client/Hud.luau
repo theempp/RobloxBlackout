@@ -26,7 +26,7 @@ function Hud.pad(x, n)
 	return Hud.make("UIPadding", x, { PaddingLeft = UDim.new(0, n), PaddingRight = UDim.new(0, n), PaddingTop = UDim.new(0, n), PaddingBottom = UDim.new(0, n) })
 end
 function Hud.label(parent, text, size, props)
-	local l = Hud.make("TextLabel", parent, { BackgroundTransparency = 1, Text = text, TextSize = size, Font = Enum.Font.GothamBold, TextColor3 = C.Colors.Text })
+	local l = Hud.make("TextLabel", parent, { BackgroundTransparency = 1, Text = text, TextSize = size, Font = Enum.Font.GothamBold, TextColor3 = C.UI.Ink })
 	for k, v in pairs(props or {}) do
 		l[k] = v
 	end
@@ -34,15 +34,37 @@ function Hud.label(parent, text, size, props)
 end
 -- Round button used by touch controls, wheel and menus. TouchTarget marks it for the 44px UI probe.
 function Hud.button(parent, name, text, size, props)
-	local b = Hud.make("TextButton", parent, { Name = name, Text = text, TextSize = 14, Font = Enum.Font.GothamBlack, TextColor3 = C.Colors.Text,
-		AutoButtonColor = false, BackgroundColor3 = C.Colors.Panel, BackgroundTransparency = 0.35, Size = UDim2.fromOffset(size, size), AnchorPoint = Vector2.new(0.5, 0.5) })
+	local b = Hud.make("TextButton", parent, { Name = name, Text = text, TextSize = 14, Font = Enum.Font.GothamBlack, TextColor3 = C.UI.Ink,
+		AutoButtonColor = false, BackgroundColor3 = C.UI.Blue, BackgroundTransparency = 0, Size = UDim2.fromOffset(size, size), AnchorPoint = Vector2.new(0.5, 0.5) })
 	Hud.corner(b, UDim.new(0.5, 0))
-	Hud.stroke(b, C.Colors.Text, 2, 0.6)
+	Hud.stroke(b, C.UI.Ink, C.UI.Outline, 0)
 	b:SetAttribute("TouchTarget", true)
 	for k, v in pairs(props or {}) do
 		b[k] = v
 	end
 	return b
+end
+
+-- Rounded-rectangle menu button (>= 52 design units = 44 physical px at the minimum HUD scale).
+function Hud.pill(parent, name, text, w, h, color, props)
+	local b = Hud.make("TextButton", parent, { Name = name, Text = text, TextSize = 13, Font = Enum.Font.GothamBlack, TextColor3 = C.UI.Ink,
+		AutoButtonColor = true, BackgroundColor3 = color or C.UI.Blue, Size = UDim2.fromOffset(w, h), TextWrapped = true, Selectable = true })
+	Hud.corner(b, 12)
+	Hud.stroke(b, C.UI.Ink, 2, 0)
+	b:SetAttribute("TouchTarget", true)
+	for k, v in pairs(props or {}) do
+		b[k] = v
+	end
+	return b
+end
+
+-- Shared paper panel treatment; compact chips retain the small phone HUD footprint.
+function Hud.surface(panel, compact)
+	panel.BackgroundColor3, panel.BackgroundTransparency, panel.BorderSizePixel = C.UI.Paper, 0, 0
+	local corner = panel:FindFirstChildOfClass("UICorner")
+	if corner then corner.CornerRadius = UDim.new(0, compact and 8 or 16) else Hud.corner(panel, compact and 8 or 16) end
+	local stroke = panel:FindFirstChildOfClass("UIStroke") or Hud.stroke(panel)
+	stroke.Color, stroke.Thickness, stroke.Transparency = C.UI.Ink, compact and 2 or C.UI.Outline, 0
 end
 
 local function rescale()
@@ -72,7 +94,7 @@ end
 
 function Hud.setAmmo(ammo, mag, reloading)
 	Hud.ammoLabel.Text = reloading and "RELOADING" or (tostring(ammo) .. " / " .. tostring(mag))
-	Hud.ammoLabel.TextColor3 = (not reloading and ammo <= math.ceil(mag * 0.25)) and C.Colors.Kill or C.Colors.Text
+	Hud.ammoLabel.TextColor3 = (not reloading and ammo <= math.ceil(mag * 0.25)) and C.Colors.Kill or C.UI.Ink
 end
 
 function Hud.setGun(name)
@@ -86,8 +108,10 @@ function Hud.setReload(frac)
 	end
 end
 
+local crossWanted = true
 function Hud.setCrosshair(visible, gapPx)
-	Hud.cross.Visible = visible
+	crossWanted = visible
+	Hud.cross.Visible = visible and not Hud.menuOpen -- menus (locker preview, armory) hide it
 	local g = gapPx or 8
 	local t = Hud.cross:GetChildren()
 	for _, tick in ipairs(t) do
@@ -140,9 +164,11 @@ function Hud.init(c)
 
 	-- Ammo + gun name (top right), reload bar under it.
 	local panel = Hud.make("Frame", Hud.root, { Name = "Ammo", BackgroundTransparency = 1, AnchorPoint = Vector2.new(1, 0), Size = UDim2.fromOffset(170, 50) })
+	Hud.surface(panel, true)
+	Hud.pad(panel, 5)
 	Hud.ammoPanel = panel
 	Hud.ammoLabel = Hud.label(panel, "", 22, { Size = UDim2.new(1, 0, 0, 26), TextXAlignment = Enum.TextXAlignment.Right, Font = Enum.Font.GothamBlack })
-	Hud.gunLabel = Hud.label(panel, "", 13, { Position = UDim2.fromOffset(0, 26), Size = UDim2.new(1, 0, 0, 16), TextXAlignment = Enum.TextXAlignment.Right, TextColor3 = C.Colors.Muted })
+	Hud.gunLabel = Hud.label(panel, "", 13, { Position = UDim2.fromOffset(0, 26), Size = UDim2.new(1, 0, 0, 16), TextXAlignment = Enum.TextXAlignment.Right, TextColor3 = C.UI.Muted })
 	Hud.reloadBar = Hud.make("Frame", panel, { Position = UDim2.new(0, 70, 0, 44), Size = UDim2.new(1, -70, 0, 4), BackgroundColor3 = Color3.new(0, 0, 0), BackgroundTransparency = 0.4, BorderSizePixel = 0, Visible = false })
 	Hud.reloadFill = Hud.make("Frame", Hud.reloadBar, { BackgroundColor3 = C.Colors.Accent, BorderSizePixel = 0, Size = UDim2.fromScale(0, 1) })
 
@@ -154,6 +180,10 @@ function Hud.init(c)
 		Hud.toastLabel.Position = UDim2.fromOffset(Hud.W / 2, 56)
 	end)
 	ctx.on("settings", rescale)
+	ctx.on("menu", function(name)
+		Hud.menuOpen = name ~= nil
+		cross.Visible = crossWanted and not Hud.menuOpen
+	end)
 	gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(rescale)
 	rescale()
 
@@ -165,6 +195,7 @@ function Hud.init(c)
 		if toastT > 0 then
 			toastT -= dt
 			local a = toastT < 0.4 and 1 - toastT / 0.4 or 0
+			Hud.toastLabel.TextColor3 = C.Colors.Text
 			Hud.toastLabel.TextTransparency = a
 			Hud.toastLabel.TextStrokeTransparency = 0.5 + a * 0.5
 		end

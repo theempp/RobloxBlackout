@@ -76,6 +76,16 @@ local ok, err = pcall(function()
 
 	local pass, total = 0, 0
 	local specs = (multi and script.Parent:FindFirstChild("multi") or script.Parent.specs):GetChildren()
+	local only = script.Parent:FindFirstChild("Only") -- tools/test.py --spec A,B (iteration runs)
+	if only and not multi then
+		local keep = {}
+		for _, s in ipairs(specs) do
+			if table.find(string.split(only.Value, ","), (s.Name:gsub("%.spec$", ""))) then
+				table.insert(keep, s)
+			end
+		end
+		specs = keep
+	end
 	table.sort(specs, function(a, b)
 		return a.Name < b.Name
 	end)

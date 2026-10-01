@@ -130,6 +130,7 @@ return function(T)
 
 	-- Noise (§5h)
 	local now = os.clock()
+	S.crew.gunfireAt[player] = nil -- isolate movement noise from the client fire probe
 	T.eq("standing still is silent", S.crew.noise(player, now), 0)
 	S.crew.gunfireAt[player] = now
 	T.eq("gunfire noise", S.crew.noise(player, now), C.Movement.Noise.Gunfire)

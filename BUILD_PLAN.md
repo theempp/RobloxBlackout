@@ -3,7 +3,7 @@ Truth: DIRECTIVE_GRAY.md (numbers = placeholders -> one Config module). Old-code
 
 ## Global rules
 - Placeholders/primitives only; no generated assets, no Higgsfield, until owner approves plan + cost quotes.
-- Mobile first: StreamingEnabled, emissive over dynamic lights, tri budgets (§6). AI cap ~8.
+- Mobile first: StreamingEnabled, matte surfaces, no neon/emissive (owner override Sept 30); dynamic lights remain prohibited except a small, performance-tested number of practical city streetlights (owner approval Oct 1), tri budgets (§6). AI cap ~8.
 - `~/Desktop/roblox 1` = read-only reference; SALVAGE.md is the audit; spot-check a file before porting.
 - Studio CLI test per system. Claude Code can't test on phones; owner supplies device results.
 - Name/logo via swappable decal layer. Never guess [OPEN]/owner-only items; ask once, batched.
@@ -30,7 +30,7 @@ Not in scope: lobby, heist, karts, economy UI, wheel, assets.
 **Gate:** full run lobby->heist->escape->payout with 1-4 players (multi-client test + owner's friends); ~9 min run; 4-player phone perf; kart touch driving OK; tuning notes.
 
 ## Build 3 — Garage, Economy, Content, Alpha prep  (splittable at the gate into 3A+3B)
-- **3A Garage** | §9 §10 §11: main hall, armory (gun wall, bench, wheel terminal), roll-up cutscene, queue pads, drone showcase (Coming Soon), multi-level modular kart track, skippable tutorial (NPC, white path), LED look, streaming.
+- **3A Garage** | §9 §10 §11: main hall, armory (gun wall, bench, wheel terminal), roll-up cutscene, queue pads, drone showcase (Coming Soon), multi-level modular kart track, skippable tutorial (NPC, white path), matte dark-wood look (Sept 30 override), streaming.
 - **3B Economy** | §5g §5i §12: Credits/Glitch Coins, shop framework (port), attachments, 40-tier pass (free + premium), rotating bundles 199/499/999, crate w/ odds display + PolicyService gating, repair skip, idempotent receipts. Spin wheel per §5i: free 5-spin wheel + paid 12-segment wheel (199R, 5-pack 799R), pity + live odds UI, PolicyService fail-closed + earnable tokens, pop-up rules, kill switch; test via Player Emulator.
 - **3C Content + polish** | §5c §8 §17: wings 2-3, remaining 4 twists, guard sets 2-3, baseline cosmetics, SFX on everything, settings (button layout), social (walk-up invites, mute/block/cooldown).
 - **3D Alpha prep:** perf pass, telemetry (session length, 15+ min first sessions, run completion), known-issues list.

@@ -15,7 +15,7 @@ end
 
 function HeistControls.begin()
 	local kind, target = HeistControls.kind, HeistControls.target
-	if not kind or HeistControls.holding then
+	if not kind or HeistControls.holding or ctx.cursorFree then -- menus suppress context actions
 		return
 	end
 	local dur = (target and target.hold) or C.Actions[kind].hold

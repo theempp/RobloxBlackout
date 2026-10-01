@@ -1,5 +1,6 @@
 """Gun detail build (Phase 3-4: detail + attachment points). Run from this folder:
   blender -b -P gun_build.py -- detail OUTDIR [gun ...]
+  blender -b -P gun_build.py -- color OUTDIR [gun ...]  # painted review pass
 Blender frame: 1 BU = 1 stud, origin = grip, muzzle = -Y, up = +Z. Export (later) applies Rz(180) like RAZOR,
 so Roblox = (-x, z, y): gun LEFT = Blender +X, gun RIGHT = Blender -X.
 Muzzle tip (foam front face, bore axis) = Config.Guns[i].muzzle, read from src/shared/Config.luau.
@@ -27,10 +28,47 @@ sc = bpy.context.scene
 def mat(n, c, rough=.6, metal=0.):
     m = bpy.data.materials.new(n); m.use_nodes = True; b = m.node_tree.nodes["Principled BSDF"]
     b.inputs["Base Color"].default_value = (*c, 1); b.inputs["Roughness"].default_value = rough; b.inputs["Metallic"].default_value = metal
+    # Fine molded-plastic grain under a smooth clearcoat; the export atlas is a later step.
+    if PHASE == "color" and n in ("charcoal", "black"):
+        nodes = m.node_tree.nodes; links = m.node_tree.links
+        grain = nodes.new("ShaderNodeTexNoise"); grain.inputs["Scale"].default_value = 240
+        grain.inputs["Detail"].default_value = 2
+        bump = nodes.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = .035
+        bump.inputs["Distance"].default_value = .0015
+        links.new(grain.outputs["Fac"], bump.inputs["Height"])
+        links.new(bump.outputs["Normal"], b.inputs["Normal"])
     return m
 MATS = [mat("black", (.030, .030, .033), .62), mat("charcoal", (.085, .085, .092), .7), mat("foam", (.85, .30, .04), .95),
-        mat("steel", (.55, .56, .58), .32, 1.), mat("plate", (.26, .26, .28), .85)]
-BLK, CHR, FOAM, STEEL, PLATE = range(5)
+        mat("steel", (.55, .56, .58), .32, 1.), mat("plate", (.26, .26, .28), .85), mat("trim", (.7, .7, .7), .55)]
+BLK, CHR, FOAM, STEEL, PLATE, TRIM = range(6)
+
+# Deep lacquered plastic, not illumination. Keep the orange foam tip and neutral plate.
+PALETTES = {
+    "dart9": ((.005, .022, .12), (.62, .34, .07)),     # midnight cobalt / brass
+    "buzz": ((.17, .006, .005), (.72, .30, .025)),   # oxblood / warm gold
+    "ranger": ((.003, .055, .04), (.39, .56, .39)),  # deep petrol / sage metal
+    "needle": ((.05, .006, .095), (.61, .39, .12)),  # aubergine / champagne
+}
+
+def set_palette(g):
+    base = MATS[BLK].node_tree.nodes["Principled BSDF"]
+    base.inputs["Base Color"].default_value = (.018, .021, .03, 1)
+    base.inputs["Roughness"].default_value = .31
+    base.inputs["Coat Weight"].default_value = .18
+    base.inputs["Coat Roughness"].default_value = .19
+    plate = MATS[PLATE].node_tree.nodes["Principled BSDF"]
+    plate.inputs["Base Color"].default_value = (.11, .12, .13, 1)
+    plate.inputs["Roughness"].default_value = .43
+    steel = MATS[STEEL].node_tree.nodes["Principled BSDF"]
+    steel.inputs["Base Color"].default_value = (.37, .39, .44, 1)
+    steel.inputs["Roughness"].default_value = .23
+    for index, rgb in ((CHR, PALETTES[g][0]), (TRIM, PALETTES[g][1])):
+        shader = MATS[index].node_tree.nodes["Principled BSDF"]
+        shader.inputs["Base Color"].default_value = (*rgb, 1)
+        shader.inputs["Roughness"].default_value = .18 if index == CHR else .24
+        shader.inputs["Metallic"].default_value = .16 if index == CHR else .68
+        shader.inputs["Coat Weight"].default_value = .62 if index == CHR else .25
+        shader.inputs["Coat Roughness"].default_value = .09 if index == CHR else .18
 
 # ---------------------------------------------------------------- bmesh helpers
 def prof(pts, w, x=0., bev=.012):
@@ -115,7 +153,35 @@ def trigger_group(gy=0., zt=-.08, w=.10):
     add("Receiver", g, CHR)
     add("Receiver", prof([(gy - .19, zt), (gy - .13, zt), (gy - .14, zt - .07), (gy - .18, zt - .115), (gy - .215, zt - .105), (gy - .185, zt - .055)], .04, bev=.006), BLK)
 
+def paint_details(g):
+    """Small molded-in color breaks and tactile marks; joined into the existing four parts."""
+    if g == "dart9":
+        add("Mover", box(-.84, -.35, .265, .285, .15, bev=.006), CHR)
+        add("Mover", box(-.17, .12, .267, .287, .15, bev=.006), CHR)
+        for side in (-1, 1):
+            add("Mover", box(-.87, -.82, .07, .20, .012, x=side * .108, bev=.003), TRIM)
+        add("Mag", box(.09, .32, -.649, -.636, .18, bev=.002), TRIM)
+    elif g == "buzz":
+        for side in (-1, 1):
+            add("Receiver", box(-1.10, -.64, .183, .20, .012, x=side * .132, bev=.003), TRIM)
+            add("Mag", box(-.58, -.50, -.63, -.25, .010, x=side * .084, bev=.002), TRIM)
+        add("Receiver", box(.97, 1.05, -.12, -.10, .205, bev=.003), TRIM)
+    elif g == "ranger":
+        for side in (-1, 1):
+            add("Receiver", box(-1.62, -1.13, .174, .191, .012, x=side * .111, bev=.003), TRIM)
+            add("Receiver", box(.77, 1.11, .174, .191, .012, x=side * .102, bev=.003), TRIM)
+        add("Mag", box(-.90, -.60, -.859, -.845, .19, bev=.003), TRIM)
+    elif g == "needle":
+        for side in (-1, 1):
+            add("Receiver", box(-.99, -.88, .185, .205, .012, x=side * .106, bev=.003), TRIM)
+            add("Receiver", box(-.10, .36, .185, .205, .012, x=side * .106, bev=.003), CHR)
+        add("Receiver", cyl(-1.99, -1.96, .067, .12, seg=12), TRIM)
+        add("Receiver", cyl(-1.61, -1.58, .067, .12, seg=12), CHR)
+        add("Receiver", cyl(-.82, -.80, .104, .38, seg=12), TRIM)
+        add("Mag", box(-.63, -.36, -.51, -.498, .17, bev=.003), TRIM)
+
 def build(g):
+    if PHASE == "color": set_palette(g)
     ZB, YM = MUZ[g]
     P = {}
     if g == "dart9":   # slim toy slide pistol (no ref): boxy slide, serrations, rail, finger-groove grip
@@ -224,6 +290,7 @@ def build(g):
         P = dict(Sight=(0, -.06, .38), Grip=(0, .20, -.30), Support=(0, -1.0, -.06), MagWell=(0, -.50, -.06), Eject=(-.10, -.12, .16),
                  MountOptic=(0, -.45, .265), MountBarrel=(0, -2.38, ZB), MountGrip=(0, -1.0, -.06), Engrave=(.111, -.58, .085), HolsterBack=(0, -.60, .10))
         PIV = dict(Mover=(-.10, .22, .13), Mag=(0, -.50, -.06))
+    if PHASE == "color": paint_details(g)
     P = dict(Muzzle=(0., YM, ZB), **P)
     return P, PIV
 
@@ -249,14 +316,20 @@ def rb(p): return [round(-p[0], 3), round(p[2], 3), round(p[1], 3)]   # Blender 
 # ---------------------------------------------------------------- render
 def scene_setup():
     w = bpy.data.worlds.new("w"); sc.world = w; w.use_nodes = True
-    w.node_tree.nodes["Background"].inputs[0].default_value = (.62, .63, .66, 1)
+    w.node_tree.nodes["Background"].inputs[0].default_value = ((.075, .082, .10, 1) if PHASE == "color" else (.62, .63, .66, 1))
     sc.render.engine = "CYCLES"; sc.cycles.device = "CPU"; sc.cycles.samples = 48
     try: sc.cycles.use_denoising = True
     except Exception: pass
     sc.view_settings.view_transform = "Standard"
-    for n, e, rot in (("key", 2.4, (55, 0, -40)), ("fill", 1.2, (60, 0, 140)), ("rim", 2.0, (100, 0, 190))):
+    lights = (("key", .8, (55, 0, -40)), ("fill", .3, (60, 0, 140)), ("rim", .95, (100, 0, 190))) if PHASE == "color" else (("key", 2.4, (55, 0, -40)), ("fill", 1.2, (60, 0, 140)), ("rim", 2.0, (100, 0, 190)))
+    for n, e, rot in lights:
         ld = bpy.data.lights.new(n, "SUN"); ld.energy = e; ld.angle = math.radians(8); lo = bpy.data.objects.new(n, ld); sc.collection.objects.link(lo)
         lo.rotation_euler = tuple(math.radians(a) for a in rot)
+    if PHASE == "color":
+        for name, loc, power, width, height in (("long-softbox", (3.0, .4, 2.2), 550, 1.8, 4.5), ("side-softbox", (3.0, 2.6, -.8), 15, .65, 3.4), ("edge-softbox", (-2.2, .4, 2.6), 340, 1.0, 4.0)):
+            ld = bpy.data.lights.new(name, "AREA"); ld.energy = power; ld.shape = "RECTANGLE"; ld.size = width; ld.size_y = height
+            ob = bpy.data.objects.new(name, ld); sc.collection.objects.link(ob); ob.location = loc
+            ob.rotation_euler = (-ob.location).to_track_quat("-Z", "Y").to_euler()
     cd = bpy.data.cameras.new("cam"); cam = bpy.data.objects.new("cam", cd); sc.collection.objects.link(cam); sc.camera = cam
     return cam, cd
 
@@ -296,7 +369,7 @@ for g in ONLY:
                   points={k: rb(v) for k, v in pts.items()}, pivots={k: rb(v) for k, v in piv.items()},
                   muzzle_cfg=rb((0, MUZ[g][1], MUZ[g][0])))
     print(g, ALL[g]["tris_total"], tri, bb, "nonmanifold", bad)
-    if PHASE == "detail":
+    if PHASE in ("detail", "color"):
         render_views(g, obs, cam, cd)
         bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(os.path.join(OUT, f"{g}_detail.blend")))
     for o in obs.values():

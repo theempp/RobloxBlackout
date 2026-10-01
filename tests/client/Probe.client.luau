@@ -19,7 +19,61 @@ local data = {
 }
 task.wait(1)
 
--- UI probe: every visible button in our HUD must be >= MinTouchPx physical pixels.
+-- UI audit (startup and on demand): visible touch buttons in our HUD must be >= 44 px, must not overlap and
+-- must stay on screen. Buttons scrolled out of a ScrollingFrame are clipped to it (hidden parts don't count).
+local function shown(b, gui)
+	local a = b.Parent
+	while a and a ~= gui do
+		if a:IsA("GuiObject") and not a.Visible then
+			return false
+		end
+		a = a.Parent
+	end
+	return b.Visible
+end
+local function visibleRect(b, gui)
+	local x0, y0 = b.AbsolutePosition.X, b.AbsolutePosition.Y
+	local x1, y1 = x0 + b.AbsoluteSize.X, y0 + b.AbsoluteSize.Y
+	local a = b.Parent
+	while a and a ~= gui do
+		if a:IsA("ScrollingFrame") or (a:IsA("GuiObject") and a.ClipsDescendants) then
+			local p0, p1 = a.AbsolutePosition, a.AbsolutePosition + a.AbsoluteSize
+			x0, y0, x1, y1 = math.max(x0, p0.X), math.max(y0, p0.Y), math.min(x1, p1.X), math.min(y1, p1.Y)
+		end
+		a = a.Parent
+	end
+	return x0, y0, x1, y1
+end
+local function audit()
+	local gui = lp.PlayerGui:FindFirstChild("BlackoutCrewHud")
+	local r = { hud = gui ~= nil, buttons = 0, minButton = math.huge, small = {}, overlaps = {}, offscreen = {} }
+	local rects = {}
+	local screen = gui and gui.AbsoluteSize or Vector2.zero
+	for _, b in ipairs(gui and gui:GetDescendants() or {}) do
+		if b:IsA("GuiButton") and b:GetAttribute("TouchTarget") and shown(b, gui) and b.AbsoluteSize.X > 0 then
+			local x0, y0, x1, y1 = visibleRect(b, gui)
+			if x1 - x0 > 1 and y1 - y0 > 1 then
+				local s = math.min(b.AbsoluteSize.X, b.AbsoluteSize.Y)
+				r.buttons += 1
+				r.minButton = math.min(r.minButton, s)
+				if s < 44 then
+					table.insert(r.small, b.Name .. "=" .. math.floor(s))
+				end
+				if x0 < -1 or y0 < -1 or x1 > screen.X + 1 or y1 > screen.Y + 1 then
+					table.insert(r.offscreen, b.Name)
+				end
+				for _, o in ipairs(rects) do
+					if x0 < o[3] - 0.5 and x1 > o[1] + 0.5 and y0 < o[4] - 0.5 and y1 > o[2] + 0.5 then
+						table.insert(r.overlaps, o[5] .. "+" .. b.Name)
+					end
+				end
+				table.insert(rects, { x0, y0, x1, y1, b.Name })
+			end
+		end
+	end
+	r.small, r.overlaps, r.offscreen = table.concat(r.small, ","), table.concat(r.overlaps, ","), table.concat(r.offscreen, ",")
+	return r
+end
 local ok, err = pcall(function()
 	local gui = lp.PlayerGui:FindFirstChild("BlackoutCrewHud")
 	data.hud = gui ~= nil
@@ -167,4 +221,108 @@ if #samples > 0 then
 	table.sort(samples)
 	data.perf = { meanFPS = #samples / total, p95ms = samples[math.ceil(#samples * 0.95)] * 1000, frames = #samples }
 end
+-- Commands after the baseline probe exercise the real lobby client and network path.
+RS:WaitForChild("BCTestCmd").OnClientEvent:Connect(function(id, name, ...)
+	local args = table.pack(...)
+	local ok, res = pcall(function()
+		local cs = require(lp.PlayerScripts.BlackoutCrew.ClientState)
+		if name == "moveTo" then
+			lp:RequestStreamAroundAsync(args[1], 3)
+			local root = lp.Character.HumanoidRootPart
+			root.CFrame = CFrame.new(args[1])
+			root.AssemblyLinearVelocity = Vector3.zero
+			return true
+		elseif name == "garage" then
+			cs.remotes.GarageAction:FireServer(table.unpack(args, 1, args.n))
+			return true
+		elseif name == "ready" then
+			cs.remotes.Queue:FireServer("ready", true)
+			return true
+		elseif name == "eval" then
+			return cs.probe[args[1]](table.unpack(args, 2, args.n))
+		elseif name == "menus" then
+			cs.GarageClient.show("loadout")
+			local armory = cs.ArmoryClient.open or cs.Menus.current == nil -- far from the armory it may refuse/close at once
+			cs.SettingsUI.set(true)
+			local exclusive = cs.SettingsUI.open and not cs.ArmoryClient.open and cs.Menus.current == "settings"
+			local brakes = cs.KartClient.input().b
+			cs.Wheel.show()
+			exclusive = exclusive and cs.Wheel.open and not cs.SettingsUI.open and cs.cursorFree
+			cs.Wheel.release()
+			return { exclusive = exclusive and armory, brakes = brakes, restored = cs.Menus.current == nil and not cs.cursorFree }
+		elseif name == "garageUI" then
+			return { ready = cs.GarageClient ~= nil, open = cs.ArmoryClient.open, menu = cs.ArmoryClient.panel ~= nil, locker = cs.LockerClient.panel ~= nil }
+		elseif name == "state" then
+			local hum = lp.Character and lp.Character:FindFirstChildOfClass("Humanoid")
+			return { menu = cs.Menus.current, cursorFree = cs.cursorFree, cutscene = cs.cutscene == true,
+				prompts = game:GetService("ProximityPromptService").Enabled, alive = hum ~= nil and hum.Health > 0,
+				fireShown = cs.Controls.buttons.fire and cs.Controls.buttons.fire.Visible, crosshair = cs.Hud.cross.Visible,
+				equipped = cs.profile and cs.profile.cosmetics.equipped }
+		elseif name == "setting" then
+			cs.settings[args[1]] = args[2]
+			cs.emit("settings", cs.settings)
+			return true
+		elseif name == "look" then -- point the first-person camera at a world position
+			cs.CameraRig.lookAt(args[1])
+			return true
+		elseif name == "menuBack" then -- what the Back binding (Backspace / gamepad B) runs
+			cs.Menus.closeCurrent()
+			return cs.Menus.current == nil
+		elseif name == "uiAudit" then
+			return audit()
+		elseif name == "armory" then
+			local A, op = cs.ArmoryClient, args[1]
+			if op == "show" then
+				A.show(args[2])
+			elseif op == "preview" then
+				A.previewSlot(args[2], args[3])
+			elseif op == "request" then -- a raw station request through the real ack channel
+				local done
+				cs.GarageClient.request(args[2], args[3], args[4], function(ok, why) done = { ok = ok, reason = why } end)
+				local t = os.clock()
+				repeat task.wait(0.05) until done or os.clock() - t > 5
+				return done
+			elseif op == "flood" then -- n requests in one frame; the server's bucket drops most, unanswered ones time out
+				local acked, timedOut = 0, 0
+				for _ = 1, args[2] do
+					cs.GarageClient.request("clear", 99, nil, function(_, why) if why == "timeout" then timedOut += 1 else acked += 1 end end)
+				end
+				local t = os.clock()
+				repeat task.wait(0.1) until acked + timedOut >= args[2] or os.clock() - t > 8
+				return { acked = acked, timedOut = timedOut }
+			elseif op ~= "snapshot" then
+				A[op](args[2])
+			end
+			if op == "apply" or op == "equip" or op == "remove" then
+				local t = os.clock()
+				repeat task.wait(0.05) until not A.busy or os.clock() - t > 5
+			end
+			return A.snapshot()
+		elseif name == "locker" then
+			local L, op = cs.LockerClient, args[1]
+			if op == "pick" then
+				return { ok = L.pick(args[2], args[3]), snap = L.snapshot() }
+			elseif op ~= "snapshot" then
+				L[op]()
+			end
+			if op == "apply" then
+				local t = os.clock()
+				repeat task.wait(0.05) until not L.busy or os.clock() - t > 5
+			end
+			return L.snapshot()
+		elseif name == "pad" then
+			cs.LobbyClient.refresh()
+			local st = cs.LobbyClient.state(args[1])
+			local b = cs.LobbyClient.boards[args[1]]
+			local rows = {}
+			for i, r in ipairs(b and b.rows or {}) do
+				rows[i] = r.name.Text .. "|" .. r.tag.Text
+			end
+			return st and { count = st.count, status = st.status, label = st.label, mode = st.mode, members = st.members,
+				board = b and { count = b.count.Text, status = b.status.Text, title = b.title.Text, rows = rows, onPart = b.gui.Parent ~= nil } }
+		end
+		error("unknown command " .. name)
+	end)
+	RS.BCTestReport:FireServer({ cmdId = id, ok = ok, res = res })
+end)
 RS:WaitForChild("BCTestReport"):FireServer(data)

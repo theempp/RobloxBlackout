@@ -11,6 +11,9 @@
         "$properties": {
           "Value": "lobby"
         }
+      },
+      "BlackoutCrewAssets": {
+        "$path": "assets/roblox"
       }
     },
     "ServerScriptService": {

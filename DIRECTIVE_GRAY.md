@@ -1,9 +1,12 @@
 # Directive Gray — Full Project Brief
 *Status: v1 design complete. Build only per BUILD_PLAN.md, one build at a time, stop at each gate. NOTHING gets generated (Higgsfield etc.) until owner says "go" on an approved plan, after cost quotes on every candidate model, ranked.*
+**Visual precedence (owner override Sept 30): no neon/emissive styling on guns, karts, garage or city. Older LED/glow/emissive suggestions below are superseded; use matte materials and readable colors. Owner clarification Oct 1: a small, performance-tested number of practical city streetlights may cast road light pools; this does not permit neon/emissive styling.**
 
 Legend: **[LOCKED]** = owner decided. **[REC]** = Claude recommendation, not yet confirmed. **[OPEN]** = undecided. **[REC-AUTO]** = Claude default, applies unless owner vetoes.
 
 **Read map (load only the current build's sections; `grep -n '^## '` then read by range):** B1: §4 §5f §6 §15 §16 · B2: §3 §3b §5 §5b-5e §5h §7 §11 §17 · B3A: §9 §10 §11 · B3B: §5g §5i §12 · B3C: §5c §8 §17. §2/§18 = pitch/summary.
+
+**UI precedence (owner approved Sept 30, “Design the game shop UI”): warm off-white rounded panels, dark outlines, bold headings, flat colorful pills, playful sticker-like item cards. Apply to lobby/loadout/settings/results; keep the heist HUD sparse with compact matching chips. Build 3B shop: lobby menu + garage station, Featured/Blasters/Karts/Style/Pass tabs, large rotatable item preview, distinct Credits/Glitch Coins, separate odds-bearing crate/wheel screens. No neon.**
 
 ## 1. Basics
 - Roblox game, phone-first. Audience ~9-17. Owner: Enzo, building solo with Claude.

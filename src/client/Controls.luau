@@ -49,6 +49,8 @@ function Controls.layout()
 			vis = false -- kart buttons only in a kart, on-foot buttons only on foot (also while editing)
 		elseif def.context and not Controls.contextShown[id] and not Controls.editing then
 			vis = false -- context button only with something in reach
+		elseif ctx.Menus and ctx.Menus.current and ctx.Menus.current ~= "wheel" then
+			vis = false -- a menu is open: firing/actions are suppressed, so their buttons step aside
 		end
 		b.Visible = vis
 	end
@@ -118,7 +120,7 @@ function Controls.setEditing(on)
 	Controls.editBar.Visible = on
 	ctx.cursorFree = on
 	for _, b in pairs(Controls.buttons) do
-		b:FindFirstChildOfClass("UIStroke").Color = on and C.Colors.Accent or C.Colors.Text
+		b:FindFirstChildOfClass("UIStroke").Color = on and C.Colors.Accent or C.UI.Ink
 	end
 	Controls.layout()
 	if not on then
@@ -212,7 +214,7 @@ end
 local function makeEditBar()
 	local bar = Hud.make("Frame", Hud.root, { Name = "EditBar", AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 8),
 		Size = UDim2.fromOffset(390, 60), BackgroundColor3 = C.Colors.Panel, BackgroundTransparency = 0.2, Visible = false, ZIndex = 20 })
-	Hud.corner(bar, 12)
+	Hud.surface(bar)
 	Controls.editLabel = Hud.label(bar, "Drag a button", 13, { Position = UDim2.fromOffset(10, 0), Size = UDim2.fromOffset(130, 60), TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 21 })
 	local function small(text, x, fn)
 		local b = Hud.button(bar, "Edit_" .. text, text, 52, { Position = UDim2.fromOffset(x, 30), ZIndex = 21 }) -- 52 units >= 44px at min scale
@@ -316,6 +318,7 @@ function Controls.init(c)
 	ctx.on("rescale", Controls.layout)
 	ctx.on("settings", Controls.layout)
 	ctx.on("inputKind", Controls.layout)
+	ctx.on("menu", Controls.layout)
 	ctx.on("editLayout", function()
 		Controls.setEditing(true)
 	end)

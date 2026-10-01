@@ -2,7 +2,7 @@
 -- Units: studs, seconds, degrees. Product id 0 = hidden/disabled.
 local Config = {}
 
-Config.Build = "build2"
+Config.Build = "build3A"
 
 -- Places + teleport (§11). Place ids = publish target [OPEN owner]; 0 = unpublished -> "local" mode:
 -- nothing teleports (Studio: open build/heist.rbxlx to play the heist directly).
@@ -15,11 +15,34 @@ Config.Crew = { MaxSize = 4, InviteTtl = 30, BonusPerMember = 0.08, BonusCap = 0
 -- Difficulty is passed at teleport (§11) but the brief never defines levels: one placeholder level.
 Config.Difficulty = { normal = { ai = 1, alarm = 1, payout = 1 } }
 
--- Minimal lobby: queue pads beside the range spawn. Countdown seconds.
+-- Build 3A: all garage positions are local to Origin (keeps the test range available in test builds).
+Config.Garage = {
+	Origin = Vector3.new(400, 0, 0), Spawn = Vector3.new(0, 0, 28), Door = Vector3.new(0, 10, -40),
+	GunWall = Vector3.new(-110, 4, -10), Bench = Vector3.new(-86, 1.5, 4), Terminal = Vector3.new(-73, 2, 17),
+	Friend = Vector3.new(-51, 0, 9), KartBay = Vector3.new(-35, 0, 16), KartGap = 9,
+	TrackWidth = 20, InteractionRange = 12, ResetBelow = -15, CutsceneSeconds = 2.5,
+	TrackNodes = {
+		Vector3.new(-130, 0, 100), Vector3.new(-130, 0, -100), Vector3.new(0, 0, -100),
+		Vector3.new(130, 18, -100), Vector3.new(130, 18, 70), Vector3.new(-35, 18, 70),
+		Vector3.new(-35, 10, -65), Vector3.new(100, 10, -65), Vector3.new(100, 0, 100),
+	},
+	TutorialTargetSeconds = 90,
+	-- Locker room (revision stage 1): open room east of the main hall. Locker = the station locker's front
+	-- (prompt + range); LockerView = where the short entry camera ends, looking at it.
+	Locker = Vector3.new(83.5, 0, 18), LockerView = Vector3.new(77, 5.2, 18), LockerIntroSeconds = 1.2,
+	AckTimeout = 3, -- client waits this long for a station request's ack, then shows the saved setup again
+}
+
 Config.Lobby = {
-	Pads = { { id = "A", x = -40, z = 28 }, { id = "B", x = 40, z = 28 } },
-	PadRadius = 7,
-	PadHeight = 8,
+	-- Raised, adjacent pads flanking the departure lane in front of the roll-up door (revision stage 1).
+	-- label/mode are board text only: every pad keeps the same squad rules (MaxSquad, default difficulty).
+	Pads = { { id = "A", x = 387, z = -24, label = "TOWER HEIST", mode = "NORMAL" }, { id = "B", x = 413, z = -24, label = "TOWER HEIST", mode = "NORMAL" } },
+	PadSize = Vector3.new(20, 0.6, 14), -- platform; wedge ramps on the front and outer side
+	PadMargin = 1, -- occupancy box = platform footprint + this
+	PadHeight = 8, -- occupancy reaches this far above the platform
+	-- Flat matte status colours (no neon): standing circles show empty / taken / ready.
+	Colors = { Platform = Color3.fromRGB(46, 44, 48), Empty = Color3.fromRGB(205, 203, 196), Taken = Color3.fromRGB(255, 190, 97),
+		Ready = Color3.fromRGB(146, 221, 128), Board = Color3.fromRGB(45, 34, 28) },
 	MaxSquad = 4,
 	Countdown = 20, -- first join starts it
 	JoinGrace = 8, -- a newcomer always gets this long
@@ -42,7 +65,7 @@ Config.Heist = {
 Config.Profile = {
 	StoreName = "BlackoutCrew_Profile_v1",
 	Persistence = true, -- live DataStore outside Studio; Studio is always session-only
-	SchemaVersion = 2, -- 2: heist { runs, lastObvious }
+	SchemaVersion = 4, -- 3: saved onboarding completion; 4: equipped cosmetics
 	LockSeconds = 180,
 	AutosaveSeconds = 55,
 	Retries = 3,
@@ -61,7 +84,57 @@ Config.Products = {} :: { { id: number, credits: number } }
 
 -- Whitelists for profile ids that later builds fill in.
 Config.Karts = {} :: { { id: string } }
-Config.Cosmetics = {} :: { { id: string } }
+
+-- Cosmetics (locker room, revision stage 1). Placeholder matte primitives (no assets, no neon) welded to the
+-- character. Disguises are COSMETIC ONLY: nothing reads them for stealth. free = starter item everyone
+-- owns; the rest stay locked until the 3B shop (no prices here: the economy is deferred).
+-- Outfits recolour torso/arms/legs and hide avatar clothing. Piece size/pos are fractions of the body
+-- part's size (pos = centre offset, -Z = facing; rot = degrees), so pieces follow avatar scale.
+Config.CosmeticSlots = { "outfit", "disguise", "mask" }
+local function piece(at, kind, size, pos, color, rot)
+	return { at = at, kind = kind, size = size, pos = pos, color = color, rot = rot }
+end
+local V3, RGB = Vector3.new, Color3.fromRGB
+local function cap(color)
+	return piece("Head", "Cylinder", V3(0.4, 1.08, 1.08), V3(0, 0.46, 0.02), color, V3(0, 0, 90))
+end
+local function vest(color)
+	return piece("Torso", "Block", V3(1.04, 0.86, 1.12), V3(0, -0.02, 0), color)
+end
+Config.Cosmetics = {
+	{ id = "fit_crew", slot = "outfit", name = "Crew Coveralls", free = true, about = "Charcoal coveralls and gloves.",
+		colors = { torso = RGB(40, 41, 46), arms = RGB(40, 41, 46), legs = RGB(30, 31, 35) } },
+	{ id = "fit_night", slot = "outfit", name = "Night Shift", free = true, about = "Navy work jacket, black trousers.",
+		colors = { torso = RGB(36, 46, 70), arms = RGB(36, 46, 70), legs = RGB(24, 25, 29) } },
+	{ id = "fit_track", slot = "outfit", name = "Track Suit", about = "Teal track suit.",
+		colors = { torso = RGB(31, 94, 101), arms = RGB(31, 94, 101), legs = RGB(28, 28, 32) } },
+	{ id = "fit_gala", slot = "outfit", name = "Gala Black", about = "All-black formal fit.",
+		colors = { torso = RGB(20, 20, 22), arms = RGB(20, 20, 22), legs = RGB(20, 20, 22) } },
+	{ id = "dis_courier", slot = "disguise", name = "Courier", free = true, about = "Flat cap and delivery satchel.", parts = {
+		cap(RGB(92, 64, 44)), piece("Head", "Block", V3(0.92, 0.06, 0.5), V3(0, 0.3, -0.62), RGB(80, 55, 38)),
+		piece("Torso", "Block", V3(0.16, 1.2, 1.1), V3(0, 0, 0), RGB(70, 52, 38), V3(0, 0, 35)),
+		piece("Torso", "Block", V3(0.32, 0.36, 0.62), V3(0.62, -0.62, 0), RGB(70, 52, 38)) } },
+	{ id = "dis_maint", slot = "disguise", name = "Maintenance", about = "Hard hat and work vest.", parts = {
+		piece("Head", "Cylinder", V3(0.36, 1.1, 1.1), V3(0, 0.5, 0), RGB(226, 224, 216), V3(0, 0, 90)),
+		piece("Head", "Block", V3(1.22, 0.05, 1.22), V3(0, 0.33, 0), RGB(226, 224, 216)),
+		vest(RGB(214, 120, 52)), piece("Torso", "Block", V3(1.06, 0.1, 1.14), V3(0, -0.16, 0), RGB(120, 120, 124)) } },
+	{ id = "dis_guard", slot = "disguise", name = "Night Guard", about = "Peaked cap and guard vest.", parts = {
+		cap(RGB(30, 36, 56)), piece("Head", "Block", V3(0.92, 0.06, 0.5), V3(0, 0.3, -0.62), RGB(20, 22, 30)),
+		vest(RGB(34, 40, 60)), piece("Torso", "Block", V3(0.18, 0.2, 0.05), V3(0.26, 0.2, -0.58), RGB(150, 150, 155)) } },
+	{ id = "dis_valet", slot = "disguise", name = "Valet", about = "Waistcoat and bow tie.", parts = {
+		vest(RGB(110, 34, 40)), piece("Torso", "Block", V3(0.3, 0.1, 0.06), V3(0, 0.44, -0.58), RGB(18, 18, 20)) } },
+	{ id = "mask_bandana", slot = "mask", name = "Bandana", free = true, about = "Dark face wrap.", parts = {
+		piece("Head", "Block", V3(1.05, 0.44, 1.05), V3(0, -0.24, 0), RGB(52, 54, 60)),
+		piece("Head", "Block", V3(0.24, 0.18, 0.16), V3(0, -0.08, 0.58), RGB(52, 54, 60)) } },
+	{ id = "mask_visor", slot = "mask", name = "Foam Visor", free = true, about = "Padded band with a smoked lens.", parts = {
+		piece("Head", "Block", V3(1.04, 0.15, 1.04), V3(0, 0.12, 0), RGB(36, 36, 40)),
+		piece("Head", "Block", V3(0.8, 0.26, 0.1), V3(0, 0.12, -0.53), RGB(64, 72, 82)) } },
+	{ id = "mask_robot", slot = "mask", name = "Robo Faceplate", about = "Riveted faceplate.", parts = {
+		piece("Head", "Block", V3(0.9, 0.86, 0.12), V3(0, -0.02, -0.55), RGB(178, 180, 186)),
+		piece("Head", "Block", V3(0.62, 0.08, 0.06), V3(0, 0.14, -0.62), RGB(30, 30, 34)) } },
+	{ id = "mask_domino", slot = "mask", name = "Domino", about = "Classic eye mask.", parts = {
+		piece("Head", "Block", V3(0.86, 0.2, 0.08), V3(0, 0.14, -0.54), RGB(22, 22, 24)) } },
+}
 
 Config.Camera = {
 	Mode = "FirstPerson", -- Build 1 decision (brief is silent; §6 budgets a first-person gun). Owner may veto.
@@ -114,6 +187,7 @@ Config.Recoil = {
 
 -- Per-player remote rate limits: { per second, burst }.
 Config.RateLimits = {
+	GarageAction = { 5, 10 },
 	Fire = { 20, 30 },
 	Reload = { 3, 5 },
 	Aim = { 10, 14 },
@@ -125,12 +199,21 @@ Config.RateLimits = {
 	Action = { 10, 16 },
 	Sneak = { 4, 6 },
 	KartInput = { 20, 30 }, -- server-physics mode only
+	KartAction = { 4, 6 }, -- driver controls for doors and white LEDs
 	Repair = { 6, 10 },
 }
 
 -- Tri budgets (§6 REC-AUTO, verify on low-end phone) and per-primitive estimates used to check them.
 Config.TriBudget = { FirstPersonGun = 5000, WorldGun = 1500, Kart = 8000 }
 Config.TriEstimate = { Block = 12, Wedge = 8, Cylinder = 96, Ball = 480 }
+
+-- Owner-approved UI direction (Sept 30): warm paper, dark outlines, bright flat pills.
+Config.UI = {
+	Paper = Color3.fromRGB(255, 248, 232), Ink = Color3.fromRGB(35, 31, 39),
+	Muted = Color3.fromRGB(93, 83, 100), Blue = Color3.fromRGB(112, 207, 242),
+	Green = Color3.fromRGB(146, 221, 128), Orange = Color3.fromRGB(255, 190, 97),
+	Pink = Color3.fromRGB(243, 154, 181), Outline = 3,
+}
 
 Config.Colors = {
 	Body = Color3.fromRGB(28, 28, 32), -- matte black
@@ -321,9 +404,12 @@ Config.Touch = {
 		action = { x = 0.64, y = 0.62, size = 72, label = "", heist = true, context = true },
 		sneak = { x = 0.935, y = 0.25, size = 50, label = "SNEAK", heist = true },
 		-- Kart (shown only while driving; left thumb = Roblox stick steers + throttles).
-		gas = { x = 0.885, y = 0.72, size = 86, label = "GAS", heist = true, driving = true },
-		brake = { x = 0.75, y = 0.8, size = 62, label = "BRAKE", heist = true, driving = true },
-		exit = { x = 0.935, y = 0.25, size = 50, label = "EXIT", heist = true, driving = true },
+		gas = { x = 0.885, y = 0.72, size = 86, label = "GAS", driving = true },
+		brake = { x = 0.75, y = 0.8, size = 62, label = "BRAKE", driving = true },
+		exit = { x = 0.935, y = 0.25, size = 50, label = "EXIT", driving = true },
+		lights = { x = 0.79, y = 0.36, size = 49, label = "LED", driving = true },
+		doors = { x = 0.65, y = 0.36, size = 49, label = "DOOR", driving = true },
+		view = { x = 0.52, y = 0.36, size = 49, label = "VIEW", driving = true },
 	},
 }
 
@@ -336,6 +422,8 @@ Config.Keys = {
 	Slots = { Enum.KeyCode.One, Enum.KeyCode.Two, Enum.KeyCode.Three },
 	PerfOverlay = Enum.KeyCode.F7,
 	Settings = Enum.KeyCode.P,
+	LobbyReady = Enum.KeyCode.Return, TutorialSkip = Enum.KeyCode.Backspace,
+	MenuBack = Enum.KeyCode.Backspace, PadMenuBack = Enum.KeyCode.ButtonB, PadReady = Enum.KeyCode.ButtonR1,
 	PadFire = Enum.KeyCode.ButtonR2,
 	PadAds = Enum.KeyCode.ButtonL2,
 	PadReload = Enum.KeyCode.ButtonX,
@@ -416,21 +504,65 @@ Config.Twists = {
 	doublePatrol = { name = "DOUBLE PATROL", sentryMult = 2 },
 }
 
--- One-seat kart (§3b, §7), physics ported from roblox 1 Vehicles.luau. The driver's client steps the
--- physics (responsive on phones); ServerPhysics = true restores v0.3's server-owned model for an A/B
--- phone test. Size/proportions follow the razor blockout (~11 x 5 x 3.4 studs).
+-- One-seat kart (§3b, §7): owner's RAZOR model on an invisible physics box. KartPhysics = fixed-step
+-- rigid body (same code on the driver's client and in ServerPhysics mode): sphere-cast wheels, spring +
+-- bump/rebound damping + bump stop, anti-roll bars, tyre slip curve. Kart frame: origin = ground under the
+-- kart centre at the RAZOR design ride height, +X right, +Y up, nose -Z. All numbers = placeholders.
 Config.Kart = {
 	ServerPhysics = false,
-	MaxSpeed = 60, Accel = 42, Reverse = 20, Brake = 95, Drag = 0.13,
-	Steer = 32, SteerFalloff = 48, Grip = 12,
-	Track = 4.4, Wheelbase = 7.2, MountY = 0.3, Rest = 1.85, Spring = 300, Damp = 22, RayLen = 2.4,
+	MaxSpeed = 60, Accel = 42, Reverse = 20, Brake = 95, -- studs/s, studs/s^2
+	Drag = 0.13, Roll = 1.5, AirDrag = 0.05, -- coast: Drag x speed + Roll (studs/s^2)
+	TopTaper = 0.15, -- drive force fades to 0 over the top 15% of MaxSpeed
+	DriveRear = 0.6, -- share of drive on the rear axle (rest front): stable on phones
+	GradeAssist = 1, -- 1 = slopes neither slow you nor roll you back (arcade)
+	Steer = 32, SteerFalloff = 48, SteerRate = 8, -- deg; speed-sensitive (Steer / (1 + (v/SteerFalloff)^2)); 1/s
+	Gravity = 110, -- kart-only gravity (Roblox 196.2 is cancelled on the kart): readable jumps, softer landings
+	Step = 1 / 120, MaxSubsteps = 12, -- fixed-step sub-stepping: 30 fps and 60 fps run identical substeps
+	Inertia = Vector3.new(20, 11.4, 3), -- per unit mass: pitch (X), yaw (Y), roll (Z)
+	-- RAZOR geometry, measured from assets/kart/razor (razor_build.py CFG + razor_export.py), kart frame.
+	Geo = {
+		WheelRadius = 0.92, WheelWidth = 0.96,
+		Hubs = { Vector3.new(-1.925, 0.92, -3.4), Vector3.new(1.925, 0.92, -3.4), Vector3.new(-1.925, 0.92, 3.6), Vector3.new(1.925, 0.92, 3.6) }, -- FL FR RL RR: track 3.85, wheelbase 7.0
+		Chassis = { Center = Vector3.new(0, 1.75, -0.05), Size = Vector3.new(5.16, 3.14, 11.2) }, -- mesh bbox
+		Collider = { Center = Vector3.new(0, 1.25, 0), Size = Vector3.new(4.9, 1.1, 8.4) }, -- shortened hull with bottom at 0.7: clears ramp approach beneath the visual overhang
+		Ballast = { Center = Vector3.new(0, 0.55, 0), Size = Vector3.new(3, 0.4, 6), Density = 10 }, -- lowers the CoM
+		ColliderDensity = 0.3,
+		Seat = Vector3.new(0, 1.54, 0.05), -- seat pan top
+		SteerHub = Vector3.new(0, 1.85, -0.95), SteerTilt = 30, SteerRatio = 4, -- steering wheel turns 4x the road wheels
+		HoodPlate = { Center = Vector3.new(0, 1.48, -3.4), Size = Vector3.new(1.88, 0.05, 1.57), Pitch = -6.6 }, -- §17 decal zones (hood follows ZCEN 1.40..1.58)
+		RearPlate = { Center = Vector3.new(0, 1.1, 5.0), Size = Vector3.new(1.56, 0.46, 0.05) },
+		Tris = 4200, -- Vortex offline model estimate: 16 cylindrical details, 3 curved shells, hard-surface panels and links
+	},
+	Susp = {
+		Freq = 2.3, -- ride frequency (Hz): spring rate = (2 pi f)^2 per unit corner mass, preloaded to sit at static
+		Droop = 0.8, Bump = 0.35, -- travel below / above static (studs); long droop catches landings before the hard stop
+		StaticDrop = 0.2, -- body rides this far above the RAZOR design height: its 0.06 arch / 0.18 floor clearance leave no travel
+		BumpZeta = 0.6, ReboundZeta = 0.95, -- damping ratios (1 = critical)
+		Knee = 3, Digress = 0.3, -- above Knee studs/s the damper slope x Digress (blow-off: sharp hits stay soft)
+		StopZone = 0.12, StopG = 2, -- progressive bump stop over the last 0.12 of bump travel, +6 g at full bump
+		StopBias = 0.2, StopBiasMax = 3, -- hard stop: closing speed -> 0 (no bounce) + gentle push-out
+		ARBFront = 0.5, ARBRear = 0.3, -- anti-roll bars, fraction of spring rate
+		MaxLoadG = 4.8, -- cap force at deep bump; the hard stop removes residual closing speed without spring energy
+		TyreLag = 0.03, -- s: tyre/sidewall filter on the road-profile rate the damper sees
+		CastRadius = 0.75, CastMargin = 1, -- sphere-cast wheel (bridges holes, rolls up edges)
+		VisualDroopRate = 6, -- studs/s a wheel drops when it leaves the ground (visual only)
+	},
+	Tyre = { Mu = 1.2, PeakSlip = 8, Slide = 0.75, LowSpeed = 3, RollCenter = 0.35 }, -- slip curve: peak at 8 deg, 75% when sliding
+	Air = { Level = 80, Damp = 14, After = 0.02, LandingTime = 0.5, LandingDamp = 2 }, -- arcade levelling and landing damping
+	Rest = { Speed = 0.08, Spin = 0.03 }, -- below these with 4 wheels down and no throttle: hold still (no creep/jitter)
 	FlipTime = 1.5,
 	EmpTime = 1.2, EmpSpin = 7, EmpSpeedMult = 0.35, EmpAccelMult = 0.3, EmpGripMult = 0.25, -- EMP: tyres lose grip = spin-out
 	InputRate = 15, InputTimeout = 0.5, -- server-physics mode only
 	SpeedTolerance = 1.35, Strikes = 2, -- anti-cheat on driver-owned karts: rubber-band on repeat overspeed
 	IdleAnchor = 2, -- an empty kart at rest anchors after this many seconds (cheap physics)
+	LootMount = CFrame.new(0, 1.85, 3.1), -- heavy loot on the rear deck (root space)
 	Camera = { Back = 15, Up = 6.5, Ahead = 10, Lerp = 8, Fov = 75 },
+	CockpitEye = Vector3.new(0, 2.32, 0.35), CockpitLook = Vector3.new(0, 2.04, -12),
+	DoorMaxSpeed = 2, DoorAngle = 68,
 }
+
+-- Offline Vortex RBXMX ships with both places. The editable Blender/FBX source is in assets/karts/vortex.
+Config.KartModel = { Template = "VortexKart", HubTolerance = 0.15 }
 
 -- Parking (§5d): park = leave the kart within Radius of your spot. Teammates' spots show within GlowRange.
 Config.Parking = { Radius = 7, GlowRange = 60 }
@@ -502,6 +634,10 @@ end
 Config.AttachmentsById = {}
 for _, a in ipairs(Config.Attachments) do
 	Config.AttachmentsById[a.id] = a
+end
+Config.CosmeticsById = {}
+for _, c in ipairs(Config.Cosmetics) do
+	Config.CosmeticsById[c.id] = c
 end
 
 return Config

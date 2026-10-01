@@ -11,6 +11,9 @@
         "$properties": {
           "Value": "heist"
         }
+      },
+      "BlackoutCrewAssets": {
+        "$path": "assets/roblox"
       }
     },
     "ServerScriptService": {

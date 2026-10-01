@@ -22,8 +22,13 @@ Logo orientation: hood top = toward nose; rear/endplate top = up.
 ## 4. Physics / cost flags
 - Collision: `Transparency=1`, `CanCollide=true`, `CollisionFidelity=Hull`(or Box), `Massless=false`. It is the ONLY colliding part.
 - All other 10 parts: `CanCollide=false`, `CanQuery=false`, `CanTouch=false`, `Massless=true`, `CastShadow` off on small strips.
-- HeadlightStrips: Material Neon, Color white. TailStrips: Neon, red. Underglow: Neon, tint by squad colour. No SurfaceAppearance on these three.
-- Weld all to Chassis (PrimaryPart). Wheels/steer via your constraints.
+- Owner override Sept 30: HeadlightStrips and TailStrips use SmoothPlastic (white/red); remove Underglow. No neon or dynamic lights.
+- Keep the imported parts in one Model. The runtime creates its own collider, ballast, welds and wheel/steering Motor6Ds; do not add constraints to the saved template.
 
 ## 5. Perf check (low-end phone)
 Studio → Stats (Shift+F2) / MicroProfiler: 4634 visual tris, ~10 draw calls per kart. Test 8 karts on-screen on a low-end phone; report FPS. If slow: drop maps to 512 (same UVs).
+
+## 6. Save the template for this build
+After uploading meshes/maps and applying the SurfaceAppearances, right-click the Model in Explorer → Save to File. Choose XML (`.rbxmx`) and save it as `assets/roblox/RazorKart.rbxmx` in this repository.
+Run `python3 tools/build.py`. The builder embeds that model in both places under `ReplicatedStorage.BlackoutCrewAssets.RazorKart`, preserving SurfaceAppearances. Runtime validates the four hub positions against the measured geometry; rejected or missing templates use the clearly marked primitive placeholder.
+The runtime removes Collision/Underglow and uses its own physics hull. Static ride height is +0.2 studs; suspension has 0.8 droop and 0.35 bump. Review arch clearance and appearance in Studio and on a phone after importing.

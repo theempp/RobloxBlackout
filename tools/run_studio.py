@@ -103,4 +103,4 @@ if __name__ == '__main__':
     ap.add_argument('--log'); ap.add_argument('--quiet', action='store_true')
     a = ap.parse_args()
     r = run(a.place, a.script, a.timeout, a.log, a.quiet)
-    sys.exit(1 if r['timed_out'] or not r['lines'] or any('FAIL' in l or 'FATAL' in l for l in r['lines']) else 0)
+    sys.exit(1 if r['timed_out'] or not r['lines'] or any(l.startswith(('BC_FAIL', 'BC_FATAL', 'BC_ERR')) for l in r['lines']) else 0)

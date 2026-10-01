@@ -26,7 +26,7 @@ local ALARM_COL = { Color3.fromRGB(220, 225, 240), Color3.fromRGB(255, 170, 40),
 local STATUS_COL = { hidden = Color3.fromRGB(150, 160, 170), spotted = Color3.fromRGB(255, 170, 40), sabotaged = Color3.fromRGB(255, 50, 60) }
 
 local function frame(parent, props)
-	local f = Hud.make("Frame", parent, { BorderSizePixel = 0, BackgroundColor3 = C.Colors.Panel })
+	local f = Hud.make("Frame", parent, { BorderSizePixel = 0, BackgroundColor3 = C.UI.Paper })
 	for k, v in pairs(props or {}) do
 		f[k] = v
 	end
@@ -57,7 +57,7 @@ end
 local function buildMap(root)
 	local box = frame(root, { Name = "Minimap", Size = UDim2.fromOffset(MAP, MAP), BackgroundTransparency = 0.25, ClipsDescendants = true })
 	Hud.corner(box, 10)
-	Hud.stroke(box, C.Colors.Text, 1.5, 0.7)
+	Hud.surface(box, true)
 	local world = frame(box, { Name = "World", BackgroundTransparency = 1, Size = UDim2.fromOffset(0, 0) })
 	for _, b in ipairs(M.Blocks) do
 		local s = b.max - b.min
@@ -95,7 +95,7 @@ end
 
 local function buildCard(root, i)
 	local c = frame(root, { Name = "Card" .. i, Size = UDim2.fromOffset(150, 22), BackgroundTransparency = 0.35, Visible = false })
-	Hud.corner(c, 6)
+	Hud.surface(c, true)
 	local badge = frame(c, { Name = "Badge", Position = UDim2.fromOffset(4, 3), Size = UDim2.fromOffset(8, 16) })
 	Hud.corner(badge, 3)
 	local name = Hud.label(c, "", 12, { Name = "Name", Position = UDim2.fromOffset(16, 0), Size = UDim2.new(1, -44, 0, 14), TextXAlignment = Enum.TextXAlignment.Left,
@@ -118,18 +118,20 @@ local function buildTop(root)
 	Hud.corner(fill, 7)
 	local tier = Hud.label(meter, "QUIET", 10, { Name = "Tier", Size = UDim2.fromScale(1, 1), TextColor3 = Color3.new(1, 1, 1), TextStrokeTransparency = 0.5, ZIndex = 2 })
 	local goal = Hud.label(top, "", 12, { Name = "Objective", AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 16), Size = UDim2.new(1, 60, 0, 16),
-		TextStrokeTransparency = 0.5, Font = Enum.Font.GothamMedium })
+		TextStrokeTransparency = 1, Font = Enum.Font.GothamBold })
 	local timer = Hud.label(top, "", 20, { Name = "DashTimer", AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 33), Size = UDim2.fromOffset(120, 22),
 		TextStrokeTransparency = 0.4, Font = Enum.Font.GothamBlack, Visible = false })
+	Hud.surface(goal, true)
+	Hud.surface(timer, true)
 	HeistHud.top, HeistHud.meter, HeistHud.fill, HeistHud.tier, HeistHud.goal, HeistHud.timer = top, meter, fill, tier, goal, timer
 end
 
 local function buildResults(root)
 	local r = frame(root, { Name = "Results", AnchorPoint = Vector2.new(0.5, 0.5), Size = UDim2.fromOffset(260, 130), BackgroundTransparency = 0.15, Visible = false, ZIndex = 20 })
-	Hud.corner(r, 12)
+	Hud.surface(r)
 	local title = Hud.label(r, "", 22, { Position = UDim2.fromOffset(0, 10), Size = UDim2.new(1, 0, 0, 28), ZIndex = 21, Font = Enum.Font.GothamBlack })
-	local credits = Hud.label(r, "", 26, { Position = UDim2.fromOffset(0, 42), Size = UDim2.new(1, 0, 0, 30), ZIndex = 21, TextColor3 = Color3.fromRGB(0, 200, 140), Font = Enum.Font.GothamBlack })
-	local detail = Hud.label(r, "", 12, { Position = UDim2.fromOffset(10, 76), Size = UDim2.new(1, -20, 0, 44), ZIndex = 21, TextWrapped = true, TextColor3 = C.Colors.Muted })
+	local credits = Hud.label(r, "", 26, { Position = UDim2.fromOffset(0, 42), Size = UDim2.new(1, 0, 0, 30), ZIndex = 21, TextColor3 = Color3.fromRGB(0, 117, 81), Font = Enum.Font.GothamBlack })
+	local detail = Hud.label(r, "", 12, { Position = UDim2.fromOffset(10, 76), Size = UDim2.new(1, -20, 0, 44), ZIndex = 21, TextWrapped = true, TextColor3 = C.UI.Muted })
 	HeistHud.results = { frame = r, title = title, credits = credits, detail = detail }
 end
 
@@ -141,7 +143,7 @@ local function tag(p)
 	if not head then
 		return
 	end
-	if not t or t.Adornee ~= head then
+	if not t or not t.Parent or t.Adornee ~= head then
 		if t then
 			t:Destroy()
 		end
@@ -195,7 +197,7 @@ local function refresh()
 	if dashEnd then
 		local left = math.max(0, dashEnd - sNow)
 		HeistHud.timer.Text = string.format("%d:%02d", left // 60, math.floor(left % 60))
-		HeistHud.timer.TextColor3 = left < 15 and Color3.fromRGB(255, 80, 80) or C.Colors.Text
+		HeistHud.timer.TextColor3 = left < 15 and Color3.fromRGB(255, 80, 80) or C.UI.Ink
 	end
 	-- Pins: own spot, objective
 	local slot = lp:GetAttribute("BC_Slot")
@@ -218,7 +220,7 @@ local function refresh()
 		local p = list[i]
 		local dot, card = HeistHud.pins["mate" .. i], HeistHud.cards[i]
 		local root = p and p.Character and p.Character:FindFirstChild("HumanoidRootPart")
-		local col = p and C.Colors.Slots[p:GetAttribute("BC_Slot")] or C.Colors.Text
+		local col = p and C.Colors.Slots[p:GetAttribute("BC_Slot")] or C.UI.Ink
 		dot.Visible = root ~= nil and p ~= lp
 		if root then
 			dot.Position = toMap(root.Position)

@@ -81,7 +81,7 @@ return function(T)
 
 	-- Save schema 2: heist block validated; a schema-1 save migrates with defaults.
 	local v1 = Rules.clean({ schemaVersion = 1, credits = 700 })
-	T.check("v1 save migrates", v1.credits == 700 and v1.heist.runs == 0 and v1.heist.lastObvious == false and v1.schemaVersion == 2)
+	T.check("v1 save migrates", v1.credits == 700 and v1.heist.runs == 0 and v1.heist.lastObvious == false and v1.schemaVersion == C.Profile.SchemaVersion and v1.tutorial.done == false)
 	local v2 = Rules.clean({ schemaVersion = 2, heist = { runs = 5.9, lastObvious = true } })
 	T.check("heist block kept", v2.heist.runs == 5 and v2.heist.lastObvious == true)
 	local junk = Rules.clean({ heist = { runs = -3, lastObvious = "yes" } })

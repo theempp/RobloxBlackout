@@ -121,6 +121,7 @@ return function(T)
 	Lobby.paused = true -- this spec drives tick() itself (no race with the 4 Hz loop)
 	local part = workspace.Lobby.PadA:Clone()
 	part.Name = "PadT"
+	part.CanCollide = false -- fixture under the player's feet: occupancy only, no shove
 	part.Position = root.Position - Vector3.new(0, 2.8, 0)
 	part.Parent = workspace.Lobby
 	Lobby.parts.T = part
@@ -155,5 +156,50 @@ return function(T)
 
 	Lobby.parts.T, Lobby.pads.T = nil, nil
 	part:Destroy()
+
+	-- Queue presentation (revision stage 1): raised adjacent pads, status circles, boards, lifecycle.
+	local A, B = workspace.Lobby.PadA, workspace.Lobby.PadB
+	local decor = workspace.Lobby:FindFirstChild("Decor_A")
+	T.check("pads are raised collidable platforms", A.CanCollide and A.Size.Y == L.PadSize.Y and A.Position.Y + A.Size.Y / 2 > 0.4)
+	T.check("pads sit side by side with a departure lane between", math.abs(A.Position.Z - B.Position.Z) < 0.01
+		and math.abs(A.Position.X - B.Position.X) - L.PadSize.X >= C.Kart.Geo.Chassis.Size.X)
+	T.check("pad has ramps, four standing circles and a backboard", decor and decor:FindFirstChild("RampFront") and decor:FindFirstChild("RampSide")
+		and decor:FindFirstChild("Spot4") and decor:FindFirstChild("Board") and decor.Board:FindFirstChild("ModeLabel") ~= nil)
+	T.check("pad publishes its label and mode", A:GetAttribute("Label") == L.Pads[1].label and A:GetAttribute("Mode") == L.Pads[1].mode)
+	local flat = true
+	for _, x in ipairs(workspace.Lobby:GetDescendants()) do
+		if (x:IsA("BasePart") and (x.Material == Enum.Material.Neon or x.Material == Enum.Material.ForceField)) or x:IsA("Light") then flat = false end
+	end
+	T.check("pads use flat matte colours (no neon, no lights)", flat)
+	local function fake(id, name)
+		local attrs = {}
+		return { UserId = id, DisplayName = name, SetAttribute = function(_, k, v) attrs[k] = v end, attrs = attrs }
+	end
+	local padA = Lobby.pads.A
+	local f1, f2 = fake(-101, "Rook"), fake(-102, "Vee")
+	local t = workspace:GetServerTimeNow()
+	padA:join(f1, t)
+	padA:join(f2, t)
+	padA:setReady(f2, true, t)
+	Lobby.publish(padA)
+	local spot = decor.Spot1
+	T.check("circles show taken and ready spots", spot.Color == L.Colors.Taken and decor.Spot2.Color == L.Colors.Ready and decor.Spot3.Color == L.Colors.Empty)
+	T.check("names, ready flags and ids are published in order", A:GetAttribute("Names") == "Rook\nVee" and A:GetAttribute("ReadyList") == "0\n1"
+		and A:GetAttribute("Ids") == "-101\n-102" and A:GetAttribute("Count") == 2 and f1.attrs.BC_Pad == "A")
+	task.wait(0.4) -- the client board refreshes at 4 Hz
+	local _, board = T.cmd("pad", "A")
+	local b = board and board.board
+	T.check("client board shows occupancy, names and ready state", b and b.onPart and b.count == "2/4" and b.rows[1] == "Rook|NOT READY" and b.rows[2] == "Vee|READY"
+		and b.rows[3] == "Open spot|" and b.title:find(L.Pads[1].label, 1, true) ~= nil, b and (b.count .. " " .. tostring(b.rows[1]) .. " " .. tostring(b.rows[2])))
+	T.check("client board shows the countdown", b and b.status:find("LAUNCH IN") ~= nil, b and b.status)
+	Lobby.drop(S, f1)
+	T.check("disconnect leaves the pad and frees the crew", not padA:has(f1) and A:GetAttribute("Count") == 1 and Lobby.crews:crewOf(f1) == nil and spot.Color == L.Colors.Ready)
+	T.check("remaining member all ready shortens the countdown", padA.deadline <= workspace:GetServerTimeNow() + L.ReadyCountdown + 0.01)
+	padA:leave(f2, workspace:GetServerTimeNow())
+	Lobby.publish(padA)
+	T.check("empty pad cancels the countdown", padA.deadline == nil and A:GetAttribute("Deadline") == 0 and A:GetAttribute("Count") == 0 and spot.Color == L.Colors.Empty)
+	task.wait(0.4)
+	_, board = T.cmd("pad", "A")
+	T.check("client board returns to waiting", board and board.board and board.board.status == "WAITING FOR CREW" and board.board.count == "0/4")
 	Lobby.paused = false
 end

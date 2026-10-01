@@ -160,7 +160,7 @@ function Loot.load(_, run, player, kart)
 	if not m or not kart.PrimaryPart then
 		return false
 	end
-	attach(m, kart.PrimaryPart, CFrame.new(0, 2.2, 3.2))
+	attach(m, kart.PrimaryPart, Config.Kart.LootMount)
 	m:SetAttribute("Loaded", true)
 	kart:SetAttribute("Heavy", m.Name)
 	run.loot.loaded[player] = m

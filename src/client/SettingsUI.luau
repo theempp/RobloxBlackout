@@ -20,7 +20,7 @@ local function refresh()
 		local v = ctx.settings[key]
 		if type(v) == "boolean" then
 			r.Text = v and "ON" or "OFF"
-			r.BackgroundColor3 = v and C.Colors.Accent or C.Colors.Panel
+			r.BackgroundColor3 = v and C.UI.Green or C.UI.Paper
 		else
 			r.Text = string.format("%.1f", v)
 		end
@@ -28,13 +28,19 @@ local function refresh()
 end
 
 function SettingsUI.set(open)
+	if open then
+		ctx.Menus.open("settings", function()
+			SettingsUI.set(false)
+		end)
+	end
 	SettingsUI.open = open
 	panel.Visible = open
-	ctx.cursorFree = open
 	if open then
 		refresh()
+		ctx.Menus.focus(panel:FindFirstChild("Toggle_aimAssist", true))
 	else
 		ctx.saveSettings()
+		ctx.Menus.closed("settings")
 	end
 end
 
@@ -52,9 +58,9 @@ function SettingsUI.init(c)
 		SettingsUI.set(not SettingsUI.open)
 	end)
 	panel = Hud.make("ScrollingFrame", Hud.root, { Name = "Settings", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5),
-		Size = UDim2.fromOffset(440, 300), BackgroundColor3 = C.Colors.Panel, BackgroundTransparency = 0.08, Visible = false, ZIndex = 40,
+		Size = UDim2.fromOffset(440, 300), BackgroundColor3 = C.UI.Paper, BackgroundTransparency = 0.08, Visible = false, ZIndex = 40,
 		CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y, ScrollBarThickness = 6 })
-	Hud.corner(panel, 14)
+	Hud.surface(panel)
 	Hud.pad(panel, 12)
 	Hud.make("UIListLayout", panel, { Padding = UDim.new(0, 6), SortOrder = Enum.SortOrder.LayoutOrder })
 	local order = 0
@@ -65,11 +71,11 @@ function SettingsUI.init(c)
 		return f
 	end
 	local function btn(parent, name, text, x, w)
-		local b = Hud.make("TextButton", parent, { Name = name, Text = text, Font = Enum.Font.GothamBold, TextSize = 14, TextColor3 = C.Colors.Text,
+		local b = Hud.make("TextButton", parent, { Name = name, Text = text, Font = Enum.Font.GothamBold, TextSize = 14, TextColor3 = C.UI.Ink,
 			AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, x, 0.5, 0), Size = UDim2.fromOffset(w or 60, 52),
-			BackgroundColor3 = C.Colors.Panel, AutoButtonColor = true, ZIndex = 42 })
+			BackgroundColor3 = C.UI.Blue, AutoButtonColor = true, ZIndex = 42 })
 		Hud.corner(b, 10)
-		Hud.stroke(b, C.Colors.Text, 1, 0.6)
+		Hud.stroke(b, C.UI.Ink, C.UI.Outline, 0)
 		b:SetAttribute("TouchTarget", true)
 		return b
 	end
@@ -112,6 +118,9 @@ function SettingsUI.init(c)
 	end)
 	btn(row(""), "Close", "CLOSE", 0, 120).Activated:Connect(function()
 		SettingsUI.set(false)
+	end)
+	ctx.on("menu", function(name) -- other menus cover the gear's corner
+		gear.Visible = name == nil or name == "settings" or name == "wheel"
 	end)
 	ctx.on("toggleSettings", function()
 		SettingsUI.set(not SettingsUI.open)

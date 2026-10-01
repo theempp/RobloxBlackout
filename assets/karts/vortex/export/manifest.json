@@ -1,0 +1,41 @@
+{
+  "parts": 117,
+  "wheels": [
+    [
+      -1.925,
+      0.92,
+      -3.4
+    ],
+    [
+      1.925,
+      0.92,
+      -3.4
+    ],
+    [
+      -1.925,
+      0.92,
+      3.6
+    ],
+    [
+      1.925,
+      0.92,
+      3.6
+    ]
+  ],
+  "door_parts": 18,
+  "led_parts": 10,
+  "chassis": [
+    0,
+    1.75,
+    -0.05
+  ],
+  "steering_hub": [
+    0,
+    1.85,
+    -0.95
+  ],
+  "source_meshes": 117,
+  "shaped_meshes": 32,
+  "revision": "Curved prototype canopy from IMG_7147; local source/export review",
+  "production_import_pending": true
+}

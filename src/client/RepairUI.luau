@@ -9,7 +9,7 @@ function RepairUI.init(ctx)
 	local RC = C.Repair
 	local Repair = require(ctx.shared.Repair)
 	local panel = Hud.make("Frame", Hud.root, { Name = "RepairPanel", AnchorPoint = Vector2.new(0.5, 0.5), Size = UDim2.fromOffset(150, 150),
-		BackgroundColor3 = C.Colors.Panel, BackgroundTransparency = 0.25, BorderSizePixel = 0, Visible = false })
+		BackgroundColor3 = C.UI.Paper, BackgroundTransparency = 0.25, BorderSizePixel = 0, Visible = false })
 	Hud.corner(panel, UDim.new(0.5, 0))
 	local dots = {}
 	for i = 1, 8 do
@@ -18,7 +18,7 @@ function RepairUI.init(ctx)
 		Hud.corner(dots[i], UDim.new(0.5, 0))
 	end
 	local needle = Hud.make("Frame", panel, { Size = UDim2.fromOffset(4, 60), AnchorPoint = Vector2.new(0.5, 1), Position = UDim2.fromScale(0.5, 0.5),
-		BackgroundColor3 = C.Colors.Text, BorderSizePixel = 0 })
+		BackgroundColor3 = C.UI.Ink, BorderSizePixel = 0 })
 	local label = Hud.label(panel, "", 14, { Size = UDim2.new(1, 0, 0, 20), Position = UDim2.new(0, 0, 1, 4) })
 	-- TAP sits bottom-centre under the dial: clear of FIRE / ADS / the weapon button and the left stick.
 	-- (The dial is the one mid-screen element, and only while repairing.)

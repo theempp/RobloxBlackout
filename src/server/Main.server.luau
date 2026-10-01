@@ -17,12 +17,14 @@ local Receipts = require(server.Receipts)
 local Remotes = require(server.Remotes)
 local Weapons = require(server.Weapons)
 local Teleport = require(server.Teleport)
+local Appearance = require(server.Appearance)
 
 local remotes = Net.server()
 local profiles = Profiles.new()
 local S = require(server.ServerState)
 S.remotes, S.profiles, S.Remotes, S.clientReports = remotes, profiles, Remotes, {}
 S.role = Place.role()
+Config.Range.LoanAllGuns = workspace:GetAttribute("BCTesting") == true
 S.onJoin = {} -- role hooks, called after the profile loads
 server:SetAttribute("BCServerReady", false)
 server:SetAttribute("BCRole", S.role)
@@ -30,7 +32,7 @@ server:SetAttribute("BCRole", S.role)
 local function pushProfile(player)
 	local d = profiles.loaded[player]
 	if d then
-		remotes.Profile:FireClient(player, { settings = d.settings, guns = d.guns, attachments = d.attachments, credits = d.credits })
+		remotes.Profile:FireClient(player, { settings = d.settings, guns = d.guns, attachments = d.attachments, cosmetics = d.cosmetics, credits = d.credits })
 	end
 end
 S.pushProfile = pushProfile
@@ -67,6 +69,8 @@ MarketplaceService.ProcessReceipt = Receipts.handler({
 
 Weapons.init(S)
 S.Weapons = Weapons
+Appearance.init(S)
+S.Appearance = Appearance
 
 S.teleport = Teleport.new({
 	service = TeleportService,
@@ -105,7 +109,9 @@ if S.role == "heist" then
 	S.Heist = require(server.heist.Heist)
 	S.Heist.init(S)
 else
-	S.range = require(server.Range).build(S)
+	if workspace:GetAttribute("BCTesting") then S.range = require(server.Range).build(S) end
+	S.Garage = require(server.Garage)
+	S.Garage.init(S)
 	S.Lobby = require(server.Lobby)
 	S.Lobby.init(S)
 	S.onTeleportGiveUp = function(players, why)

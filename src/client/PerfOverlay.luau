@@ -60,7 +60,7 @@ function PerfOverlay.init(c)
 	C = ctx.Config
 	Hud = ctx.Hud
 	label = Hud.label(Hud.root, "", 12, { Name = "Perf", Position = UDim2.fromOffset(74, 20), Size = UDim2.fromOffset(420, 18),
-		TextXAlignment = Enum.TextXAlignment.Left, Font = Enum.Font.Code, TextStrokeTransparency = 0.4, Visible = false })
+		TextXAlignment = Enum.TextXAlignment.Left, Font = Enum.Font.Code, TextStrokeTransparency = 0.4, TextColor3 = C.Colors.Text, Visible = false })
 	ctx.on("settings", function(s)
 		label.Visible = s.perfOverlay
 	end)

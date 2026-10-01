@@ -9,8 +9,8 @@ local shared = ReplicatedStorage:WaitForChild("BlackoutCrew")
 local Net = require(shared:WaitForChild("Net"))
 local Rules = require(shared:WaitForChild("Rules"))
 local Place = require(shared:WaitForChild("Place"))
-local ORDER = { "Hud", "CameraRig", "Fx", "ViewModel", "Controls", "GunClient", "Wheel", "SettingsUI", "PerfOverlay" }
-local ROLE_MODULES = { lobby = { "LobbyClient" }, heist = { "HeistControls", "LaserView", "EnemyView", "KartClient", "RepairUI", "ParkingGlow", "HeistHud" } }
+local ORDER = { "Hud", "Menus", "CameraRig", "Fx", "ViewModel", "Controls", "GunClient", "Wheel", "SettingsUI", "PerfOverlay", "KartVisuals" }
+local ROLE_MODULES = { lobby = { "KartClient", "LobbyClient", "GarageClient", "ArmoryClient", "LockerClient" }, heist = { "HeistControls", "LaserView", "EnemyView", "KartClient", "RepairUI", "ParkingGlow", "HeistHud" } }
 
 local lp = Players.LocalPlayer
 local ctx = require(script.Parent:WaitForChild("ClientState"))

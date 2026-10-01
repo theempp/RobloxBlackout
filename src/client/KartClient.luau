@@ -2,13 +2,13 @@
 -- throttles through the VehicleSeat; GAS / BRAKE / EXIT on the right; keyboard W/S/A/D (+ Shift brake);
 -- gamepad sticks/triggers. By default this client owns the kart and steps the shared physics itself
 -- (no network round trip on phones). In Config.Kart.ServerPhysics mode it sends validated input at 15 Hz.
--- Chase camera; EMP spin kick when the kart's EmpAt changes.
+-- Chase camera; EMP spin kick when the kart's EmpAt changes. Hands its physics state to KartVisuals.
 local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 
-local KartClient = { kart = nil, testInput = nil, speed = 0, steps = 0 }
+local KartClient = { kart = nil, testInput = nil, speed = 0, steps = 0, cockpit = false }
 local ctx, C, K, KartPhysics
 local lp = Players.LocalPlayer
 local state, spunAt = nil, 0
@@ -28,23 +28,37 @@ local function myKart()
 end
 
 local function setDriving(m)
+	local prev = KartClient.kart
 	KartClient.kart = m
 	local on = m ~= nil
-	if ctx.driving ~= on then
+	if prev and prev ~= m then
+		ctx.KartVisuals.own[prev] = nil
+		if prev.PrimaryPart then
+			KartPhysics.antiGravity(prev.PrimaryPart, false) -- our local copy: back to plain Roblox gravity
+		end
+	end
+	if ctx.driving ~= on or prev ~= m then
 		ctx.driving = on
 		state = on and KartPhysics.newState() or nil
+		KartClient.state = state
+			if m then
+				ctx.KartVisuals.own[m] = not K.ServerPhysics and state or nil
+				if ctx.Hud then ctx.Hud.toast("VORTEX  •  L LEDs  •  O doors  •  V cockpit view", 4) end
+			end
 		spunAt = m and (m:GetAttribute("EmpAt") or 0) or 0
 		camPos = nil
 		gas, brake = false, false
 		ctx.emit("driving", on)
 		ctx.Controls.layout()
-		if not on then
-			workspace.CurrentCamera.FieldOfView = C.Camera.Fov
+			if not on then
+				workspace.CurrentCamera.FieldOfView = C.Camera.Fov
+				KartClient.cockpit = false
 		end
 	end
 end
 
 function KartClient.input()
+	if ctx.cursorFree or ctx.cutscene then return { t = 0, s = 0, b = true } end
 	if KartClient.testInput then
 		return KartClient.testInput
 	end
@@ -70,7 +84,9 @@ local function physics(dt)
 		return
 	end
 	local root = m.PrimaryPart
-	local list = { workspace:FindFirstChild("KartsFolder"), workspace:FindFirstChild("HeistLoot"), workspace:FindFirstChild("LaserBeams") }
+	local list = CollectionService:GetTagged("BC_KartVisual")
+	table.insert(list, workspace:FindFirstChild("HeistLoot"))
+	table.insert(list, workspace:FindFirstChild("LaserBeams"))
 	for _, p in ipairs(Players:GetPlayers()) do
 		table.insert(list, p.Character)
 	end
@@ -93,6 +109,16 @@ local function camera(dt)
 		return
 	end
 	local cam = workspace.CurrentCamera
+	if KartClient.cockpit then
+		local kartFrame = root.CFrame * CFrame.new(-K.Geo.Collider.Center)
+		local eye = kartFrame:PointToWorldSpace(K.CockpitEye)
+		local ahead = kartFrame:PointToWorldSpace(K.CockpitLook)
+		cam.CameraType = Enum.CameraType.Scriptable
+		cam.CFrame = CFrame.lookAt(eye, ahead)
+		cam.FieldOfView = 72
+		if K.ServerPhysics then KartClient.speed = root.AssemblyLinearVelocity:Dot(root.CFrame.LookVector) end
+		return
+	end
 	local look = root.CFrame.LookVector
 	local flat = Vector3.new(look.X, 0, look.Z)
 	flat = flat.Magnitude > 0.1 and flat.Unit or Vector3.new(0, 0, -1)
@@ -130,12 +156,34 @@ function KartClient.init(c)
 			hum.Jump = true
 		end
 	end)
+	local function action(name)
+		if KartClient.kart and not ctx.cursorFree then
+			ctx.remotes.KartAction:FireServer(name)
+			ctx.netSends += 1
+		end
+	end
+	Controls.press("lights", function() action("lights") end)
+	Controls.press("doors", function() action("doors") end)
+	Controls.press("view", function()
+		KartClient.cockpit = not KartClient.cockpit
+		camPos = nil
+	end)
+	UserInputService.InputBegan:Connect(function(input, processed)
+		if processed or not KartClient.kart or ctx.cursorFree then return end
+		local key = input.KeyCode
+		if key == Enum.KeyCode.L or key == Enum.KeyCode.DPadUp then action("lights")
+		elseif key == Enum.KeyCode.O or key == Enum.KeyCode.DPadDown then action("doors")
+		elseif key == Enum.KeyCode.V or key == Enum.KeyCode.DPadRight then
+			KartClient.cockpit = not KartClient.cockpit
+			camPos = nil
+		end
+	end)
 	RunService.PreSimulation:Connect(function(dt)
 		setDriving(myKart())
 		physics(dt)
 	end)
 	RunService:BindToRenderStep("BCKartCam", Enum.RenderPriority.Camera.Value + 3, function(dt)
-		if ctx.driving then
+		if ctx.driving and not ctx.cutscene then
 			camera(dt)
 		end
 	end)
@@ -171,6 +219,27 @@ function KartClient.init(c)
 	ctx.probe.drive = function(t, s, b)
 		KartClient.testInput = t and KartPhysics.cleanInput(t, s, b) or nil
 		return {}
+	end
+	ctx.probe.vortex = function(command)
+		if command == "view" and KartClient.kart then
+			KartClient.cockpit = not KartClient.cockpit
+			camPos = nil
+		end
+		local m = KartClient.kart
+		local root = m and m.PrimaryPart
+		local wheel = root and root:FindFirstChild("M_Steer")
+		local door = root and root:FindFirstChild("M_Door_L_Shell")
+		local wheelAngle, doorAngle = 0, 0
+		if wheel then wheelAngle = select(2, wheel.Transform:ToAxisAngle()) end
+		if door then doorAngle = select(2, door.Transform:ToAxisAngle()) end
+		local lit = 0
+		if m then
+			for _, p in ipairs(m:GetChildren()) do
+				if p:IsA("BasePart") and p:GetAttribute("VortexLED") and p.Material == Enum.Material.Neon then lit += 1 end
+			end
+		end
+		return { cockpit = KartClient.cockpit, cameraGap = root and (workspace.CurrentCamera.CFrame.Position - root.Position).Magnitude or -1,
+			steerAngle = wheelAngle, doorAngle = doorAngle, lit = lit }
 	end
 end
 

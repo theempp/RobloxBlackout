@@ -1,3 +1,5 @@
+> Historical Build 1 prompt. For current work follow CLAUDE.md and gates/build-3.md.
+
 You are building **Blackout Crew** (Roblox, phone-first co-op heist). Do **BUILD 1 only**, then stop at its gate.
 Project: `~/Desktop/Blackout Crew`. `~/Desktop/roblox 1` = read-only reference (old v0.3 game).
 

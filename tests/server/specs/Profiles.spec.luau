@@ -80,7 +80,8 @@ return function(T)
 	T.check("unowned gun attachments dropped", a.attachments.equipped.ranger == nil)
 
 	T.check("karts whitelist (none yet)", next(Rules.clean({ karts = { owned = { any = true } } }).karts.owned) == nil)
-	T.check("cosmetics whitelist (none yet)", next(Rules.clean({ cosmetics = { owned = { hat = true } } }).cosmetics.owned) == nil)
+	local cos = Rules.clean({ cosmetics = { owned = { hat = true } } }).cosmetics.owned
+	T.check("cosmetics whitelist: unknown stripped, free starters owned", cos.hat == nil and cos.fit_crew == true and cos.dis_maint == nil)
 	local w = Rules.clean({ wheel = { freeSpins = -3, pity = 1e9, season = 2.5 } })
 	T.eq("wheel freeSpins clamped", w.wheel.freeSpins, 0)
 	T.eq("wheel pity capped", w.wheel.pity, C.Profile.MaxCounter)
@@ -157,6 +158,14 @@ return function(T)
 	store.fail = 1
 	local s3, p3 = inst("server3"), fakePlayer(7)
 	T.check("(memory store) retry survives one outage", s3:load(p3) ~= nil)
+	-- Lobby -> heist hand-off: the saved look travels with the released profile.
+	local s4, s5, p4, p4b = inst("lobby"), inst("heist"), fakePlayer(77), fakePlayer(77)
+	s4:load(p4)
+	s4.loaded[p4].cosmetics.equipped = { outfit = "fit_night", mask = "mask_bandana" }
+	s4:save(p4, true)
+	local arrived = s5:load(p4b)
+	T.check("(memory store) equipped cosmetics survive the lobby -> heist hand-off", arrived and arrived.cosmetics.equipped.outfit == "fit_night"
+		and arrived.cosmetics.equipped.mask == "mask_bandana")
 	store.data.u7.lock.token = "thief"
 	local before = #fails
 	T.check("(memory store) save after lost lock refused", s3:save(p3, false) == false and #fails == before + 1)
