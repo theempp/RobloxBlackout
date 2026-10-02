@@ -159,7 +159,7 @@ function Enemies.reinforce(run)
 	if run.towerCleared then
 		return
 	end
-	local set = M.GuardSets.A
+	local set = M.GuardSets[run.guardSet or "A"]
 	local tier = run.alarm and run.alarm:tier() or 1
 	local want = Alarm.counts(tier, run.info.crewSize, run.params.sentryMult, E)
 	run.counts, run.countsTier = want, tier -- counts never shrink when a hack drops the tier
@@ -388,7 +388,7 @@ end
 function Enemies.start(_, run)
 	Enemies.reset()
 	workspace.HeistState:SetAttribute("TowerCleared", false)
-	for i, def in ipairs(M.GuardSets.A.cameras) do
+	for i, def in ipairs(M.GuardSets[run.guardSet or "A"].cameras) do
 		table.insert(Enemies.cameras, camera(i, def))
 	end
 	Enemies.reinforce(run)

@@ -29,7 +29,7 @@ end
 
 local function onTier(run, before, after)
 	publish(run)
-	state():SetAttribute("LaserSpeed", Config.Lasers.SpeedByTier[after])
+	state():SetAttribute("LaserSpeed", Config.Lasers.SpeedByTier[after] * (run.params.laserMult or 1))
 	if after > before then
 		for _, p in ipairs(run.players) do
 			S.notify(p, "ALARM: " .. AC.Tiers[after])
@@ -97,7 +97,7 @@ function Security.start(_, run)
 	local diff = Config.Difficulty[run.info.difficulty] or Config.Difficulty.normal
 	run.alarm = Alarm.new(AC, diff.alarm * (run.params and run.params.alarmMult or 1))
 	S.map.terminal:SetAttribute("Hacked", false)
-	state():SetAttribute("LaserSpeed", Config.Lasers.SpeedByTier[1])
+	state():SetAttribute("LaserSpeed", Config.Lasers.SpeedByTier[1] * (run.params.laserMult or 1))
 	publish(run)
 end
 

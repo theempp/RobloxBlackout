@@ -31,6 +31,13 @@ end
 
 -- Returns the index of a beam touching `rootPos` at time t, or nil.
 function Gauntlet.touching(rootPos, t, mult)
+ if workspace.HeistState:GetAttribute("Wing")=="bullion" then
+  for i=1,6 do
+   local x= i%2==0 and 115 or 85 local z=104+i*4
+   if math.abs(rootPos.X-x)<9 and math.abs(rootPos.Z-z)<3 and rootPos.Y<4 then return i end
+  end
+  return nil
+ end
 	for i, def in ipairs(M.Lasers) do
 		local a, b = Lasers.at(def, t, mult)
 		if Lasers.touches(rootPos, a, b, LZ) then

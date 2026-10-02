@@ -1,0 +1,81 @@
+{
+  "status": "review-only; no deletions or moves performed",
+  "delete_candidates": [
+    {
+      "paths": [
+        "assets/karts/vortex/__pycache__/refine_canopy.cpython-313.pyc",
+        "assets/karts/vortex/__pycache__/shape_vortex.cpython-313.pyc"
+      ],
+      "reason": "Python bytecode; rebuildable",
+      "bytes": 33548
+    },
+    {
+      "paths": [
+        "assets/guns/v2/buzz.blend1",
+        "assets/guns/v2/dart9.blend1",
+        "assets/guns/v2/needle.blend1",
+        "assets/guns/v2/ranger.blend1"
+      ],
+      "reason": "Blender automatic previous-save backups; different content, so confirm recovery not needed first",
+      "bytes": 497185
+    },
+    {
+      "paths": [
+        "build/alive1.log",
+        "build/alive1.studio.log",
+        "build/alive2.log",
+        "build/alive2.studio.log",
+        "build/alive3.log",
+        "build/alive3.studio.log",
+        "build/regression-build3-progress.log"
+      ],
+      "reason": "Old liveness probes and empty progress file; retain audit/final regression evidence",
+      "bytes": 681022
+    }
+  ],
+  "archive_candidates": [
+    {
+      "paths": [
+        "assets/roblox/VortexKart.rbxmx"
+      ],
+      "reason": "Old unselected runtime template; still automatically embedded by all four project mappings. Archive outside assets/roblox, update docs/import tooling and retest."
+    },
+    {
+      "paths": [
+        "HANDOFF_PROMPT.md",
+        "MASTER_PROMPT_QUEUE.md",
+        "refs/revisions/CLAUDE_CODE_HANDOFF.md",
+        "refs/revisions/STAGE2_KICKOFF.md"
+      ],
+      "reason": "Historical execution/coordination prompts; migrate only with inbound links updated and current status indexed."
+    },
+    {
+      "paths": [
+        "assets/kart/razor",
+        "assets/guns/blockout",
+        "assets/guns/detail",
+        "assets/guns/color",
+        "assets/karts/vortex/revisions/canopy-before-reference"
+      ],
+      "reason": "Distinct older asset revisions; review/retain history, not exact duplicates. Moving paths requires tooling/link updates."
+    }
+  ],
+  "protected": [
+    ".git",
+    "all existing modified and untracked source/tests",
+    "assets/karts/vortex/revisions/approved-reference-cockpit/**",
+    "assets/guns/concepts-2026-09-30/{LOCKED.md,*-v2.png}",
+    "assets/roblox/VortexKartApproved.rbxmx",
+    "assets/karts/vortex/phone-optimized.blend",
+    "assets/karts/vortex/approved-geometry.json",
+    "assets/karts/vortex/phone-review/**",
+    "gates/phone-candidate-manifest.json",
+    "build/lobby.rbxlx",
+    "build/heist.rbxlx",
+    "build/regression-build3-final.log",
+    "build/regression-vortex-final.log",
+    "build/regression-build3-first.log",
+    "all four *.project.json files"
+  ],
+  "source_policy": "No source-file deletion is justified by this audit. Shared physics, role-specific kart controllers, input modules, HUD modules and test probes serve different purposes."
+}

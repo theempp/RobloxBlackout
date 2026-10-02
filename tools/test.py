@@ -31,7 +31,7 @@ if spec:
     missing = set(spec.split(',')) - available
     if missing:
         parser.error('unknown specs: ' + ', '.join(sorted(missing)))
-keep = ('BC_SUITE', 'BC_SUSP', 'BC_FAIL', 'BC_TOTAL', 'BC_PERF', 'BC_ERR', 'BC_FATAL', 'BC_WARN')
+keep = ('BC_SUITE', 'BC_SUSP', 'BC_FAIL', 'BC_TOTAL', 'BC_PERF', 'BC_ERR', 'BC_FATAL', 'BC_WARN', 'BC_TRI', 'BC_ROUTE')
 passed = total = 0
 ok = True
 built = set()

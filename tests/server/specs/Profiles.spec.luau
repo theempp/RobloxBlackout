@@ -79,7 +79,7 @@ return function(T)
 	T.check("slot not allowed on gun dropped", a.attachments.equipped.dart9 == nil)
 	T.check("unowned gun attachments dropped", a.attachments.equipped.ranger == nil)
 
-	T.check("karts whitelist (none yet)", next(Rules.clean({ karts = { owned = { any = true } } }).karts.owned) == nil)
+	T.check("karts whitelist retains starter only", Rules.clean({ karts = { owned = { any = true } } }).karts.owned.any == nil and Rules.clean({}).karts.owned.base == true)
 	local cos = Rules.clean({ cosmetics = { owned = { hat = true } } }).cosmetics.owned
 	T.check("cosmetics whitelist: unknown stripped, free starters owned", cos.hat == nil and cos.fit_crew == true and cos.dis_maint == nil)
 	local w = Rules.clean({ wheel = { freeSpins = -3, pity = 1e9, season = 2.5 } })

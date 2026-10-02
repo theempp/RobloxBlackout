@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shop Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto+Condensed:wght@400;700&family=Luckiest+Guy&family=Special+Elite&family=Michroma&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Palette = Config.UI + Config.Colors (no neon: flat fills, hard shadows, zero glow/blur). */
+:root{--paper:#FFF8E8;--ink:#231F27;--muted:#5D5364;--blue:#70CFF2;--green:#92DD80;--amber:#FFBE61;--pink:#F39AB5;--foam:#FF7828;--matte:#1C1C20;--wood:#2D221C;--gray:#3A3D44;
+ --s1:#56B4E9;--s2:#E69F00;--s3:#009E73;--s4:#CC79A7}
+*{box-sizing:border-box;margin:0}
+body{background:#121114;color:var(--paper);font:14px/1.4 "Roboto Condensed",system-ui,sans-serif;padding:24px 16px 60px}
+h1{font:700 26px Oswald;letter-spacing:.04em}
+.lead{color:#b9b0bd;max-width:880px;margin:6px 0 22px}
+section{margin:0 0 44px}
+.cap{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:10px}
+.cap b{font:700 20px Oswald;letter-spacing:.05em}.cap span{color:#b9b0bd}
+.fit{width:100%;max-width:874px;overflow:hidden}
+.phone{width:874px;height:402px;position:relative;overflow:hidden;border-radius:40px;outline:6px solid #000;transform-origin:0 0}
+.safe{position:absolute;inset:0 59px 21px 59px;pointer-events:none}
+.island{position:absolute;left:10px;top:50%;width:34px;height:120px;margin-top:-60px;border-radius:20px;background:#000;z-index:9}
+.home{position:absolute;bottom:7px;left:50%;width:140px;margin-left:-70px;height:5px;border-radius:3px;background:#fff8;z-index:9}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px 22px;max-width:874px;margin-top:14px;color:#cfc7d2;font-size:13px}
+.notes h4{font:700 13px Oswald;letter-spacing:.08em;color:var(--amber);margin-bottom:3px}
+.notes ul{padding-left:16px}
+svg.i{width:100%;height:100%;display:block}
+.ico{display:inline-block;width:16px;height:16px;vertical-align:-3px}
+
+/* ---------- A: ARMORY CASE ---------- */
+.A{background:repeating-linear-gradient(92deg,#2D221C 0 7px,#33271F 7px 9px,#2A1F19 9px 15px);font-family:"Roboto Condensed"}
+.A .top{position:absolute;left:62px;right:62px;top:10px;height:50px;display:flex;gap:6px;align-items:center}
+.A .logo{font:700 34px/1 Oswald;letter-spacing:.02em;color:var(--paper);padding-right:8px;text-shadow:0 3px 0 var(--ink)}
+.A .logo i{font-style:normal;color:var(--amber)}
+.A .tab{width:72px;height:46px;background:var(--matte);border:2px solid #000;border-top:3px solid #55493f;display:flex;flex-direction:column;align-items:center;justify-content:center;font:700 10px Oswald;letter-spacing:.08em;color:#cfc4b8;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.A .tab .ico{width:20px;height:20px;margin-bottom:1px}
+.A .tab.on{background:var(--amber);color:var(--ink);border-top-color:var(--paper)}
+.A .wal{margin-left:auto;display:flex;gap:6px}
+.A .pill{height:38px;display:flex;align-items:center;gap:6px;padding:0 4px 0 10px;background:var(--matte);border:2px solid #000;border-radius:6px;font:700 17px Oswald}
+.A .pill .ico{width:20px;height:20px}
+.A .plus{width:30px;height:30px;border-radius:5px;background:var(--amber);color:var(--ink);display:grid;place-items:center;font:700 20px Oswald;border:2px solid var(--ink)}
+.A .x{width:44px;height:44px;background:var(--matte);border:2px solid #000;display:grid;place-items:center;color:var(--amber);font:700 24px Oswald;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.A .panel{position:absolute;background:var(--matte);border:2px solid #000;clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.A .panel:before{content:"";position:absolute;left:14px;right:0;top:0;height:3px;background:var(--amber)} /* flat LED strip, no glow */
+.A .hero{left:62px;top:68px;width:410px;height:304px;background:linear-gradient(115deg,#1C1C20 45%,#3a2a1f)}
+.A .kick{font:700 11px Oswald;letter-spacing:.18em;color:var(--amber)}
+.A .hero h2{font:700 34px/0.95 Oswald;letter-spacing:.01em;margin-top:4px}
+.A .hero h2 em{font-style:normal;color:var(--amber)}
+.A .tag{font-size:11px;letter-spacing:.12em;color:#b8ada2;margin:3px 0 5px}
+.A .inc{list-style:none;padding:0;width:150px}
+.A .inc li{display:flex;gap:7px;align-items:center;font-size:12px;letter-spacing:.06em;padding:3px 0;border-top:1px solid #3a3530}
+.A .inc .ico{width:18px;height:18px;color:var(--amber)}
+.A .art{position:absolute;right:6px;top:64px;width:220px;height:170px}
+.A .buy{position:absolute;display:flex;align-items:center;gap:10px;background:var(--amber);color:var(--ink);border:2px solid var(--ink);box-shadow:0 4px 0 var(--ink);border-radius:8px;font:700 Oswald}
+.A .hero .buy{left:14px;right:14px;bottom:16px;height:50px;padding:0 18px;font:700 26px Oswald}
+.A .buy .ico{width:24px;height:24px}
+.A .buy b{margin-left:auto;font-size:1.05em;letter-spacing:.04em}
+.A .flag{position:absolute;right:14px;top:14px;background:var(--paper);color:var(--ink);font:700 10px Oswald;letter-spacing:.12em;padding:3px 7px;border:2px solid var(--ink)}
+.A .t{width:160px;height:148px;padding:9px 10px}
+.A .t h3{font:700 14px/1 Oswald;letter-spacing:.04em}
+.A .t small{display:block;font-size:10px;letter-spacing:.14em;color:#a59a8f}
+.A .t .art{position:static;width:100%;height:62px;margin:4px 0}
+.A .t .buy{left:8px;right:8px;bottom:9px;height:34px;padding:0 10px;font:700 17px Oswald}
+.A .t .buy .ico{width:18px;height:18px}
+.A .odds{position:absolute;right:10px;top:9px;font:700 9px Oswald;letter-spacing:.1em;background:var(--paper);color:var(--ink);padding:2px 6px;border:2px solid var(--ink);border-radius:4px}
+
+/* ---------- B: CASE FILE ---------- */
+.B{background:repeating-linear-gradient(0deg,#2a201a 0 11px,#30251e 11px 13px,#271d17 13px 22px)}
+.B .rail{position:absolute;left:62px;top:12px;bottom:28px;width:86px;display:flex;flex-direction:column;gap:5px}
+.B .ft{height:52px;background:#e9dfc9;color:var(--ink);border:3px solid var(--ink);border-radius:10px 4px 4px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:16px "Luckiest Guy";letter-spacing:.03em;padding-top:2px}
+.B .ft .ico{width:22px;height:22px}
+.B .ft.on{background:var(--amber);margin-right:-14px;border-right-color:var(--amber);border-radius:10px 0 0 10px;position:relative;z-index:2}
+.B .ft.coin{margin-top:auto;background:var(--blue)}
+.B .file{position:absolute;left:150px;right:62px;top:12px;bottom:28px;background:var(--paper);border:3px solid var(--ink);border-radius:6px 14px 14px 14px;color:var(--ink);box-shadow:5px 5px 0 #0008}
+.B .hdr{position:absolute;left:14px;right:12px;top:8px;height:40px;display:flex;align-items:center;gap:8px}
+.B .hdr h2{font:30px/1 "Luckiest Guy";letter-spacing:.02em;padding-top:4px}
+.B .hdr .sub{font:13px "Special Elite";color:var(--muted)}
+.B .w{margin-left:auto;display:flex;gap:6px}
+.B .chip{height:36px;display:flex;align-items:center;gap:6px;padding:0 4px 0 9px;border:3px solid var(--ink);border-radius:18px;font:19px "Luckiest Guy";padding-top:2px;background:#fff}
+.B .chip .ico{width:20px;height:20px;margin-top:-3px}
+.B .chip .p{width:26px;height:26px;border-radius:50%;background:var(--blue);border:3px solid var(--ink);display:grid;place-items:center;font:18px "Luckiest Guy";margin-top:-2px}
+.B .x{width:40px;height:40px;border-radius:50%;border:3px solid var(--ink);background:var(--pink);display:grid;place-items:center;font:20px "Luckiest Guy";padding-top:3px}
+.B .detail{position:absolute;left:14px;top:56px;width:400px;height:200px;border:3px solid var(--ink);border-radius:10px;background:#f4e7cf;overflow:hidden}
+.B .detail .art{position:absolute;left:4px;top:30px;width:196px;height:140px}
+.B .rib{position:absolute;left:0;top:0;background:var(--ink);color:var(--paper);font:12px "Luckiest Guy";letter-spacing:.06em;padding:5px 10px 3px;border-bottom-right-radius:8px}
+.B .info{position:absolute;left:206px;right:10px;top:12px}
+.B .info h3{font:24px/1 "Luckiest Guy"}
+.B .info p{font:12px/1.25 "Special Elite";color:var(--muted);margin:3px 0 7px}
+.B .bar{display:flex;align-items:center;gap:6px;font:11px "Special Elite";margin:3px 0}
+.B .bar i{flex:0 0 62px;font-style:normal;white-space:nowrap}
+.B .bar span{flex:1;height:9px;border:2px solid var(--ink);border-radius:5px;background:#fff;position:relative;overflow:hidden}
+.B .bar span:after{content:"";position:absolute;inset:0 auto 0 0;width:var(--v);background:var(--c,var(--green))}
+.B .big{position:absolute;left:214px;right:10px;bottom:10px;height:44px;border:3px solid var(--ink);border-radius:22px;background:var(--green);box-shadow:0 4px 0 var(--ink);display:flex;align-items:center;justify-content:center;gap:8px;font:22px "Luckiest Guy";padding-top:3px}
+.B .big .ico{width:22px;height:22px;margin-top:-3px}
+.B .side{position:absolute;left:424px;right:12px;top:56px;height:200px;display:flex;flex-direction:column;gap:8px}
+.B .card{flex:1;border:3px solid var(--ink);border-radius:10px;position:relative;overflow:hidden;padding:8px 10px}
+.B .card h4{font:18px/1 "Luckiest Guy";padding-top:2px}
+.B .card small{font:11px/1.2 "Special Elite";display:block;max-width:112px}
+.B .card .art{position:absolute;right:6px;top:10px;width:84px;height:72px}
+.B .mini{position:absolute;left:10px;bottom:8px;height:30px;border:3px solid var(--ink);border-radius:15px;background:#fff;display:flex;align-items:center;gap:5px;padding:2px 12px 0;font:16px "Luckiest Guy"}
+.B .mini .ico{width:16px;height:16px;margin-top:-3px}
+.B .stamp{position:absolute;right:10px;bottom:8px;font:11px "Special Elite";border:2px dashed var(--ink);padding:2px 6px;transform:rotate(-4deg)}
+.B .strip{position:absolute;left:14px;right:12px;bottom:10px;height:72px;display:flex;gap:8px;align-items:stretch}
+.B .strip .lbl{writing-mode:vertical-rl;transform:rotate(180deg);font:12px "Luckiest Guy";letter-spacing:.08em;text-align:center;color:var(--muted)}
+.B .gun{flex:1;border:3px solid var(--ink);border-radius:9px;background:#fff;position:relative;padding:4px 8px}
+.B .gun.sel{background:var(--amber);transform:translateY(-4px);box-shadow:0 4px 0 var(--ink)}
+.B .gun b{font:14px "Luckiest Guy";display:block;padding-top:2px}
+.B .gun span{font:11px "Special Elite";display:flex;gap:4px;align-items:center}
+.B .gun span .ico{width:13px;height:13px}
+.B .gun .art{position:absolute;right:4px;bottom:3px;width:70px;height:42px}
+
+/* ---------- C: STATIC SIGNAL (Directive gray, hacked by the crew) ---------- */
+.C{background:#2b2e34;font-family:"Roboto Mono",monospace}
+.C:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#0000 0 3px,#0000000f 3px 4px);pointer-events:none}
+.C .bar{position:absolute;left:62px;right:62px;top:10px;height:46px;display:flex;align-items:center;gap:0}
+.C .ttl{font:700 20px Michroma;letter-spacing:.06em;position:relative;margin-right:12px;color:var(--paper)}
+.C .ttl:before,.C .ttl:after{content:attr(data-t);position:absolute;left:0;top:0}
+.C .ttl:before{color:var(--s1);transform:translate(-2px,0);clip-path:inset(0 0 55% 0);z-index:-1}
+.C .ttl:after{color:var(--s4);transform:translate(2px,1px);clip-path:inset(55% 0 0 0);z-index:-1}
+.C .seg{display:flex;border:2px solid #111;background:#1d1f24;height:44px}
+.C .seg div{padding:0 12px;display:flex;align-items:center;font:700 11px "Roboto Mono";letter-spacing:.08em;color:#9aa0ab;border-right:2px solid #111}
+.C .seg div:last-child{border-right:0}
+.C .seg .on{background:var(--paper);color:var(--ink);box-shadow:inset 0 -4px 0 var(--s1)}
+.C .wal{margin-left:auto;display:flex;gap:6px;align-items:center}
+.C .pill{height:36px;display:flex;align-items:center;gap:6px;padding:0 4px 0 9px;background:#1d1f24;border:2px solid #111;font:700 15px "Roboto Mono"}
+.C .pill .ico{width:18px;height:18px}
+.C .pl{width:28px;height:28px;background:var(--s1);color:var(--ink);display:grid;place-items:center;font:700 18px "Roboto Mono"}
+.C .x{width:44px;height:44px;background:#1d1f24;border:2px solid #111;display:grid;place-items:center;font:700 20px Michroma;color:var(--paper);margin-left:6px}
+.C .banner{position:absolute;left:62px;right:62px;top:64px;height:150px;background:#1d1f24;border:2px solid #111;overflow:hidden}
+.C .banner .bands{position:absolute;right:0;top:0;bottom:0;width:58%;background:linear-gradient(90deg,#1d1f24 0,#1d1f2400 18%),repeating-linear-gradient(90deg,var(--s1) 0 22%,var(--s2) 22% 40%,var(--s3) 40% 64%,var(--s4) 64% 100%);opacity:.9}
+.C .banner .bands:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#1d1f24 0 6px,#0000 6px 9px,#1d1f24 9px 11px,#0000 11px 26px)}
+.C .banner .art{position:absolute;right:30px;top:6px;width:330px;height:140px}
+.C .kick{font:700 10px "Roboto Mono";letter-spacing:.2em;color:var(--s1)}
+.C h2{font:700 25px/1.05 Michroma;letter-spacing:.02em;margin:5px 0 4px;color:var(--paper)}
+.C .meta{font-size:11px;color:#a7adb8;letter-spacing:.06em}
+.C .cta{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;margin-top:10px;background:var(--paper);color:var(--ink);font:700 18px "Roboto Mono";border:2px solid #111;box-shadow:4px 4px 0 var(--s4)}
+.C .cta .ico{width:20px;height:20px}
+.C .row{position:absolute;left:62px;right:62px;top:222px;height:150px;display:grid;grid-template-columns:1.25fr 1fr 1.35fr;gap:8px}
+.C .mod{background:#1d1f24;border:2px solid #111;position:relative;padding:8px 10px;overflow:hidden}
+.C .mod h3{font:700 13px Michroma;letter-spacing:.04em;color:var(--paper)}
+.C .mod small{font-size:10px;color:#9aa0ab;letter-spacing:.06em}
+.C .num{position:absolute;left:0;top:0;background:#111;color:#9aa0ab;font:700 9px "Roboto Mono";padding:2px 5px}
+.C .wheel{position:absolute;left:8px;bottom:8px;width:92px;height:92px}
+.C .opts{position:absolute;left:108px;right:8px;bottom:8px;display:flex;flex-direction:column;gap:5px}
+.C .b2{height:36px;display:flex;align-items:center;gap:6px;padding:0 9px;background:var(--paper);color:var(--ink);font:700 14px "Roboto Mono";border:2px solid #111}
+.C .b2 .ico{width:16px;height:16px}.C .b2 em{font-style:normal;margin-left:auto;font-size:10px}
+.C .det{position:absolute;right:8px;top:7px;font:700 10px "Roboto Mono";color:var(--ink);background:var(--s1);padding:3px 7px;border:2px solid #111}
+.C .crown{position:absolute;right:6px;top:30px;width:52px;height:52px}
+.C .perks{font-size:10.5px;color:#cfd3da;list-style:none;padding:0;margin-top:5px}
+.C .perks li:before{content:"▪ ";color:var(--s3)}
+.C .packs{display:flex;gap:5px;position:absolute;left:8px;right:8px;bottom:8px;top:30px}
+.C .pk{flex:1;border:2px solid #111;background:#25282e;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:5px;position:relative}
+.C .pk .art{width:44px;height:40px;margin-bottom:auto;margin-top:12px}
+.C .pk b{font:700 13px "Roboto Mono";color:var(--paper)}
+.C .pk span{margin-top:4px;width:calc(100% - 8px);height:28px;background:var(--paper);color:var(--ink);font:700 11px "Roboto Mono";display:grid;place-items:center;border:2px solid #111}
+.C .pk.top{background:#2f3a44;outline:2px solid var(--s1)}
+.C .pk .best{position:absolute;top:-2px;left:-2px;right:-2px;background:var(--s1);color:var(--ink);font:700 8px "Roboto Mono";text-align:center;padding:2px 0;letter-spacing:.08em}
+</style></head><body>
+
+<svg width="0" height="0" style="position:absolute">
+ <!-- placeholder art: flat silhouettes only; real item renders replace these -->
+ <symbol id="cr" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FF7828" stroke="#231F27" stroke-width="2.5"/><path d="M7 12h10M12 7v10" stroke="#231F27" stroke-width="2.5"/></symbol>
+ <symbol id="gc" viewBox="0 0 24 24"><path d="M12 1.5 21 6.7v10.6L12 22.5 3 17.3V6.7z" fill="#70CFF2" stroke="#231F27" stroke-width="2.2"/><path d="M12 1.5 21 6.7v10.6L12 22.5z" fill="#F39AB5" stroke="#231F27" stroke-width="2.2"/><path d="M6 13l5-3 1.5 2 5-3" stroke="#231F27" stroke-width="2.2" fill="none"/></symbol>
+ <symbol id="blaster" viewBox="0 0 120 50"><path d="M6 14h70l8-6h22v10h8v10H84l-4 4H56l-6 18H36l4-18H20l-6 6H6z" fill="#1C1C20" stroke="#000" stroke-width="2"/><rect x="104" y="18" width="10" height="10" fill="#FF7828"/><rect x="40" y="16" width="22" height="5" fill="#3a3d44"/><rect x="60" y="8" width="18" height="6" fill="#2a2a30"/></symbol>
+ <symbol id="sniper" viewBox="0 0 120 50"><path d="M2 20h18l6-6h70v8h20v6H96l-8 4H58l-6 14H40l4-14H26l-8 8H2z" fill="#1C1C20" stroke="#000" stroke-width="2"/><rect x="40" y="4" width="40" height="9" rx="4" fill="#2a2a30" stroke="#000" stroke-width="2"/><rect x="113" y="21" width="6" height="6" fill="#FF7828"/></symbol>
+ <symbol id="smg" viewBox="0 0 120 50"><path d="M20 14h60l6 6h16v10H86l-4 4H64l-4 14H48l4-14H34l-4 8h-8l2-14H20z" fill="#1C1C20" stroke="#000" stroke-width="2"/><rect x="54" y="30" width="8" height="16" fill="#2a2a30"/><rect x="100" y="21" width="7" height="8" fill="#FF7828"/></symbol>
+ <symbol id="kart" viewBox="0 0 160 80"><path d="M10 52 22 36l34-8 18-14h34l16 14 22 6 6 18z" fill="#1C1C20" stroke="#000" stroke-width="2"/><path d="M62 28 76 18h28l10 10z" fill="#3a4a58"/><circle cx="42" cy="56" r="13" fill="#111" stroke="#444" stroke-width="3"/><circle cx="124" cy="56" r="13" fill="#111" stroke="#444" stroke-width="3"/><rect x="84" y="36" width="20" height="12" rx="2" fill="#FFF8E8" stroke="#000" stroke-width="2"/><text x="94" y="46" font-size="10" font-family="Oswald" text-anchor="middle" fill="#231F27">07</text></symbol>
+ <symbol id="mask" viewBox="0 0 80 80"><path d="M12 22c10-14 46-14 56 0 4 22-6 44-28 50C18 66 8 44 12 22z" fill="#FFF8E8" stroke="#231F27" stroke-width="3"/><path d="M20 34h16l-3 8H22zM44 34h16l-2 8H47z" fill="#231F27"/><path d="M14 52 66 46" stroke="#70CFF2" stroke-width="4"/><path d="M16 58 64 56" stroke="#F39AB5" stroke-width="3"/></symbol>
+ <symbol id="crew" viewBox="0 0 60 80"><rect x="16" y="2" width="28" height="26" rx="4" fill="#231F27"/><rect x="18" y="12" width="24" height="7" fill="#FFF8E8"/><rect x="10" y="28" width="40" height="30" fill="#1C1C20" stroke="#000"/><rect x="4" y="30" width="8" height="24" fill="#1C1C20"/><rect x="48" y="30" width="8" height="24" fill="#1C1C20"/><rect x="14" y="58" width="14" height="22" fill="#18181b"/><rect x="32" y="58" width="14" height="22" fill="#18181b"/><rect x="10" y="40" width="40" height="5" fill="#FFBE61"/></symbol>
+ <symbol id="wheel" viewBox="0 0 100 100"><g stroke="#111" stroke-width="2"><path d="M50 50 50 4A46 46 0 0 1 89.8 27z" fill="#56B4E9"/><path d="M50 50 89.8 27A46 46 0 0 1 89.8 73z" fill="#E69F00"/><path d="M50 50 89.8 73A46 46 0 0 1 50 96z" fill="#009E73"/><path d="M50 50 50 96A46 46 0 0 1 10.2 73z" fill="#CC79A7"/><path d="M50 50 10.2 73A46 46 0 0 1 10.2 27z" fill="#FFF8E8"/><path d="M50 50 10.2 27A46 46 0 0 1 50 4z" fill="#FFBE61"/></g><circle cx="50" cy="50" r="10" fill="#231F27"/><path d="M44 0h12l-6 12z" fill="#FFF8E8" stroke="#111" stroke-width="2"/></symbol>
+ <symbol id="pass" viewBox="0 0 80 80"><path d="M8 20h64v12a8 8 0 0 0 0 16v12H8V48a8 8 0 0 0 0-16z" fill="#FFBE61" stroke="#231F27" stroke-width="3"/><path d="M24 50l4-16 8 8 4-12 4 12 8-8 4 16z" fill="#231F27"/></symbol>
+ <symbol id="tag" viewBox="0 0 24 24"><path d="M3 12 12 3h8v8l-9 9z" fill="currentColor"/><circle cx="16" cy="8" r="2" fill="#1C1C20"/></symbol>
+ <symbol id="i-blaster" viewBox="0 0 24 24"><path d="M2 8h14l2-2h4v4h-4l-2 2h-4l-2 6H6l2-6H4l-2 2z" fill="currentColor"/></symbol>
+ <symbol id="i-kart" viewBox="0 0 24 24"><path d="M2 15 5 10l6-1 3-3h4l3 4 1 5z" fill="currentColor"/><circle cx="7" cy="17" r="2.6" fill="currentColor"/><circle cx="18" cy="17" r="2.6" fill="currentColor"/></symbol>
+ <symbol id="i-mask" viewBox="0 0 24 24"><path d="M4 7c4-4 12-4 16 0 1 7-3 13-8 14C7 20 3 14 4 7z" fill="currentColor"/><path d="M7 10h4l-1 3H8zM13 10h4l-1 3h-2z" fill="#1C1C20"/></symbol>
+ <symbol id="i-wheel" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="3"/><path d="M12 3v18M3 12h18M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2"/></symbol>
+ <symbol id="i-pass" viewBox="0 0 24 24"><path d="M2 6h20v4a2 2 0 0 0 0 4v4H2v-4a2 2 0 0 0 0-4z" fill="currentColor"/><path d="M8 15l1-5 3 2 3-2 1 5z" fill="#1C1C20"/></symbol>
+ <symbol id="i-emote" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7 14c2 3 8 3 10 0" stroke="#1C1C20" stroke-width="2" fill="none"/><rect x="7" y="8" width="3" height="3" fill="#1C1C20"/><rect x="14" y="8" width="3" height="3" fill="#1C1C20"/></symbol>
+</svg>
+
+<h1>BLACKOUT CREW · SHOP CONCEPTS</h1>
+<p class="lead">Three takes on the Vault Break layout, drawn at iPhone 16 Pro landscape size (874×402 pt; Dynamic Island on the left, home bar at the bottom). Built from your locked rules: dark wood + matte black, approved paper/ink/flat-pill UI colours, <b>no neon or glow</b> (hard shadows only), and Roblox fonts only. Two currencies: <span style="color:var(--foam)">● Credits</span> are earned in heists and can't be bought; <span style="color:var(--blue)">⬢ Glitch Coins</span> are bought with Robux. Item art is placeholder silhouettes.</p>
+
+<!-- ================= A ================= -->
+<section>
+ <div class="cap"><b>A · ARMORY CASE</b><span>Closest to the reference: one hero bundle plus a 2×2 grid. Black panels with angled corners and flat amber strips in place of glow.</span></div>
+ <div class="fit"><div class="phone A">
+  <div class="island"></div><div class="home"></div>
+  <div class="top">
+   <div class="logo">SHOP<i>/</i></div>
+   <div class="tab on"><svg class="ico"><use href="#tag"/></svg>DROPS</div>
+   <div class="tab"><svg class="ico"><use href="#i-blaster"/></svg>BLASTERS</div>
+   <div class="tab"><svg class="ico"><use href="#i-mask"/></svg>STYLE</div>
+   <div class="tab"><svg class="ico"><use href="#i-wheel"/></svg>SPIN</div>
+   <div class="tab"><svg class="ico"><use href="#i-pass"/></svg>PASS</div>
+   <div class="wal">
+    <div class="pill" style="padding-right:10px"><svg class="ico"><use href="#cr"/></svg>4,120</div>
+    <div class="pill"><svg class="ico"><use href="#gc"/></svg>850<span class="plus">+</span></div>
+   </div>
+   <div class="x">✕</div>
+  </div>
+  <div class="panel hero" style="padding:16px 16px">
+   <div class="kick">WEEKLY BUNDLE · ROTATES MONDAY</div>
+   <h2>STATIC<br><em>CREW</em></h2>
+   <div class="tag">GEAR UP. GO DARK. GET OUT.</div>
+   <ul class="inc">
+    <li><svg class="ico"><use href="#i-blaster"/></svg>BLASTER SKIN</li>
+    <li><svg class="ico"><use href="#i-kart"/></svg>KART SKIN</li>
+    <li><svg class="ico"><use href="#i-mask"/></svg>STATIC MASK</li>
+    <li><svg class="ico"><use href="#i-emote"/></svg>EMOTE</li>
+   </ul>
+   <svg class="art" viewBox="0 0 240 200"><use href="#kart" x="70" y="90" width="170" height="90"/><use href="#crew" x="50" y="40" width="90" height="130"/><use href="#mask" x="120" y="20" width="70" height="70"/><use href="#blaster" x="60" y="150" width="130" height="50"/></svg>
+   <div class="flag">COSMETIC ONLY</div>
+   <div class="buy"><svg class="ico"><use href="#gc"/></svg>499<b>BUY</b></div>
+  </div>
+  <div class="panel t" style="left:480px;top:68px"><h3>NIGHT STATIC</h3><small>KART SKIN</small><svg class="art"><use href="#kart"/></svg><div class="buy"><svg class="ico"><use href="#gc"/></svg>299<b>BUY</b></div></div>
+  <div class="panel t" style="left:648px;top:68px"><h3>GHOST VISOR</h3><small>MASK</small><svg class="art"><use href="#mask"/></svg><div class="buy"><svg class="ico"><use href="#gc"/></svg>149<b>BUY</b></div></div>
+  <div class="panel t" style="left:480px;top:224px"><h3>STATIC WHEEL</h3><small>SEASON SPIN</small><div class="odds">ODDS</div><svg class="art"><use href="#wheel"/></svg><div class="buy" style="background:var(--blue)"><svg class="ico"><use href="#gc"/></svg>199<b>SPIN</b></div></div>
+  <div class="panel t" style="left:648px;top:224px"><h3>SEASON 1 PASS</h3><small>40 TIERS · 6 WEEKS</small><svg class="art"><use href="#pass"/></svg><div class="buy" style="background:var(--green)"><svg class="ico"><use href="#gc"/></svg>599<b>GET</b></div></div>
+ </div></div>
+ <div class="notes">
+  <div><h4>WHAT CHANGED FROM THE REFERENCE</h4><ul><li>Tabs: Featured / Vehicles / Cosmetics / Cash / Passes → <b>Drops / Blasters / Style / Spin / Pass</b>. The Cash tab is gone because Credits can't be sold for Robux. Coin packs open from the ⬢ + button.</li><li>Removed the second “Your Cash” bar at the bottom, which gives the grid 40 pt back on a phone.</li><li>Glow replaced with a 3 px amber strip and hard drop shadows.</li></ul></div>
+  <div><h4>FIT / RISK</h4><ul><li>Works with the current shop code (5 tabs already exist). Lowest build cost.</li><li>Tile text is 10–14 pt, which is the readability floor. Test on your phone first.</li><li>The Spin tile has a labelled <b>ODDS</b> button (required, §5i).</li></ul></div>
+ </div>
+</section>
+
+<!-- ================= B ================= -->
+<section>
+ <div class="cap"><b>B · CASE FILE</b><span>Heist-planning dossier: tabs as folder tabs on the left (thumb side), a paper file with one big item detail, side offers and a blaster strip underneath. Uses your approved paper/ink/pill UI most directly.</span></div>
+ <div class="fit"><div class="phone B">
+  <div class="island"></div><div class="home"></div>
+  <div class="rail">
+   <div class="ft on"><svg class="ico"><use href="#tag"/></svg>HOT</div>
+   <div class="ft"><svg class="ico"><use href="#i-blaster"/></svg>GEAR</div>
+   <div class="ft"><svg class="ico"><use href="#i-mask"/></svg>LOOKS</div>
+   <div class="ft"><svg class="ico"><use href="#i-kart"/></svg>KARTS</div>
+   <div class="ft"><svg class="ico"><use href="#i-wheel"/></svg>SPIN</div>
+   <div class="ft coin"><svg class="ico"><use href="#gc"/></svg>COINS</div>
+  </div>
+  <div class="file">
+   <div class="hdr"><h2>THE PLUG</h2><span class="sub">// this week's file</span>
+    <div class="w"><div class="chip" style="padding-right:10px"><svg class="ico"><use href="#cr"/></svg>4,120</div><div class="chip"><svg class="ico"><use href="#gc"/></svg>850<span class="p">+</span></div><div class="x">✕</div></div>
+   </div>
+   <div class="detail">
+    <div class="rib">EARNED WITH CREDITS</div>
+    <svg class="art"><use href="#sniper"/></svg>
+    <div class="info"><h3>NEEDLEPOINT</h3><p>Bolt-action sniper. One dart, one problem solved.</p>
+     <div class="bar"><i>Damage</i><span style="--v:88%"></span></div>
+     <div class="bar"><i>Fire rate</i><span style="--v:22%;--c:var(--pink)"></span></div>
+     <div class="bar"><i>Range</i><span style="--v:95%"></span></div>
+     <div class="bar"><i>Handling</i><span style="--v:40%;--c:var(--amber)"></span></div></div>
+    <div class="big"><svg class="ico"><use href="#cr"/></svg>10,000</div>
+   </div>
+   <div class="side">
+    <div class="card" style="background:var(--blue)"><h4>STATIC CREW</h4><small>4-piece bundle · rotates Mon</small><svg class="art"><use href="#crew" x="40" width="50"/><use href="#mask" x="0" y="20" width="56" height="56"/></svg><div class="mini"><svg class="ico"><use href="#gc"/></svg>499</div></div>
+    <div class="card" style="background:var(--green)"><h4>SEASON 1 PASS</h4><small>40 tiers · free + premium</small><svg class="art"><use href="#pass"/></svg><div class="mini"><svg class="ico"><use href="#gc"/></svg>599</div><div class="stamp" style="right:auto;left:98px">TIER 6/40</div></div>
+   </div>
+   <div class="strip"><div class="lbl">BLASTERS</div>
+    <div class="gun"><b>DART-9</b><span>Sidearm</span><svg class="art"><use href="#blaster"/></svg><div class="stamp" style="left:8px;right:auto;bottom:4px">OWNED</div></div>
+    <div class="gun"><b>BUZZLINE</b><span><svg class="ico"><use href="#cr"/></svg>1,000</span><svg class="art"><use href="#smg"/></svg></div>
+    <div class="gun"><b>RANGER</b><span><svg class="ico"><use href="#cr"/></svg>3,000</span><svg class="art"><use href="#blaster"/></svg></div>
+    <div class="gun sel"><b>NEEDLEPOINT</b><span><svg class="ico"><use href="#cr"/></svg>10,000</span><svg class="art"><use href="#sniper"/></svg></div>
+   </div>
+  </div>
+ </div></div>
+ <div class="notes">
+  <div><h4>WHAT CHANGED</h4><ul><li>Tabs moved to a <b>vertical folder rail</b> on the left. That's the easy thumb side in landscape, and it leaves room for 6 tabs.</li><li>The reference's grid becomes <b>one selected-item detail</b> (Purchase Panels #6 stat bars) plus a 4-card strip (Shop Section Modules #03/#04).</li><li>Every price says how it's paid: a black “EARNED WITH CREDITS” ribbon or a ⬢ coin chip.</li></ul></div>
+  <div><h4>FIT / RISK</h4><ul><li>Matches the Sept 30 UI direction (warm paper, dark outlines, bright flat pills) and the existing HUD.</li><li>Stat bars should come from the same stat resolver the armory uses, not made-up numbers.</li><li>Busiest of the three. Tap targets are OK (≥44 pt) but the strip cards are tight.</li><li>Overlaps with the armory room, which already sells guns. Pick one place, or have GEAR jump to the armory.</li></ul></div>
+ </div>
+</section>
+
+<!-- ================= C ================= -->
+<section>
+ <div class="cap"><b>C · STATIC SIGNAL</b><span>The Directive's gray corporate storefront, “hacked” by the crew's four squad colours. Season 1 themed: CRT scanlines, split-colour title, a wide banner over a row of three modules.</span></div>
+ <div class="fit"><div class="phone C">
+  <div class="island"></div><div class="home"></div>
+  <div class="bar">
+   <div class="ttl" data-t="SHOP">SHOP</div>
+   <div class="seg"><div class="on">TONIGHT</div><div>STYLE</div><div>KARTS</div><div>SPIN</div><div>PASS</div></div>
+   <div class="wal"><div class="pill" style="padding-right:9px"><svg class="ico"><use href="#cr"/></svg>4,120</div><div class="pill"><svg class="ico"><use href="#gc"/></svg>850<span class="pl">+</span></div></div>
+   <div class="x">✕</div>
+  </div>
+  <div class="banner" style="padding:14px 16px">
+   <div class="bands"></div>
+   <svg class="art" viewBox="0 0 330 140"><use href="#kart" x="120" y="40" width="200" height="100"/><use href="#crew" x="40" y="10" width="80" height="120"/><use href="#mask" x="230" y="0" width="60" height="60"/></svg>
+   <div class="kick">// SIGNAL INTERCEPTED · WEEKLY BUNDLE</div>
+   <h2>STATIC CREW</h2>
+   <div class="meta">BLASTER SKIN · KART SKIN · MASK · EMOTE &nbsp;|&nbsp; COSMETIC ONLY</div>
+   <div class="cta"><svg class="ico"><use href="#gc"/></svg>499 &nbsp;BUY</div>
+  </div>
+  <div class="row">
+   <div class="mod"><span class="num">01</span><h3 style="margin-left:22px">STATIC WHEEL</h3><small style="margin-left:22px">12 cosmetics · no dupes</small><div class="det">ODDS</div>
+    <svg class="wheel"><use href="#wheel"/></svg>
+    <div class="opts"><div class="b2"><svg class="ico"><use href="#gc"/></svg>199<em>×1</em></div><div class="b2" style="background:var(--s1)"><svg class="ico"><use href="#gc"/></svg>799<em>×5</em></div><small>Epic+ in 4 spins</small></div></div>
+   <div class="mod"><span class="num">02</span><h3 style="margin-left:22px">S1 PASS</h3><small style="margin-left:22px">40 tiers · 6 wks</small><svg class="crown"><use href="#pass"/></svg>
+    <ul class="perks"><li>Premium track</li><li>Animated cosmetics</li><li>Sidegrade attach.</li></ul>
+    <div class="b2" style="position:absolute;left:8px;right:8px;bottom:8px;background:var(--s3);color:#fff"><svg class="ico"><use href="#gc"/></svg>599<em style="color:#fff">UNLOCK</em></div></div>
+   <div class="mod"><span class="num">03</span><h3 style="margin-left:22px">GLITCH COINS</h3>
+    <div class="packs">
+     <div class="pk"><svg class="art"><use href="#gc"/></svg><b>400</b><span>R$ 99</span></div>
+     <div class="pk top"><div class="best">MOST PICKED</div><svg class="art"><use href="#gc"/></svg><b>850</b><span>R$ 199</span></div>
+     <div class="pk"><svg class="art"><use href="#gc"/></svg><b>2,200</b><span>R$ 499</span></div>
+    </div></div>
+  </div>
+ </div></div>
+ <div class="notes">
+  <div><h4>WHAT CHANGED</h4><ul><li>Cool gray (Directive) frame instead of orange. Colour comes only from the 4 squad slots, used as flat bands.</li><li>The reference's 2×2 becomes a <b>3-module row</b>: Spin (with pity counter + ODDS), Pass, Coin packs (Shop Section Modules #06).</li><li><b>No blasters tab.</b> The shop is cosmetics-only and blasters stay in the armory room, so the two currencies never mix on one screen.</li></ul></div>
+  <div><h4>FIT / RISK</h4><ul><li>The strongest season identity, and the easiest to re-skin each season (swap the bands and title).</li><li>Gray UI can read as “dull” to a 9–17 audience. The squad colours have to carry it.</li><li>Coin pack sizes and R$ prices are placeholders. The Robux side isn't set in Config yet.</li></ul></div>
+ </div>
+</section>
+
+<section class="notes" style="display:block;max-width:874px">
+ <h4>APPLIES TO ALL THREE</h4>
+ <ul>
+  <li>No countdown timers. Bundles say “rotates Monday” (§5i: no countdowns; FOMO timers are risky for this age group).</li>
+  <li>The Spin tile switches to earnable tokens and hides Robux prices for PolicyService-restricted players. It's hidden completely once every item is owned.</li>
+  <li>Fonts: A = Oswald / Roboto Condensed, B = Luckiest Guy / Special Elite, C = Michroma / Roboto Mono. All are built into Roblox.</li>
+ </ul>
+</section>
+
+<script>
+// scale each 874-wide phone to fit narrow viewports
+function fit(){document.querySelectorAll('.fit').forEach(f=>{const p=f.firstElementChild,s=Math.min(1,f.clientWidth/874);p.style.transform=`scale(${s})`;f.style.height=402*s+'px'})}
+addEventListener('resize',fit);fit();
+</script>
+</body></html>

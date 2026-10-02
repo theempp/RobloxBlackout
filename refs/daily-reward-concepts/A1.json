@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-10-02T04:02:25.827799Z",
+    "display_name": "GPT Image 2.5",
+    "id": "796ed9d1-5d72-471d-8f50-3b0817ba2d6b",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_796ed9d1-5d72-471d-8f50-3b0817ba2d6b_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "flare",
+      "prompt": "Stylized blocky Roblox-style cartoon game UI concept art, 16:9 landscape phone game screen, matte flat colors, thick dark outlines, rounded panels, sticker-like cards, chunky bold readable text. Strictly NO neon, NO glow, NO bloom, NO lens flare, NO emissive light, NO glossy shine. Heist-comedy tone, kid-friendly, no blood, no weapons shown. Reward state system: 7 days; claimed days have a green check stamp, today is highlighted with a dark outline and a TODAY pill, locked days have a padlock pill. Includes a close X button top-right, a streak counter, and one big CLAIM button. Title lockup 'DEAD DROP' in bold stencil letters. Scene: a heist crew garage locker room, a row of 7 numbered metal lockers (1-7) standing in a line. Days 1-3 lockers hang open and empty with a CLAIMED stamp; day 4 locker is pulled slightly forward with a key tag and TODAY pill; days 5-7 locked with padlock pills; locker 7 is larger with gold trim. Warm off-white rounded side card titled 'DAY 4 REWARD' showing a kart decal sticker, button 'CLAIM'. Tally-mark streak '3 DAY STREAK'. Palette: warm off-white, charcoal, sky blue #56B4E9, orange #E69F00, green #009E73, pink-purple #CC79A7.",
+      "quality": "low",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_796ed9d1-5d72-471d-8f50-3b0817ba2d6b.png",
+    "status": "completed"
+  }
+]

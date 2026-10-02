@@ -30,6 +30,7 @@ local function build(kind, pos, speed, health, turn)
 	local m, root, ap, ao, eye = S.enemies.robot("drone", pos, { Speed = speed, TurnRate = turn, Health = health }, Drones.folder)
 	m.Name = kind
 	m:SetAttribute("Kind", kind)
+	game:GetService("CollectionService"):AddTag(m,"BC_Drone")
 	return { model = m, root = root, ap = ap, ao = ao, eye = eye }
 end
 

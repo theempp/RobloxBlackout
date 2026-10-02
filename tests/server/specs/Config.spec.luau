@@ -38,7 +38,7 @@ return function(T)
 		T.check(g.id .. " range within cap", g.range <= C.Fire.MaxRange)
 		T.check(g.id .. " recoil pattern", #g.recoil.side > 0 and g.recoil.up > 0 and g.recoil.up <= C.Recoil.MaxKickDeg)
 		T.check(g.id .. " recover in [0,1]", g.recoil.recover >= 0 and g.recoil.recover <= 1)
-		T.check(g.id .. " has shape + muzzle", #g.shape > 0 and typeof(g.muzzle) == "Vector3")
+		T.check(g.id .. " has art or shape + muzzle", (g.art == true or #(g.shape or {}) > 0) and typeof(g.muzzle) == "Vector3")
 		for _, s in ipairs(g.slots) do
 			T.check(g.id .. " slot " .. s .. " valid", table.find(C.AttachmentSlots, s) ~= nil)
 		end

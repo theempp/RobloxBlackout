@@ -1,0 +1,803 @@
+{
+  "scope": "97 Luau files; require expressions are a lexical index, not a complete parser-resolved dependency graph. Bootstrap name lists, Config.Heist.Systems, client ctx references and generated art require manual review.",
+  "modules": [
+    {
+      "path": "src/client/ArmoryClient.luau",
+      "lines": 437,
+      "require_expressions": [
+        "c.shared.GarageMap",
+        "c.shared.StatSheet",
+        "c.shared.GunStats",
+        "c.shared.GunModel"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/CameraRig.luau",
+      "lines": 221,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/ClientState.luau",
+      "lines": 2,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/Controls.luau",
+      "lines": 328,
+      "require_expressions": [
+        "ctx.shared.HudScale"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/EnemyView.luau",
+      "lines": 102,
+      "require_expressions": [
+        "ctx.shared.HeistMap",
+        "ctx.shared.Perception"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/Fx.luau",
+      "lines": 136,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/GarageClient.luau",
+      "lines": 184,
+      "require_expressions": [
+        "ctx.shared.KartModel",
+        "c.shared.GarageMap"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/GunClient.luau",
+      "lines": 366,
+      "require_expressions": [
+        "ctx.shared.GunStats",
+        "ctx.shared.Spread",
+        "ctx.shared.Recoil",
+        "ctx.shared.WheelLogic"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/GunSfx.luau",
+      "lines": 100,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/HeistControls.luau",
+      "lines": 105,
+      "require_expressions": [
+        "ctx.shared.Actions"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/HeistHud.luau",
+      "lines": 394,
+      "require_expressions": [
+        "ctx.shared.CityRoute",
+        "ctx.shared.HeistMap"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/Hud.luau",
+      "lines": 265,
+      "require_expressions": [
+        "ctx.shared.HudScale"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/KartClient.luau",
+      "lines": 246,
+      "require_expressions": [
+        "ctx.shared.KartPhysics"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/KartVisuals.luau",
+      "lines": 165,
+      "require_expressions": [
+        "ctx.shared.KartPhysics",
+        "ctx.shared.KartModel"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/LaserView.luau",
+      "lines": 46,
+      "require_expressions": [
+        "ctx.shared.HeistMap",
+        "ctx.shared.Lasers"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/LobbyClient.luau",
+      "lines": 188,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/LockerClient.luau",
+      "lines": 466,
+      "require_expressions": [
+        "module",
+        "c.shared.GarageMap",
+        "c.shared.CosmeticKit"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/Main.client.luau",
+      "lines": 112,
+      "require_expressions": [
+        "shared:WaitForChild(\"Net\"",
+        "shared:WaitForChild(\"Rules\"",
+        "shared:WaitForChild(\"Place\"",
+        "script.Parent:WaitForChild(\"ClientState\"",
+        "shared.Config",
+        "shared.Log",
+        "script.Parent:WaitForChild(name, 10"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/Menus.luau",
+      "lines": 96,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/ParkingGlow.luau",
+      "lines": 141,
+      "require_expressions": [
+        "ctx.shared.HeistMap"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/PerfOverlay.luau",
+      "lines": 92,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/RepairUI.luau",
+      "lines": 83,
+      "require_expressions": [
+        "ctx.shared.Repair"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/SettingsUI.luau",
+      "lines": 131,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/ShopClient.luau",
+      "lines": 68,
+      "require_expressions": [
+        "c.shared.Economy"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/SocialClient.luau",
+      "lines": 27,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/client/ViewModel.luau",
+      "lines": 296,
+      "require_expressions": [
+        "ctx.shared.GunModel"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/VortexMeshes.luau",
+      "lines": 107,
+      "require_expressions": [
+        "RS.BlackoutCrew.VortexArt",
+        "RS.BlackoutCrew.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/Wheel.luau",
+      "lines": 129,
+      "require_expressions": [
+        "ctx.shared.WheelLogic",
+        "ctx.shared.GunStats"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/client/WorldAudio.luau",
+      "lines": 38,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/server/Appearance.luau",
+      "lines": 53,
+      "require_expressions": [
+        "shared.CosmeticKit"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/EconomyService.luau",
+      "lines": 35,
+      "require_expressions": [
+        "RS.BlackoutCrew.Economy",
+        "RS.BlackoutCrew.Rules"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/Garage.luau",
+      "lines": 171,
+      "require_expressions": [
+        "shared.Config",
+        "shared.Rules",
+        "shared.GarageMap",
+        "shared.TrackKit",
+        "shared.Crews",
+        "script.Parent.GarageKarts"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/GarageKarts.luau",
+      "lines": 132,
+      "require_expressions": [
+        "shared.Config",
+        "shared.KartModel",
+        "shared.KartPhysics",
+        "shared.GarageMap"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/Lobby.luau",
+      "lines": 269,
+      "require_expressions": [
+        "shared.Config",
+        "shared.Crews",
+        "shared.Queue",
+        "shared.Log"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/Main.server.luau",
+      "lines": 142,
+      "require_expressions": [
+        "shared.Config",
+        "shared.Rules",
+        "shared.Net",
+        "shared.Log",
+        "shared.Place",
+        "server.Profiles",
+        "server.Receipts",
+        "server.Remotes",
+        "server.Weapons",
+        "server.Teleport",
+        "server.Appearance",
+        "server.ServerState",
+        "shared.Economy",
+        "server.EconomyService",
+        "server.Telemetry",
+        "server.heist.Heist",
+        "server.Range",
+        "server.Garage",
+        "server.Lobby",
+        "server.Social"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/Profiles.luau",
+      "lines": 167,
+      "require_expressions": [
+        "shared.Config",
+        "shared.Rules",
+        "shared.Log"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/Range.luau",
+      "lines": 200,
+      "require_expressions": [
+        "shared.Config",
+        "shared.GunModel",
+        "script.Parent.Targets"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/Receipts.luau",
+      "lines": 45,
+      "require_expressions": [
+        "game:GetService(\"ReplicatedStorage\""
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/Remotes.luau",
+      "lines": 37,
+      "require_expressions": [
+        "shared.Config",
+        "shared.RateLimit",
+        "shared.Log"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/ServerState.luau",
+      "lines": 2,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/server/Social.luau",
+      "lines": 40,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/server/Targets.luau",
+      "lines": 125,
+      "require_expressions": [
+        "shared.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/Telemetry.luau",
+      "lines": 15,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/server/Teleport.luau",
+      "lines": 93,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/server/Weapons.luau",
+      "lines": 365,
+      "require_expressions": [
+        "shared.Config",
+        "shared.GunStats",
+        "shared.GunModel",
+        "shared.Spread",
+        "script.Parent.Targets"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/City.luau",
+      "lines": 76,
+      "require_expressions": [
+        "RS.BlackoutCrew.CityRoute",
+        "RS.BlackoutCrew.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Crew.luau",
+      "lines": 214,
+      "require_expressions": [
+        "shared.Config",
+        "shared.Carry"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Drones.luau",
+      "lines": 232,
+      "require_expressions": [
+        "shared.Config",
+        "shared.HeistMap",
+        "shared.Alarm",
+        "shared.Perception"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Enemies.luau",
+      "lines": 403,
+      "require_expressions": [
+        "shared.Config",
+        "shared.HeistMap",
+        "shared.Alarm",
+        "shared.Perception"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Escape.luau",
+      "lines": 136,
+      "require_expressions": [
+        "shared.Config",
+        "shared.HeistMap"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Gauntlet.luau",
+      "lines": 97,
+      "require_expressions": [
+        "shared.Config",
+        "shared.HeistMap",
+        "shared.Lasers",
+        "script.Parent.Map"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Heist.luau",
+      "lines": 251,
+      "require_expressions": [
+        "shared.Config",
+        "shared.Log",
+        "shared.Payout",
+        "shared.Twists",
+        "script.Parent.Session",
+        "shared.Economy",
+        "script.Parent[name]"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Interact.luau",
+      "lines": 97,
+      "require_expressions": [
+        "shared.Config",
+        "shared.Actions"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Karts.luau",
+      "lines": 421,
+      "require_expressions": [
+        "shared.Config",
+        "shared.HeistMap",
+        "shared.KartModel",
+        "shared.KartPhysics",
+        "shared.Parking",
+        "shared.Repair",
+        "shared.Twists"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Loot.luau",
+      "lines": 220,
+      "require_expressions": [
+        "shared.Config",
+        "shared.HeistMap",
+        "script.Parent.Map"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Map.luau",
+      "lines": 231,
+      "require_expressions": [
+        "shared.Config",
+        "shared.HeistMap",
+        "script.Parent.City"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Security.luau",
+      "lines": 104,
+      "require_expressions": [
+        "shared.Config",
+        "shared.Alarm"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Session.luau",
+      "lines": 146,
+      "require_expressions": [
+        "shared.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/server/heist/Twist.luau",
+      "lines": 45,
+      "require_expressions": [
+        "shared.Config",
+        "shared.TimeOfDay",
+        "shared.Twists",
+        "script.Parent.City"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Actions.luau",
+      "lines": 131,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Alarm.luau",
+      "lines": 58,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Carry.luau",
+      "lines": 30,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/CityRoute.luau",
+      "lines": 18,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Config.luau",
+      "lines": 707,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/CosmeticKit.luau",
+      "lines": 137,
+      "require_expressions": [
+        "script.Parent.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Crews.luau",
+      "lines": 118,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Economy.luau",
+      "lines": 84,
+      "require_expressions": [
+        "script.Parent.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/GarageMap.luau",
+      "lines": 145,
+      "require_expressions": [
+        "script.Parent.Config",
+        "script.Parent.TrackKit",
+        "script.Parent.GunModel"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/GunArt/buzz.luau",
+      "lines": 46,
+      "require_expressions": [],
+      "generated": true
+    },
+    {
+      "path": "src/shared/GunArt/dart9.luau",
+      "lines": 43,
+      "require_expressions": [],
+      "generated": true
+    },
+    {
+      "path": "src/shared/GunArt/needle.luau",
+      "lines": 54,
+      "require_expressions": [],
+      "generated": true
+    },
+    {
+      "path": "src/shared/GunArt/ranger.luau",
+      "lines": 43,
+      "require_expressions": [],
+      "generated": true
+    },
+    {
+      "path": "src/shared/GunModel.luau",
+      "lines": 338,
+      "require_expressions": [
+        "script.Parent.Config",
+        "m"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/GunStats.luau",
+      "lines": 59,
+      "require_expressions": [
+        "script.Parent.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/HeistMap.luau",
+      "lines": 192,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/HudScale.luau",
+      "lines": 17,
+      "require_expressions": [
+        "script.Parent.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/KartModel.luau",
+      "lines": 412,
+      "require_expressions": [
+        "script.Parent.Config",
+        "script.Parent.KartPhysics"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/KartPhysics.luau",
+      "lines": 327,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Lasers.luau",
+      "lines": 31,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Log.luau",
+      "lines": 38,
+      "require_expressions": [
+        "script.Parent.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Net.luau",
+      "lines": 56,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Parking.luau",
+      "lines": 47,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Payout.luau",
+      "lines": 18,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Perception.luau",
+      "lines": 40,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Place.luau",
+      "lines": 10,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Queue.luau",
+      "lines": 117,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/RateLimit.luau",
+      "lines": 32,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Recoil.luau",
+      "lines": 61,
+      "require_expressions": [
+        "script.Parent.Config"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Repair.luau",
+      "lines": 31,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Rules.luau",
+      "lines": 282,
+      "require_expressions": [
+        "script.Parent.Config",
+        "script.Parent.Economy",
+        "script.Parent.Economy"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Spread.luau",
+      "lines": 24,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/StatSheet.luau",
+      "lines": 97,
+      "require_expressions": [
+        "script.Parent.Config",
+        "script.Parent.GunStats"
+      ],
+      "generated": false
+    },
+    {
+      "path": "src/shared/TimeOfDay.luau",
+      "lines": 10,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/TrackKit.luau",
+      "lines": 127,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/Twists.luau",
+      "lines": 44,
+      "require_expressions": [],
+      "generated": false
+    },
+    {
+      "path": "src/shared/VortexArt.luau",
+      "lines": 120,
+      "require_expressions": [],
+      "generated": true
+    },
+    {
+      "path": "src/shared/WheelLogic.luau",
+      "lines": 61,
+      "require_expressions": [
+        "script.Parent.Config"
+      ],
+      "generated": false
+    }
+  ]
+}

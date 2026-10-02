@@ -59,7 +59,7 @@ local function setStatus(text)
 	Armory.status = text
 end
 
--- Gun preview: the same primitive model as the wall/viewmodel, 3/4 view.
+-- Gun preview, 3/4 view: world model first, then the first-person mesh (locked v2 art) when the device allows it.
 local function gunView(parent, gunId, x, y, w, h)
 	local vf = Hud.make("ViewportFrame", parent, { Name = "GunView", Position = UDim2.fromOffset(x, y), Size = UDim2.fromOffset(w, h),
 		BackgroundColor3 = Color3.fromRGB(45, 34, 28), Ambient = Color3.fromRGB(170, 170, 170), LightColor = Color3.new(1, 1, 1),
@@ -78,6 +78,19 @@ local function gunView(parent, gunId, x, y, w, h)
 	cam.CFrame = CFrame.lookAt(cf.Position + Vector3.new(1, 0.3, -0.25).Unit * dist, cf.Position)
 	cam.Parent = vf
 	vf.CurrentCamera = cam
+	-- Swap in the detailed first-person mesh once built (async; freed with the view). Keeps the primitive on fallback.
+	if gun.art then
+		task.spawn(function()
+			local fp, kind = GunModel.buildFirstPerson(gun)
+			if kind == "mesh" and vf.Parent and m.Parent == vf then
+				fp:PivotTo(m:GetPivot())
+				m:Destroy()
+				fp.Parent = vf
+			else
+				fp:Destroy()
+			end
+		end)
+	end
 	return vf
 end
 

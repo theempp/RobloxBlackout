@@ -1,0 +1,2912 @@
+{
+  "date": "2026-10-01",
+  "head": "f648450cf281ac30cef7d7fd09985c88a1e39607",
+  "scope": "all workspace files excluding .git and audit outputs; file hashes are integrity evidence, not semantic equivalence",
+  "file_count": 454,
+  "files": [
+    {
+      "path": ".claude/settings.local.json",
+      "bytes": 72,
+      "sha256": "4ebc1851178448b6fdc3015971f94461d1f71b4f2bb999e4dd7f7a1ec673c83c",
+      "tracked": false
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 49,
+      "sha256": "0bce9500d4bafc000f6357a05017cf0afdda0629361ea2aa80559cfc76c77f59",
+      "tracked": true
+    },
+    {
+      "path": "BUILD_PLAN.md",
+      "bytes": 5201,
+      "sha256": "0dc258f631712cf17a4aa6e68be199dc4768c86feb19e3e27ef4a05ea89b41d6",
+      "tracked": true
+    },
+    {
+      "path": "CLAUDE.md",
+      "bytes": 2388,
+      "sha256": "554d03b9cb7c154b2aedf491ea6327e315f4bf46acf7847e5c9c53e25f81b8fd",
+      "tracked": true
+    },
+    {
+      "path": "DIRECTIVE_GRAY.md",
+      "bytes": 26403,
+      "sha256": "9d954dd9b770fbb37ea8445da89a42f0cde3c99905370f05180f3b175f597181",
+      "tracked": true
+    },
+    {
+      "path": "HANDOFF_PROMPT.md",
+      "bytes": 3159,
+      "sha256": "65f3f506a91530a670b5bb587ded845fd6ddb1632971aa2033bbb69d8275d689",
+      "tracked": true
+    },
+    {
+      "path": "MASTER_PROMPT_QUEUE.md",
+      "bytes": 3989,
+      "sha256": "8037fb01c3e0ae4d8abeed9f7c384f9950482553803548a78e7cba99dda48ca4",
+      "tracked": true
+    },
+    {
+      "path": "SALVAGE.md",
+      "bytes": 4874,
+      "sha256": "984bb71e45457f30ab84975e4489c89eb943569aa23aa26bfed3e6bda9d68d61",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/BLOCKOUT.md",
+      "bytes": 871,
+      "sha256": "3334f568d4ba2bf93bec53b60a9fb4e4281b4fd5229d9d4e22e560eaadff0ecb",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/COLOR.md",
+      "bytes": 1133,
+      "sha256": "b3881cc317510d52221f915c71cd461b34c2ac88ea17875089a331c4f821bd92",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/DETAIL.md",
+      "bytes": 1117,
+      "sha256": "e452aa77011a13904210899c9d7104b1bc33655dcaced2cd80c15e559dd8b09f",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/PLAN.md",
+      "bytes": 8571,
+      "sha256": "efade02d169a6c82009fa8e2a2b11f3ac2a9bfaffca3b8c0aedfef02f4d3e485",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/blockout-sheet.png",
+      "bytes": 870243,
+      "sha256": "09748ea7d7b3f8a7eddbcb85aec2396a53231bcb14b8d91a637dece07db0fcf5",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/blockout_stats.txt",
+      "bytes": 377,
+      "sha256": "4ff591c91acb87d3ecab5bfedef07e5d3477c82c31717a360d03e4683f87fb70",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/buzz-q.png",
+      "bytes": 621531,
+      "sha256": "e31d475e23e6df74de255450f7f6b3dd3f1908dade72db13a0a203b7ce7d82bf",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/buzz-side.png",
+      "bytes": 578512,
+      "sha256": "a95280b48de3afeb53dbf8f6f26f771c2602b6a58e76a498d02565b7d7378206",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/buzz_blockout.blend",
+      "bytes": 97974,
+      "sha256": "d29d6d5a2f9b36d83145eb4ed8cf2ba8700898aa258c40a045a421c19a8c7b8a",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/dart9-q.png",
+      "bytes": 611621,
+      "sha256": "bf8069c1eedf9a2566724ce6420fa86bbad4093ffbc9d4cfd5276b29047aabba",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/dart9-side.png",
+      "bytes": 573507,
+      "sha256": "8674df265f57611fcffc7f49897aefe599d1fc94c7628d3fc3ee2e3d8a592775",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/dart9_blockout.blend",
+      "bytes": 96932,
+      "sha256": "9cb6294f7e8cace4c8ceccb53d0ffdf7c1e1152a277f905fe026eb4b6f2c2022",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/needle-q.png",
+      "bytes": 631878,
+      "sha256": "8adfd47be9580277124160eec4d7659892e20dd86895229bc423f27d08851a55",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/needle-side.png",
+      "bytes": 579074,
+      "sha256": "3bd3df5a5a103df0e2771a0bfb2f3777bb14204d3d02af60dc6d7eb9866f4060",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/needle_blockout.blend",
+      "bytes": 99624,
+      "sha256": "31eda950be69338083da39dff1c2ee222182fa4633cc0612fb02c22e8956b19c",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/ranger-q.png",
+      "bytes": 631109,
+      "sha256": "1d743f72fbe0af5f864e146841e7fad688f88cb2c7690cf306d14d4278972d3a",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/ranger-side.png",
+      "bytes": 580300,
+      "sha256": "25725c7e03ae41b633420ce1b82bbf8e2fb5bda9562df6066897e96799efbe60",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/blockout/ranger_blockout.blend",
+      "bytes": 97666,
+      "sha256": "7a7ff139ba7290c081d35c93ba61e2400131850c2553f636170c12a44694e5d6",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/buzz-left.png",
+      "bytes": 737513,
+      "sha256": "0eb99327297d030ba583ef361e3891d96840c3b7bb8860c63ac62664c233c775",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/buzz-q-left.png",
+      "bytes": 740435,
+      "sha256": "02d34ecd780f6932645bffa26850c930b263154b4f1b2f81d566aebc0bf20b9e",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/buzz-q-right.png",
+      "bytes": 732532,
+      "sha256": "c8343419bf960169758a704e0f89f3ea420a2af61ac8f31f0a534d32f3cd9dcf",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/buzz-top.png",
+      "bytes": 701873,
+      "sha256": "5d44dcff9f74ce19c57e55e5b4d0121d3460d292c6d5864b28974cc60ef634c5",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/buzz_detail.blend",
+      "bytes": 121985,
+      "sha256": "b8976717d3b8269714c401a957a613e35c27efc394783a5a785ec5c800b879d7",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/dart9-left.png",
+      "bytes": 734218,
+      "sha256": "fc47d3dae8d8c6ece8b0c27691ffee8a6c7386039ef0c02d1b1f19b703ff5afc",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/dart9-q-left.png",
+      "bytes": 737794,
+      "sha256": "55908379e4e8458d470721a2ea7ff598fad2174050a70e18dbf3e9ff5659e2e8",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/dart9-q-right.png",
+      "bytes": 727292,
+      "sha256": "72c8dc5f89003f44319025ecb9b77c6a2aad07bc33c998526bd9a31fb596c64d",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/dart9-top.png",
+      "bytes": 687070,
+      "sha256": "d3ae0026edf0228969a9527bac52533b81124b35c8d7fca7b06887cb59ec1635",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/dart9_detail.blend",
+      "bytes": 115809,
+      "sha256": "e2f55f213b27144564e0cebe9d3bfe5f53c4d7f79361d99c4f56be0d579b617b",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/detail-sheet.png",
+      "bytes": 888782,
+      "sha256": "f6f58d3942d354dabe3b37813fe29f56eb3bae5044be8ee50905d524d2a43b71",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/detail_info.json",
+      "bytes": 3818,
+      "sha256": "af24ec112852146a316a9f49f369f7518d39d91114b05d11c248bf8c002f80b1",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/gun_points.json",
+      "bytes": 2793,
+      "sha256": "3742113f9aa15c0075036b783d3633659805f46f59d2307d9a578d7471d4f28c",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/needle-left.png",
+      "bytes": 714071,
+      "sha256": "22e94883baaebcf2aefee0821025a232fb2311a0619aafcb35db91d1397ca96a",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/needle-q-left.png",
+      "bytes": 714319,
+      "sha256": "14cd4124f8b9db3dca579d699affb2f1f9670abe4d28f29e20456ad7601642d0",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/needle-q-right.png",
+      "bytes": 704460,
+      "sha256": "8eb8579459e6f45fefd7a9a6941bc6d2941118178aff9979292a81f6c0b1232e",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/needle-top.png",
+      "bytes": 687217,
+      "sha256": "1b3afe9a24f6dd134d58281a973e17202d03e24d61adc9ce09da119f2fe9fff1",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/needle_detail.blend",
+      "bytes": 123941,
+      "sha256": "8d55f7419dc8e31cd5a46f0bda483be9cefbc5d11cc1ca02cd84301e763ad913",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/ranger-left.png",
+      "bytes": 726474,
+      "sha256": "dbaeb1ae572a27cd5bf84fcac7319120f8b1326db8d60abf4f5f058ecb74cd90",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/ranger-q-left.png",
+      "bytes": 727489,
+      "sha256": "f705ab71665b61816e2b5463f06ff61d550762a0076c4d68d50a6be68688b8f1",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/ranger-q-right.png",
+      "bytes": 723696,
+      "sha256": "c9f21ebabfbe8ee470b97d6a4ee9158955851f8ab308f36dfacdf98de1626bb2",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/ranger-top.png",
+      "bytes": 690085,
+      "sha256": "74b72196d7503e6bf7ef83611073b743fcbbdbf8c47549a4ee8a163254e96922",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/color/ranger_detail.blend",
+      "bytes": 120301,
+      "sha256": "74238abcdb3dd48d8dcaad02da8b2a19d847e94dbf28a1231f6bd6376bd519aa",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/FINAL_TOUCH_PLAN.md",
+      "bytes": 2748,
+      "sha256": "47d2d3c857b262677ae581e1828a80717353d40781bcf4206f5fabb2ff9d4f66",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/LOCKED.md",
+      "bytes": 1845,
+      "sha256": "ff3fe7a986d7b2ce22e3bd1df4da2b0d7d1f071bbc14d1bee9eab4f805437d94",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/PLAN.md",
+      "bytes": 7244,
+      "sha256": "c5508482e60797ff909d75515c471bd9b88113631172c5272f3a62504aacf1d9",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/RESULTS.md",
+      "bytes": 3533,
+      "sha256": "68a66b9caac53936b215484c72b2cc545d4c63b05662c6ef54f1cae58358c39a",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/REVISION_PLAN.md",
+      "bytes": 3006,
+      "sha256": "7bb807230752c0d11df65d509006811eaaef1d36aaba8ae76b017f16b7e97313",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/buzzline-prompt.txt",
+      "bytes": 1352,
+      "sha256": "16061f2089783c6691ca71492d9e126adafab5540af696cedeb2641756d21258",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/buzzline-v2-prompt.txt",
+      "bytes": 1395,
+      "sha256": "8b4b98a952ccbebd2afe109ac1a5ad8ad8ddfbdc1c84929238be05f18abef58f",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/buzzline-v2.png",
+      "bytes": 1167211,
+      "sha256": "4c0cd49bc5ed6e2ab2d7318e1244ac91753dc4fe589d7434875e93f00b74c5e8",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/buzzline.png",
+      "bytes": 1178581,
+      "sha256": "c1be77f8c44999100cd02ce8ff9e044d488a7aaa65d0ec9c2174915b978badd7",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/dart9-prompt.txt",
+      "bytes": 1315,
+      "sha256": "c0c1b6f2b22fcca455fbce3d30d1be7fd87b08bed0e1533155ca26e2e85a9415",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/dart9-v2-prompt.txt",
+      "bytes": 1218,
+      "sha256": "5b62d3462d923e38c8f43778488e8423129cf95107e70f26f318c99d95d73055",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/dart9-v2.png",
+      "bytes": 1374216,
+      "sha256": "2266f9f73903e406bf42587037d8d5ed43cc8b1453370ae7ea8355880ed918e9",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/dart9.png",
+      "bytes": 1445851,
+      "sha256": "1fbfc1fab417b3360421ab193ca95c458478a29b281222f6f147ae5f83194004",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/needlepoint-prompt.txt",
+      "bytes": 1388,
+      "sha256": "23a504717dac92ed2f806e0b4f77e4e7de4578f3d87519c1b49a4552c92e5994",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/needlepoint-v2-prompt.txt",
+      "bytes": 1772,
+      "sha256": "cbfee11cda67b08b2deeb8404c6d2bd0db7a93dc931944f4c352a94a8c1ed1cb",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/needlepoint-v2.png",
+      "bytes": 1153741,
+      "sha256": "cb13bb2e86d838448df3cbd9a47e98a03a437b1e5e47046af094354dbea0ca66",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/needlepoint.png",
+      "bytes": 1143935,
+      "sha256": "dd5a6740bf41e12a12984ba31f412f9a941659bf4847b46d183ce86a7d57a8e3",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/ranger-prompt.txt",
+      "bytes": 1431,
+      "sha256": "efefb2ba2b671469cbf60ba6efe850ca0723d2721865508df311bf4ada7ca103",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/ranger-v2-prompt.txt",
+      "bytes": 1697,
+      "sha256": "da88b4c44716ee290e61935378adbc8573dc8beb0d747c50549e30cbb0d1bdb2",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/ranger-v2.png",
+      "bytes": 1096990,
+      "sha256": "b423cd4ceee84b15f684c18017235cee2cbd457b49356e6cbd72badf63a68381",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/concepts-2026-09-30/ranger.png",
+      "bytes": 1188901,
+      "sha256": "5a2d179adb58636c7587a674967351cbf9da680877f6f5dff088a40b3988d9e3",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/buzz-left.png",
+      "bytes": 699949,
+      "sha256": "c6e2beeb6c02bd02a97b428084a30d834f2ba331b2a44c1ed830613a37ed50c9",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/buzz-q-left.png",
+      "bytes": 701156,
+      "sha256": "e0adddcbb4840dc8747aacd8b0db59662febd15f0f2f4013bd45358957ab9a7e",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/buzz-q-right.png",
+      "bytes": 698614,
+      "sha256": "60181e4e79fffa89a2b14bf9af27791037df50fdde0eba37f66873bb5c4777c9",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/buzz-top.png",
+      "bytes": 668239,
+      "sha256": "9e434892a391ea74bd2a789b669d2bc8c100a19351a91923404236df9528c062",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/buzz_detail.blend",
+      "bytes": 116693,
+      "sha256": "3d418dae3986d79b3c2caeb137c8461fb2f51dc4bee7a740117c7be3efcda304",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/dart9-left.png",
+      "bytes": 693439,
+      "sha256": "553bb9f1efbac73e5238c8c3df48c07fa3d7711862dd07f2552daf867649f40d",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/dart9-q-left.png",
+      "bytes": 698622,
+      "sha256": "b2b3c11412cae4f85554c82bf0cc831a5c4298c327a64dae6be9ebb222262d38",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/dart9-q-right.png",
+      "bytes": 692130,
+      "sha256": "3b499e4acf4878c65f102d9953185016209cf1e3e04930b3f521ffc2a7b2a9c8",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/dart9-top.png",
+      "bytes": 659161,
+      "sha256": "16f806964f4aae41747c4a2a625ddf0e6f6f9dc1ab887f48e7ed0e948f21b8c6",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/dart9_detail.blend",
+      "bytes": 110509,
+      "sha256": "a0f65fdbd9793833cc65a6c43bc34b8ba93d3f2389c65d57a188553cda529aaa",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/detail-sheet.png",
+      "bytes": 854797,
+      "sha256": "a4c15b153ce28585f17a709de3ef3494aecc8a0bcb04d877a4216e83c7509c65",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/detail_info.json",
+      "bytes": 3817,
+      "sha256": "44271421bfb71f6df409df89392774a5bdbadb33e96858b00e6d43a97be86ebd",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/gun_points.json",
+      "bytes": 2793,
+      "sha256": "3742113f9aa15c0075036b783d3633659805f46f59d2307d9a578d7471d4f28c",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/needle-left.png",
+      "bytes": 682970,
+      "sha256": "a227d1d58f7dc9a71f1e4bdc623b084111ddb52a65e14c7ecba6b80325ca1571",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/needle-q-left.png",
+      "bytes": 680477,
+      "sha256": "02157eb6e0eb24a11a8f6a1b4c020dc2ad929b93cb7821d029d3f8d4ea834277",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/needle-q-right.png",
+      "bytes": 676920,
+      "sha256": "553e127be9d915c6acc13a3911ec108a837e4fa81ce81fa93692c12c72cbc2e0",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/needle-top.png",
+      "bytes": 655378,
+      "sha256": "8d76e934f88d1f294a16b92ffdcbc53b0287dda669c74c9e552039b2bc8d410e",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/needle_detail.blend",
+      "bytes": 116677,
+      "sha256": "b20a6ef974c85ff94dec3fc7f946fee8f2b38079ad63036d57711bdb047a7d0d",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/ranger-left.png",
+      "bytes": 690759,
+      "sha256": "7c6439e6ea01ab18a9a97d7093a4d5d2864809327cdd487c9db80d1fa5354a40",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/ranger-q-left.png",
+      "bytes": 691935,
+      "sha256": "1c05d02984f943600b3428bcc05d76274e2ca3cb2dee87667f017b70c8c1bd3a",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/ranger-q-right.png",
+      "bytes": 691455,
+      "sha256": "d57c7a6d2be72ee2ac6a3c40efee9cb49792692b3497a6246ae1fa1af19cea70",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/ranger-top.png",
+      "bytes": 659268,
+      "sha256": "5a645ac32b564d750a254c4f19c4bac1fde83615179947bdd840bfc34bdf589f",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/detail/ranger_detail.blend",
+      "bytes": 114862,
+      "sha256": "cf1c4b2819b5b31f959c75316a875a7e075ff2c9a7268ac00be4784751447f06",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/gun_blockout.py",
+      "bytes": 8543,
+      "sha256": "27b5f2592e76ff8ee784157f8d8ea669a554eef43dc13f4ef989b282742d0f84",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/gun_build.py",
+      "bytes": 27257,
+      "sha256": "1c12c5f8d8201585fd1c0937b6a31ef5ff06a3b597ea4ebf6faf691e258d3428",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/gun_sheet.py",
+      "bytes": 1042,
+      "sha256": "c50c85ea99bab34428555ea9ce6135af0e240a84ac91590512804428ce03f9d9",
+      "tracked": true
+    },
+    {
+      "path": "assets/guns/gun_v2.py",
+      "bytes": 34509,
+      "sha256": "98f13ee0743b14f22ad8816ac7821c3fd663471ad0e70ecd9cf1939e83313d81",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/gun_v2_sheet.py",
+      "bytes": 1832,
+      "sha256": "090e12f9ac3107f4445d0078b77414a60f75c2ffca8f0ac3fc60415733456000",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/buzz-fp.png",
+      "bytes": 531336,
+      "sha256": "3016b8426caa55f96a48bb771b7751d825b59909e8a87da0a0685e6adbad3c89",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/buzz-q-left.png",
+      "bytes": 379129,
+      "sha256": "80feb201655e9cd52fb55857d1a7422aca3644353f0485a96104d2f361f0a161",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/buzz-side.png",
+      "bytes": 572532,
+      "sha256": "ddea401e0a5a4171953c096292db68bdaa298b67700f4cc084cb84b57c8ebbd8",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/buzz.blend",
+      "bytes": 128525,
+      "sha256": "a21c7b3b5cf9c0cc1b80d844fbb6f1c35b32f531451ff3d184aad26253746bf3",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/buzz.blend1",
+      "bytes": 128539,
+      "sha256": "f3a896a121793547558cbbbb983adb9ec1f4ccfa347d2c2d5b680004e642fdd3",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/dart9-fp.png",
+      "bytes": 519677,
+      "sha256": "23c1fc5b9aed241b2ffaa49290f9dcc9b8bf1d522e9c9212f6c245af0743dfa8",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/dart9-q-left.png",
+      "bytes": 422157,
+      "sha256": "c1332c6024b6891d7be36dc77f6cd53425cd3c7585eec90762be01f43e4d66bb",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/dart9-side.png",
+      "bytes": 656699,
+      "sha256": "33ceeedb48d23c7bbb5fe59c592832718362d6943ce9052e01926a8f8d1a00f3",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/dart9.blend",
+      "bytes": 119575,
+      "sha256": "bf4399570de347f80bf3f83ee350a091f9f17897339145e82534b0d156da09cc",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/dart9.blend1",
+      "bytes": 119588,
+      "sha256": "eddcdafc60e29ff0df66de158e6071fdcd3c3b799c04001141bc4bc8e94319ff",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/info.json",
+      "bytes": 2721,
+      "sha256": "c96cd1bfe1dd89d69e7d91b22f30b7fd7415c26758add27dad691ed2cac4f84e",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/needle-fp.png",
+      "bytes": 356508,
+      "sha256": "0cb0003f3b37d8a82cd3cdf118c9a5363416af9b75c17a154da9b96ed4eecf84",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/needle-q-left.png",
+      "bytes": 258910,
+      "sha256": "b69c91ef65548534fc687b13007c5ad4b6a64505d3167c91be89794c76f5a044",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/needle-side.png",
+      "bytes": 471966,
+      "sha256": "d39500e3dee5c2c29a7f6cda6ae4b5df4673027b2e94f00e7a75b8272a25db15",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/needle.blend",
+      "bytes": 125344,
+      "sha256": "0ac736e834e79a525f417c426c568af9747aacb1f38e24ed3a141a88084511fb",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/needle.blend1",
+      "bytes": 125314,
+      "sha256": "f9dffac710fed1c41c10d9d95dc9e6159927fdfb31c37c1a20cf75fceed73957",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/overlay-sheet.png",
+      "bytes": 2280919,
+      "sha256": "42e3ad853a0c45352231aaaf23643a7094b65afe0f29d8e52ad189ef013275f4",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/ranger-fp.png",
+      "bytes": 400266,
+      "sha256": "ae755756326b4fcc2f2b76a36b873540e3fb65974ed380221331cdaee1647842",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/ranger-q-left.png",
+      "bytes": 282788,
+      "sha256": "3ef4f0fada774c9ff820dba3ebe684f5d854030e417599a44f4dcbbc2431edae",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/ranger-side.png",
+      "bytes": 467339,
+      "sha256": "bcb72ef410b4c79ae4e1f2c5c8ef8b54d91977ac48466c53abae9945d83d1362",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/ranger.blend",
+      "bytes": 123723,
+      "sha256": "5d0e6e738bc11dff52cefc4cd16f299ed5758a865bdf7d3878cc89b0dbcac496",
+      "tracked": false
+    },
+    {
+      "path": "assets/guns/v2/ranger.blend1",
+      "bytes": 123744,
+      "sha256": "06a6b2b16d2b0b625456afeaa216d470831b95fecd49a73fbd0bdf5ee3c1bb84",
+      "tracked": false
+    },
+    {
+      "path": "assets/kart/razor/IMPORT.md",
+      "bytes": 3363,
+      "sha256": "9c68a2b7cf87b4d9063c660bc61d390c624f325c58fe36e720499209d89e1dc4",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/blockout-sheet.png",
+      "bytes": 1502841,
+      "sha256": "d82f0174eb65ca4246f234e75aee534b65fb4de5ebd10387acf38ce8a13ecad0",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/blockout_stats.txt",
+      "bytes": 624,
+      "sha256": "7c926a30425f88bcbab01be67764b7bbf93a78e53a231a3563e2934243c5d664",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/razor_axes_test.fbx",
+      "bytes": 11404,
+      "sha256": "fbb344af6779936db22afb6d52bcd98989249a6c156edfffea415d6a2f4bd45e",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/razor_blockout.blend",
+      "bytes": 108371,
+      "sha256": "04a09df9eadcc7aa0214b2b568b244514ce8c17a60fdf1112d27144ace185345",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/razor_blockout.py",
+      "bytes": 9770,
+      "sha256": "8ac9096ac22ea747645706ccf66133d3257759b1b34c88e954c52c8629b46e32",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/razor_build.py",
+      "bytes": 29405,
+      "sha256": "2236b8b5115b51f9b7126e863ebfcd2b8d11b895ba3bb5b3a08b9c0967939e6a",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/razor_export.py",
+      "bytes": 6107,
+      "sha256": "d3200e70d298fabfd9d922033f81d7b1c7f4920985bde8ee66f4562221ed8264",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/razor_kart.fbx",
+      "bytes": 148988,
+      "sha256": "27be114d4abd44c379affd82f6d5f168d04560a0e386052f8725ee25654725a8",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/razor_preview.glb",
+      "bytes": 570888,
+      "sha256": "b7afc9e03baf7233f23702a335a6247d4742799d65074533911d457d99600b2d",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/razor_tex.py",
+      "bytes": 23816,
+      "sha256": "5a3f1a3a7bdee4a7abff77400a67099b714b2fad2d2736e7f959672e7ab343d5",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/review/phase5-atlas.png",
+      "bytes": 662332,
+      "sha256": "ecf3afb5cfdfe644a649980fee50b035f07cc08b7765d9b8ec9caa7ba28213ba",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/review/phase6-compare.png",
+      "bytes": 1896820,
+      "sha256": "0bd068943dadc310a81ea49069d1991d70a20fa2f542df4ee08b6f28ab78aa18",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/review/phase6-sheet.png",
+      "bytes": 1610781,
+      "sha256": "6420d5a1a85b87556d5b6767a32a89296573ff3e0e084350717e4643c13f37a6",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_ao.png",
+      "bytes": 149704,
+      "sha256": "399c20969eaadf718996a303b7be51b44db5228a750dc781e1b2aa850a9e42d7",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_color.png",
+      "bytes": 144446,
+      "sha256": "1e3cacb741d4add22a938746306b4de5b4f4a0ae4d1d3ed3e9d252c55d4263b2",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_color_noao.png",
+      "bytes": 95616,
+      "sha256": "28713230981385dd1a620d6894e7e691a040cbd4eb52b1fb1b651ec344df4a46",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_decals_color.png",
+      "bytes": 6946,
+      "sha256": "65804c3461eed9d2e28ab67ac2181c51a501384e51a3ad0c8757bacae8bad54e",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_decals_orient.png",
+      "bytes": 12376,
+      "sha256": "e72d7431690197e548fea092949f2fe5f30d1fba2f293201b30960af203c9c00",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_metalness.png",
+      "bytes": 23491,
+      "sha256": "a8e73c58eb213e198306cf846999f34d62a0bbb98999068ae9a2f0ac5b7ac2f5",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_normal.png",
+      "bytes": 30239,
+      "sha256": "a3850eca776b73dff76c398b2846a22362cd7d9b8fe75b8312d1a8958d762766",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_roughness.png",
+      "bytes": 129831,
+      "sha256": "24f1ee3c66606c56f302d7f418959c8d72c947d135277a27867b657fe8966274",
+      "tracked": true
+    },
+    {
+      "path": "assets/kart/razor/textures/razor_uv_layout.png",
+      "bytes": 64778,
+      "sha256": "05485384bbe02530443d2721eedf82c74dcff58956bc91b37fec0a94f27d0411",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/concepts/blackout-vortex.png",
+      "bytes": 1589823,
+      "sha256": "b7f40acfb1cfb5bfe2e852a45cb831d42f0dc0071a553ee6c6fa828d1ec28d4b",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/concepts/crimson-arrow.png",
+      "bytes": 2014975,
+      "sha256": "10257ffa47991578f2f4decfbdc05e93b56e53a73d34ade7602e981256169954",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/README.md",
+      "bytes": 4475,
+      "sha256": "9a9de9124eaf4dc2172754f195afd4f4e450e5b8941d49f26314b02ebfa48278",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/__pycache__/refine_canopy.cpython-313.pyc",
+      "bytes": 21836,
+      "sha256": "86608dcfeed20b1cc0f21bf2a939e979ce43c0ae0c5fbc6bf4d2bf5ab3f322f1",
+      "tracked": false
+    },
+    {
+      "path": "assets/karts/vortex/__pycache__/shape_vortex.cpython-313.pyc",
+      "bytes": 11712,
+      "sha256": "b3894c6b8cbb47c76343d064accd84a04ef488ef6274bf13f43da35a05f8c0af",
+      "tracked": false
+    },
+    {
+      "path": "assets/karts/vortex/approved-geometry.json",
+      "bytes": 191114,
+      "sha256": "7f012e561080127726d5c390d90430de8cbcb9e588b9f30d78cb728d7dc94c9b",
+      "tracked": false
+    },
+    {
+      "path": "assets/karts/vortex/blackout_vortex.blend",
+      "bytes": 413351,
+      "sha256": "40c987ab7eb9a7866cbfab102c4406acc2d4117001276e174bbbe0007e52b947",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/build_vortex.py",
+      "bytes": 16073,
+      "sha256": "a23849e945f0863e4d77e9cde0d015d1b9f7cbe947e7f04b18fc463da6fb9821",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/VortexKartProxy.rbxmx",
+      "bytes": 69229,
+      "sha256": "5aaaa94b48b23706ef791413f97a2cff460a193bc25a942e8feee36a264df8d3",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/blackout_vortex.fbx",
+      "bytes": 1372172,
+      "sha256": "fc136bbf2bba960d4026172569058faef579c8cf614d5cbfec47a41a9e8a56b5",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/blackout_vortex.glb",
+      "bytes": 549748,
+      "sha256": "4bb13943396a684af53a4d3505cbc48f4b1258e11d4883e54d18cd64f94a1bc0",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/cockpit-preview.png",
+      "bytes": 1148742,
+      "sha256": "7beb42938265efeffa36f4dc08b60dfd246d0016c499cd17cd82950edbb158a9",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/manifest.json",
+      "bytes": 537,
+      "sha256": "02acb1b483cb122ff358da8644fe857dec99eb6ca9c2f68bdded2e73a3d61277",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/preview.png",
+      "bytes": 972044,
+      "sha256": "2a5ecd255eb6de615216476011fa9d8746ca17d5069198569348b0110094b9f2",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/rear-preview.png",
+      "bytes": 945459,
+      "sha256": "90ef54b50072254eb2b0dab8c500faa701d5d38a13faa3e7ea70be048d1f84b2",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/side-preview.png",
+      "bytes": 908784,
+      "sha256": "cfd5b280a43030587c47e74b49aebda36d0547d575bc81f18ba8113410c01a7d",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/export/vortex_shaped_body.fbx",
+      "bytes": 892588,
+      "sha256": "5e2c0c3287955eec9c74533e9f6f01e6c101a9731fd7ac54a8e10ed3de570b46",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/merge_studio_import.py",
+      "bytes": 3878,
+      "sha256": "31d210501e862e76167250d6227855514c046e8905c044e46c7c8433f3cf73da",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/phone-optimized.blend",
+      "bytes": 285924,
+      "sha256": "c569481f84ea9ee0be2a75e2ad1859916c041c7c01b92864adb857ab4d9a4ba1",
+      "tracked": false
+    },
+    {
+      "path": "assets/karts/vortex/phone-review/cockpit-preview.png",
+      "bytes": 1197895,
+      "sha256": "e787e55ed42b7a39a0867ff139af6b02ed94bc80935b7d3174cffd78d74b9a1f",
+      "tracked": false
+    },
+    {
+      "path": "assets/karts/vortex/phone-review/preview.png",
+      "bytes": 1018620,
+      "sha256": "22726e7b3b59f6d240aa3416e851911228b3e9523993636daa6c8f90017fa5d1",
+      "tracked": false
+    },
+    {
+      "path": "assets/karts/vortex/phone-review/rear-preview.png",
+      "bytes": 1000159,
+      "sha256": "7e63b8cb1785bb9ad21dec9be7665e600ee4b0e829d068775ccef1b01979b424",
+      "tracked": false
+    },
+    {
+      "path": "assets/karts/vortex/phone-review/side-preview.png",
+      "bytes": 957874,
+      "sha256": "eea7fc7d2f65e6c7ace2a92c9b024520fe3d14750d1795f647202570ffb51aed",
+      "tracked": false
+    },
+    {
+      "path": "assets/karts/vortex/refine_canopy.py",
+      "bytes": 11296,
+      "sha256": "1e9b42094f150b23c8c5185a643b6cda3c49a7bb33e75c78afcf3da2bb59c110",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/render_preview.py",
+      "bytes": 1895,
+      "sha256": "81ffa895c671b9d12c8608529f07e49a99aa2e912bbf4d01290ff40e4086f2ae",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/APPROVAL.json",
+      "bytes": 2058,
+      "sha256": "f2138c11e5311d7a596cdad3b82a91063e79708b17afa55afa43a8d63cb86979",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/blackout_vortex.blend",
+      "bytes": 413351,
+      "sha256": "40c987ab7eb9a7866cbfab102c4406acc2d4117001276e174bbbe0007e52b947",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/build_vortex.py",
+      "bytes": 16073,
+      "sha256": "a23849e945f0863e4d77e9cde0d015d1b9f7cbe947e7f04b18fc463da6fb9821",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/cockpit-reference.jpeg",
+      "bytes": 36401,
+      "sha256": "0c5afee7637a728ad46e73ddc955059eef40d2150bdd5e2fb949d70c7d333da5",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/VortexKartProxy.rbxmx",
+      "bytes": 69229,
+      "sha256": "5aaaa94b48b23706ef791413f97a2cff460a193bc25a942e8feee36a264df8d3",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/blackout_vortex.fbx",
+      "bytes": 1372172,
+      "sha256": "fc136bbf2bba960d4026172569058faef579c8cf614d5cbfec47a41a9e8a56b5",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/blackout_vortex.glb",
+      "bytes": 549748,
+      "sha256": "4bb13943396a684af53a4d3505cbc48f4b1258e11d4883e54d18cd64f94a1bc0",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/cockpit-preview.png",
+      "bytes": 1148742,
+      "sha256": "7beb42938265efeffa36f4dc08b60dfd246d0016c499cd17cd82950edbb158a9",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/manifest.json",
+      "bytes": 537,
+      "sha256": "02acb1b483cb122ff358da8644fe857dec99eb6ca9c2f68bdded2e73a3d61277",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/preview.png",
+      "bytes": 972044,
+      "sha256": "2a5ecd255eb6de615216476011fa9d8746ca17d5069198569348b0110094b9f2",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/rear-preview.png",
+      "bytes": 945459,
+      "sha256": "90ef54b50072254eb2b0dab8c500faa701d5d38a13faa3e7ea70be048d1f84b2",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/side-preview.png",
+      "bytes": 908784,
+      "sha256": "cfd5b280a43030587c47e74b49aebda36d0547d575bc81f18ba8113410c01a7d",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/export/vortex_shaped_body.fbx",
+      "bytes": 892588,
+      "sha256": "5e2c0c3287955eec9c74533e9f6f01e6c101a9731fd7ac54a8e10ed3de570b46",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/merge_studio_import.py",
+      "bytes": 3878,
+      "sha256": "31d210501e862e76167250d6227855514c046e8905c044e46c7c8433f3cf73da",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/refine_canopy.py",
+      "bytes": 11296,
+      "sha256": "1e9b42094f150b23c8c5185a643b6cda3c49a7bb33e75c78afcf3da2bb59c110",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/render_preview.py",
+      "bytes": 1895,
+      "sha256": "81ffa895c671b9d12c8608529f07e49a99aa2e912bbf4d01290ff40e4086f2ae",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/shape_vortex.py",
+      "bytes": 7884,
+      "sha256": "8ead30ffea8067cf77c10ac770468aec62e1496452fd610f1598b483498474cb",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/approved-reference-cockpit/verify_export.py",
+      "bytes": 1109,
+      "sha256": "fbddaff7e5b3654fad469ca3a11a53ee2697ffc689fa7c80161fdc0f0c01f866",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/canopy-before-reference/blackout_vortex.blend",
+      "bytes": 159709,
+      "sha256": "2362055ac80d2f01c1565d7247bef26782f17d978893eae834b9a8f7c3116d99",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/canopy-before-reference/build_vortex.py",
+      "bytes": 14221,
+      "sha256": "7d5a0f040afb2405da9afbc46206a32606a4d3f80fab0628f6358ccb61b90f58",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/canopy-before-reference/export/blackout_vortex.fbx",
+      "bytes": 747356,
+      "sha256": "7d62cab4f9a90204a8834c8b655e8dfb9f81b3a77d67e956dab6141ec584d330",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/canopy-before-reference/export/blackout_vortex.glb",
+      "bytes": 207284,
+      "sha256": "6fdfe75e509550eb78c0ef1e0eb6242652b1c66c561be1d0a5c1fa38d7c5b018",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/canopy-before-reference/export/preview.png",
+      "bytes": 990299,
+      "sha256": "6c2cd97b688ed70d3ae63300acfb1d2c106703a3a994fb8e4e1bb33316cafed5",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/canopy-before-reference/export/rear-preview.png",
+      "bytes": 966950,
+      "sha256": "e143f63ef105f57eed3ba665db4f9c383b11d3412848618bfcfb7357cd024bff",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/canopy-before-reference/export/side-preview.png",
+      "bytes": 924948,
+      "sha256": "26510e6fcd64b51c27262740541b6899625334fc4726248b2036cfefdd32250d",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/revisions/canopy-before-reference/shape_vortex.py",
+      "bytes": 7884,
+      "sha256": "8ead30ffea8067cf77c10ac770468aec62e1496452fd610f1598b483498474cb",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/shape_vortex.py",
+      "bytes": 7884,
+      "sha256": "8ead30ffea8067cf77c10ac770468aec62e1496452fd610f1598b483498474cb",
+      "tracked": true
+    },
+    {
+      "path": "assets/karts/vortex/verify_export.py",
+      "bytes": 1109,
+      "sha256": "fbddaff7e5b3654fad469ca3a11a53ee2697ffc689fa7c80161fdc0f0c01f866",
+      "tracked": true
+    },
+    {
+      "path": "assets/roblox/README.md",
+      "bytes": 167,
+      "sha256": "7a40a9faf6c3b2c42a747d496795549afd097fc2865b24974e910d7929b9e8a8",
+      "tracked": true
+    },
+    {
+      "path": "assets/roblox/VortexKart.rbxmx",
+      "bytes": 79708,
+      "sha256": "a66ab4bcc525e5cea1982c8a3c62b1db34f1ff56360ae180b3ec88fa65697c21",
+      "tracked": true
+    },
+    {
+      "path": "assets/roblox/VortexKartApproved.rbxmx",
+      "bytes": 69229,
+      "sha256": "5aaaa94b48b23706ef791413f97a2cff460a193bc25a942e8feee36a264df8d3",
+      "tracked": false
+    },
+    {
+      "path": "build/_spec.test-heist.project.json",
+      "bytes": 768,
+      "sha256": "78bf7acb0f64eb7f2aaff23da8ca6f82b277747922484194e01f620a9c1eee30",
+      "tracked": false
+    },
+    {
+      "path": "build/_spec.test.project.json",
+      "bytes": 711,
+      "sha256": "7bc520c2cc3b6c8f806b53e20d264c685b318fa5848bf6e08ffca562aa80cfeb",
+      "tracked": false
+    },
+    {
+      "path": "build/alive1.log",
+      "bytes": 183211,
+      "sha256": "21cf8983fb997d0029f8e1a898ab7195a587c323d58bfa395ce9459825ae9b40",
+      "tracked": false
+    },
+    {
+      "path": "build/alive1.studio.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tracked": false
+    },
+    {
+      "path": "build/alive2.log",
+      "bytes": 248747,
+      "sha256": "311003d23069efb910fd26e1c923d6bbffa6a5bbc8cd2f1e00dd544c5b62628f",
+      "tracked": false
+    },
+    {
+      "path": "build/alive2.studio.log",
+      "bytes": 108,
+      "sha256": "d9baaa250d93cd57dc675742394f7c58fc62e1904bf80b860c35d356f66362ea",
+      "tracked": false
+    },
+    {
+      "path": "build/alive3.log",
+      "bytes": 248747,
+      "sha256": "c658525aeb84f916a55f4e0d63143716935f2ffe92a0b20f3f702ff203ea5dbd",
+      "tracked": false
+    },
+    {
+      "path": "build/alive3.studio.log",
+      "bytes": 209,
+      "sha256": "96e2b700d70fdd04ee4ae1619fc9c98eb4e2fe57c5a149c0c0dca6e3beec88d3",
+      "tracked": false
+    },
+    {
+      "path": "build/heist.rbxlx",
+      "bytes": 1101981,
+      "sha256": "de29f586bd7c80f3f428628214c1156e4d92cc87b70c18b3c2f68c69f38d31ab",
+      "tracked": false
+    },
+    {
+      "path": "build/lobby.rbxlx",
+      "bytes": 1101631,
+      "sha256": "96bce9348420a70df4f0bf6de47aaa51179a7a6dd31a2d4ba8e010a542554321",
+      "tracked": false
+    },
+    {
+      "path": "build/place.rbxlx",
+      "bytes": 125330,
+      "sha256": "ecce9a0ad88237329c6af6635cc7c309a48b9c8dcac8090dab767f2ae116570d",
+      "tracked": false
+    },
+    {
+      "path": "build/preview.log",
+      "bytes": 396335,
+      "sha256": "4702e4a8485fcf2e98fe025f3b7aef2d004f0289491433682d14e7045b86cd8c",
+      "tracked": false
+    },
+    {
+      "path": "build/preview.luau",
+      "bytes": 228,
+      "sha256": "bbf42ad32ac975e423e99d2dbbfe192fbcbdec38850ca562045671d395c48028",
+      "tracked": false
+    },
+    {
+      "path": "build/preview.studio.log",
+      "bytes": 748,
+      "sha256": "17c8521de1893e9aa938669ca3018331d3a70b9361a55f4bc1e91c1fbbaee173",
+      "tracked": false
+    },
+    {
+      "path": "build/regression-build3-final.log",
+      "bytes": 3377,
+      "sha256": "932f50f428935cecee56923215bfb260af8237206589904f56ca71c1ea9d276f",
+      "tracked": false
+    },
+    {
+      "path": "build/regression-build3-first.log",
+      "bytes": 3525,
+      "sha256": "7345286bba9ea6c63b1d5c4adfdfeacead0d992d66af781e839d5e92c5d64ae9",
+      "tracked": false
+    },
+    {
+      "path": "build/regression-build3-progress.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tracked": false
+    },
+    {
+      "path": "build/regression-build3-summary.log",
+      "bytes": 3525,
+      "sha256": "7345286bba9ea6c63b1d5c4adfdfeacead0d992d66af781e839d5e92c5d64ae9",
+      "tracked": false
+    },
+    {
+      "path": "build/regression-vortex-final.log",
+      "bytes": 211,
+      "sha256": "129787d93b2e0fed5d35b581f4ccd0b5ba145b2c46922b00f90a98ac44ea7808",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-build3-heist-summary.log",
+      "bytes": 115,
+      "sha256": "585025ab6d10ea03a5d9c206c9317a9ec0792f4d6dd8ba5d1349b19ddeef18c0",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-build3-heist.log",
+      "bytes": 412716,
+      "sha256": "e74d38650309bef114032d7a7c777e3f3f43e129aac62a29bfc49098aa642990",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-build3-heist.studio.log",
+      "bytes": 4202,
+      "sha256": "2fa8abf069348aee1de51718225d4159ec649d7ca30e401a26530904085d9a74",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-build3-lobby-summary.log",
+      "bytes": 94,
+      "sha256": "32ab7ffe4b4a8552a9e821fb2b90a09e57564e615972f3b1a97390aa2eb9dea8",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-build3-lobby.log",
+      "bytes": 412716,
+      "sha256": "d619b85951f59980f245bb9fa97c386388d45b7200b7a0f763b85d8c5db1e07b",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-build3-lobby.studio.log",
+      "bytes": 4145,
+      "sha256": "ac470c8c948c7dd855f5df88a6fc9bfd640e15b21679b500897742ef753634d3",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-heist.log",
+      "bytes": 396335,
+      "sha256": "c32bf9262b55bc48b96d85e7ad6a54afe2f3e89bc1257277acd88bccbd651e49",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-heist.studio.log",
+      "bytes": 2728,
+      "sha256": "d37603c1918c9ff5db3948cdcc33c66dda04b15ab93ff64d9a31ff84da529f8e",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-linked-heist-summary.log",
+      "bytes": 115,
+      "sha256": "585025ab6d10ea03a5d9c206c9317a9ec0792f4d6dd8ba5d1349b19ddeef18c0",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-linked-heist.log",
+      "bytes": 412716,
+      "sha256": "92610bc5627315b21e4644a6af36b493e751cd9e4644909024043a5f9c1bc8b4",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-linked-heist.studio.log",
+      "bytes": 2351,
+      "sha256": "964bbc41b7432eb26eb3d105524f574e1e17391be28b1c1ef88f1cd5f02956d1",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-linked-lobby-summary.log",
+      "bytes": 94,
+      "sha256": "32ab7ffe4b4a8552a9e821fb2b90a09e57564e615972f3b1a97390aa2eb9dea8",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-linked-lobby.log",
+      "bytes": 412716,
+      "sha256": "7681cb964051ae8ea1073d17fa697c71d845e78fa967880a195cbc5192a8d546",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-linked-lobby.studio.log",
+      "bytes": 2294,
+      "sha256": "a4adf0a9385242fdb8ca3e72d4e26ba07251199e8427d6efa238022cb8dcd36d",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-lobby.log",
+      "bytes": 396335,
+      "sha256": "5fc1d9b245d0a4817a2dc7c96a6b9d007285e240ac993ab199d50ef8aaf9b41b",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-lobby.studio.log",
+      "bytes": 4130,
+      "sha256": "331a8d023aca758e67f18b4bfd2fd93b3998c123f1d0391119239a284cc0e53a",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-stage2-heist.log",
+      "bytes": 412716,
+      "sha256": "7ed417fbf87d1bb27980e1fd3e2d8ffa2b5559e8f82451c344f4e9e916cc5e8d",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-stage2-heist.studio.log",
+      "bytes": 2336,
+      "sha256": "7142bbf34e13f0dd0dad027b7880ccbd43cdff8c6b8dafa76233dd99cc0dbbb4",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-stage2-lobby.log",
+      "bytes": 412716,
+      "sha256": "dcf142a61fb9c59213872f93a4dd962a94f4a0da232d9117366c156e98cbe7c7",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke-stage2-lobby.studio.log",
+      "bytes": 2355,
+      "sha256": "28065890424a16e82732ad6fd7c397d03d141106bd479d665e91b08d6fddb5f5",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke.log",
+      "bytes": 379819,
+      "sha256": "b9fd6ace9fd8f8b2c89a1152086415db519e09e04a56bf406a47ba62d7a56c34",
+      "tracked": false
+    },
+    {
+      "path": "build/smoke.studio.log",
+      "bytes": 1216,
+      "sha256": "7dc7798963aa5bfbb102a2952c012ca7c388b5cfcdb6b8a4537b0051f293dee5",
+      "tracked": false
+    },
+    {
+      "path": "build/test-heist.log",
+      "bytes": 412712,
+      "sha256": "e1a0ab892a308ca645e5d9dd46fa3af399be17917de028d078e1321f049f2794",
+      "tracked": false
+    },
+    {
+      "path": "build/test-heist.rbxlx",
+      "bytes": 1215363,
+      "sha256": "615e3d679ce3f4f046f0868176d36dc3af2bf8a9c57836b3c59fb5f8c1bd086c",
+      "tracked": false
+    },
+    {
+      "path": "build/test-heist.studio.log",
+      "bytes": 783,
+      "sha256": "9e007f95dc4ef0d30d4238ef9f709755b549abeee6b2536c6a38d12cf55324f2",
+      "tracked": false
+    },
+    {
+      "path": "build/test-lobby.log",
+      "bytes": 412716,
+      "sha256": "a8c7909780969ccecc6f4c56b42e4d43ba4f98d3ae5a99cc06bcc078f6859912",
+      "tracked": false
+    },
+    {
+      "path": "build/test-lobby.studio.log",
+      "bytes": 1708,
+      "sha256": "3b0fc3d30598718b89caac65358064967109fae1788c87c05f50c9bf72325890",
+      "tracked": false
+    },
+    {
+      "path": "build/test-multi.log",
+      "bytes": 880816,
+      "sha256": "4caaf10a06554d81ff8900d931a54aa03fae74ce49dc3ebd67bdc5a8e41b59fc",
+      "tracked": false
+    },
+    {
+      "path": "build/test-multi.studio.log",
+      "bytes": 511,
+      "sha256": "b8984a5e18ae67fcc81f44d536284d1f78ef2822e87a82eee712d37c21981655",
+      "tracked": false
+    },
+    {
+      "path": "build/test.log",
+      "bytes": 396203,
+      "sha256": "f865b154765d6d1ca6964039b96bc38166e3bd3ceff39afbed18c583630804fe",
+      "tracked": false
+    },
+    {
+      "path": "build/test.rbxlx",
+      "bytes": 1217757,
+      "sha256": "f16aa5f48dc2add0531960eb8be53c50b36ee16103e8e0fbc7fff919149a5048",
+      "tracked": false
+    },
+    {
+      "path": "build/test.studio.log",
+      "bytes": 1078,
+      "sha256": "a22bc18715bc77b8d2d16a3f27c053a3cb71388b35ba22540943ef5749939831",
+      "tracked": false
+    },
+    {
+      "path": "build/vortex-build.log",
+      "bytes": 11169,
+      "sha256": "7627997f4ff4d7c370c0f3eb1c4e2cc7d32665a14ebd44a12f94f03fcd57017a",
+      "tracked": false
+    },
+    {
+      "path": "build/vortex-generation.log",
+      "bytes": 12324,
+      "sha256": "a190f0ccd353376bc4e0335cfe55ccfbc5b64e99f3b0ff253b0850040abfed6c",
+      "tracked": false
+    },
+    {
+      "path": "build/vortex-import-stage.rbxlx",
+      "bytes": 1203056,
+      "sha256": "0fc92f0e90b1dfdce9650c5c314a174679652d4b4fbd65899e82487da23bb3cf",
+      "tracked": false
+    },
+    {
+      "path": "build/vortex-render.log",
+      "bytes": 688,
+      "sha256": "8b477118231da1eaafb2efa9053fe8f36f4bb7d1cd579027ccb1d18f2ae270e5",
+      "tracked": false
+    },
+    {
+      "path": "build/vortex-verify.log",
+      "bytes": 137,
+      "sha256": "de6fb0c8e8adfee6e2e5812809090f2a5d0e6e7e565f5935fb97945b792a99ce",
+      "tracked": false
+    },
+    {
+      "path": "build/vortex-verify.rbxlx",
+      "bytes": 1432932,
+      "sha256": "050bf4d054f43120d9b81ac02aa4348d0a011401dc0659e50156bb642decd2d2",
+      "tracked": false
+    },
+    {
+      "path": "default.project.json",
+      "bytes": 697,
+      "sha256": "52a8775dcd8fcbff108118aedcfdd91360126e3dda6e9f2a9bbe141a7e1db519",
+      "tracked": true
+    },
+    {
+      "path": "gates/build-1.md",
+      "bytes": 4377,
+      "sha256": "2a1791f50c57b51fa676e671ddf89223741853552e848b904ac79446da58c72a",
+      "tracked": true
+    },
+    {
+      "path": "gates/build-2.md",
+      "bytes": 4760,
+      "sha256": "0a329380a396c90fccdb779a5c75e2d22cef6d39769206a056f56ca84ac38337",
+      "tracked": true
+    },
+    {
+      "path": "gates/build-3.md",
+      "bytes": 4921,
+      "sha256": "0a3d5a336a98efab427574d90686e294f0f26feb462df020bf069719493362cf",
+      "tracked": true
+    },
+    {
+      "path": "gates/kart-razor-verify.md",
+      "bytes": 2240,
+      "sha256": "5694f34ed0d133065e28995b52540d88175cc968564127a2c1edfcb3e5ba7d1d",
+      "tracked": true
+    },
+    {
+      "path": "gates/kart-razor.md",
+      "bytes": 2075,
+      "sha256": "4e736a6a6efa8ea28abbf516de27eebdeef98f52f7b210d03241f17b81ae6607",
+      "tracked": true
+    },
+    {
+      "path": "gates/phone-candidate-manifest.json",
+      "bytes": 1787,
+      "sha256": "4a1a1d3a258af743c8256417b6e6b26f9f20d2800a6acd67650b40b4420fc2cc",
+      "tracked": false
+    },
+    {
+      "path": "gates/phone-test-readiness.md",
+      "bytes": 7518,
+      "sha256": "60964a200bc25a198d527230a557b7ee4a67aa0bd6b3208d25061b6c0dfa66e5",
+      "tracked": false
+    },
+    {
+      "path": "gates/revision-stage-1/armory-bench.jpg",
+      "bytes": 216626,
+      "sha256": "1eab7c19f5ddc3438ea587ce5e060f406e0b789682dacc8a59e3232f3aa82673",
+      "tracked": true
+    },
+    {
+      "path": "gates/revision-stage-1/armory-loadout.jpg",
+      "bytes": 95051,
+      "sha256": "57d51b166706408239074c188a6dca27764cb5a073b6f7f2696f839148942399",
+      "tracked": true
+    },
+    {
+      "path": "gates/revision-stage-1/locker-preview.jpg",
+      "bytes": 209143,
+      "sha256": "d0ac4b2211cbd68c8f751283600b1a053d082698295c204cae44d1d11386afcd",
+      "tracked": true
+    },
+    {
+      "path": "gates/revision-stage-1/queue-on-pad.jpg",
+      "bytes": 179559,
+      "sha256": "52f3b78101864a8cc48cb85fed21470d75ed2e33676a1a36d0acf92194c48944",
+      "tracked": true
+    },
+    {
+      "path": "gates/revision-stage-1/queue-overview.jpg",
+      "bytes": 212114,
+      "sha256": "cfc64a0d439c299ba89322e43a9ffa9319f6a69308ff94da44b01e4d2ffc27af",
+      "tracked": true
+    },
+    {
+      "path": "gates/revision-stage-1.md",
+      "bytes": 5940,
+      "sha256": "8852b12a3954a39723add4ef8106bee0c2ef4b5f44b9ead91ec6217d6e4f5434",
+      "tracked": true
+    },
+    {
+      "path": "gates/revision-stage-2.md",
+      "bytes": 6581,
+      "sha256": "12713fa01bc1024a618ae83a3e55b45da09d807c4c0ab89f7eca6a4eb4ead033",
+      "tracked": false
+    },
+    {
+      "path": "gates/revision-stage-3.md",
+      "bytes": 1755,
+      "sha256": "e7e21eccdd08ca7df18e67ce98a2cbe491ac881db8df914d6007e4996c482f92",
+      "tracked": false
+    },
+    {
+      "path": "gates/revision-stage-4.md",
+      "bytes": 1389,
+      "sha256": "6dc9ed89ced92b2dd8f49cf0a7deb590a62c2a6817c11afe005d8134357bdeb0",
+      "tracked": false
+    },
+    {
+      "path": "heist.project.json",
+      "bytes": 702,
+      "sha256": "49d9a31938d5486220261214cf6e56ae46878612d4d4cb4119ab05f65fe4a7ea",
+      "tracked": true
+    },
+    {
+      "path": "refs/guns/1.jpg",
+      "bytes": 76192,
+      "sha256": "44d2f1df1e907dc22881c49be4d6af06a49a8b9436846a4953c547f14ec84b38",
+      "tracked": true
+    },
+    {
+      "path": "refs/guns/2.jpg",
+      "bytes": 147973,
+      "sha256": "b7d87a31c15423e424f76e736e8aa8e5aa4ff92255a9da1fbb3a2b2091696435",
+      "tracked": true
+    },
+    {
+      "path": "refs/guns/3.jpg",
+      "bytes": 102554,
+      "sha256": "beb6d864602fa7e5b2ad0f6f3235a364544abf03318496ca919307f1d3d63f06",
+      "tracked": true
+    },
+    {
+      "path": "refs/guns/4.jpg",
+      "bytes": 89460,
+      "sha256": "6519f963c9959e89cc4156b7fafb01f01f33f9744377401fd952588d34cb06f7",
+      "tracked": true
+    },
+    {
+      "path": "refs/guns/5.jpg",
+      "bytes": 87138,
+      "sha256": "b3daa61350a15b2803d4bfebc4cbfd5588ede5df342eca34a32fb6a332422315",
+      "tracked": true
+    },
+    {
+      "path": "refs/guns/6.jpg",
+      "bytes": 90702,
+      "sha256": "df129867944fc98293198f5f4d262aa3d764b133b224d5780320b7c280412f98",
+      "tracked": true
+    },
+    {
+      "path": "refs/guns/7.jpg",
+      "bytes": 66543,
+      "sha256": "e70fee6b86a2315430064055320b526b1f9aea0330bea4b4c6a5cf1d67020cbd",
+      "tracked": true
+    },
+    {
+      "path": "refs/guns/NOTES.md",
+      "bytes": 1825,
+      "sha256": "b297815b78993e684a3fa45e81e53c35422591bfdbbe2e582b493fd185185484",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/CONCEPT_CHAT_PROMPT.md",
+      "bytes": 2061,
+      "sha256": "f27f31f5322f76c5e22100071e5537a844a7033732aee17314026f8a8e1409e7",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/NOTES.md",
+      "bytes": 793,
+      "sha256": "307ce564d1d714ed499c0ee6451ac11997f7d1dc19d7f7c9de87570033707295",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/kart-ref-1-roadster.jpg",
+      "bytes": 105730,
+      "sha256": "d7e3d5f4fcc4ad7797006a406e1d600524d6572efe01635a968ec2a9388f1698",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/kart-ref-2-openwheel.jpg",
+      "bytes": 138056,
+      "sha256": "7dd85065d211e4c245f54285cedeb0a4772edb3011354d8d2911ac80f7325cf2",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/razor/razor-front-34.png",
+      "bytes": 873149,
+      "sha256": "2704efe1349372e2e89400944eb70661b5d0221a47d100861b79a3b52dafc070",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/razor/razor-rear-34.png",
+      "bytes": 883840,
+      "sha256": "2db9ce684e2b9fa25f2293bdb62cbf36f1ebb24f542a20f117205d89667d93da",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/razor/razor-sheet.png",
+      "bytes": 3603237,
+      "sha256": "ca84bb290a981a6fbe75c19484696dd6bb1f742763119a8021fcfdc9fe47c1eb",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/razor/razor-side.png",
+      "bytes": 808844,
+      "sha256": "4524dacb333b857e72f8b5ef12a767fbe4ec8be830b50e5f3b815f8a9e3a24e3",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/razor/razor-top.png",
+      "bytes": 1000701,
+      "sha256": "ded005d907241404115ce29ea4da630e82308637386667e3517b0d602e2c4cae",
+      "tracked": true
+    },
+    {
+      "path": "refs/kart/vortex/cockpit-reference.jpeg",
+      "bytes": 36401,
+      "sha256": "0c5afee7637a728ad46e73ddc955059eef40d2150bdd5e2fb949d70c7d333da5",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/CLAUDE_CODE_HANDOFF.md",
+      "bytes": 11779,
+      "sha256": "09062c707825cffee30bbe37792127de670cbcd5fdb15628212210d045b88aac",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/NOTES.md",
+      "bytes": 18725,
+      "sha256": "dd24d30e81c6991ccea9e8b8197e53db802969a6d8e2ae8bcfe912c73ebd505b",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/OCEANSIDE_CITY_CONCEPT.md",
+      "bytes": 10334,
+      "sha256": "cfe9e03379ee15e16da4ed1134b4c539d91f26b3405808e2c9e39bafd8babee0",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/REVIEW.md",
+      "bytes": 4641,
+      "sha256": "e1c17655719040b99f7b3bb4899b0c033d84eb049462f7b44df64e2324df3265",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/STAGE2_KICKOFF.md",
+      "bytes": 2637,
+      "sha256": "5e8637c2f3270c609ba22d0e5e28a89c21784494398110625f8bac47c8d3a9eb",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/city/IMG_7153.jpeg",
+      "bytes": 452878,
+      "sha256": "c56af8bda381f72f8baa871ed3303b5bc620aa94e907eb6f9e9013d2ca945ddf",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/city/IMG_7154.jpeg",
+      "bytes": 307243,
+      "sha256": "df015cfe3c1cdeeddf6b749629d9b64cdf1a223d6874b550bae911bc545884b7",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/city/IMG_7155.jpeg",
+      "bytes": 425801,
+      "sha256": "0a5bd444cb977730833f90cac0241823e5801245f4016ab2cff50e803f567c2a",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/city/IMG_7156.jpeg",
+      "bytes": 440693,
+      "sha256": "f3478fb13075af7961b9db916242cb010f7570b816cd195ebb7dcda23633a630",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/city/IMG_7157.jpeg",
+      "bytes": 185419,
+      "sha256": "ddb48d60602a90d6f0a69dbb9230b0063d992e7f4e600aeeaa4b71d318adcd5b",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/city/IMG_7158.jpeg",
+      "bytes": 389639,
+      "sha256": "2a22dc5c15395d170befe764f4d4efcf90db41872f7fe655047db9bd260e0fed",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/heist-queue-reference.jpeg",
+      "bytes": 195940,
+      "sha256": "23092dbc73b9239ee02f87455e52e169a71e17e5777647bd28ef20730cb1d6e9",
+      "tracked": true
+    },
+    {
+      "path": "refs/revisions/locker-room-reference.jpeg",
+      "bytes": 174071,
+      "sha256": "0bb8ebce2c49a642cd8351290acc4544caefbf603694efd154f33bd0c1666d76",
+      "tracked": true
+    },
+    {
+      "path": "src/client/ArmoryClient.luau",
+      "bytes": 17348,
+      "sha256": "5896675f2dc832ab16c8c3359bfa5c29871f9353143552f050285f5fc9756e44",
+      "tracked": true
+    },
+    {
+      "path": "src/client/CameraRig.luau",
+      "bytes": 7782,
+      "sha256": "e3b8c2565c4a938468a5f2cfd8190880354ff54ba6e2d09318810ef7b741683e",
+      "tracked": true
+    },
+    {
+      "path": "src/client/ClientState.luau",
+      "bytes": 107,
+      "sha256": "5633292237c89a128f0a30930771cba7fa74367e238cd0fdfa2b1d2ce21e3004",
+      "tracked": true
+    },
+    {
+      "path": "src/client/Controls.luau",
+      "bytes": 10148,
+      "sha256": "114f289f27b9a75b64fc8f7fed1baf5807a68efe234ae3c6f62605831eb6dbd5",
+      "tracked": true
+    },
+    {
+      "path": "src/client/EnemyView.luau",
+      "bytes": 3533,
+      "sha256": "700e6da8ad19b45e2172c10a0a00082151843d92aa9edfec3eae72376306bbd0",
+      "tracked": true
+    },
+    {
+      "path": "src/client/Fx.luau",
+      "bytes": 3950,
+      "sha256": "69c0242d0ed310dceeeec009c34bd40fa1583954c1d598a139c138aa44f8de54",
+      "tracked": true
+    },
+    {
+      "path": "src/client/GarageClient.luau",
+      "bytes": 8239,
+      "sha256": "1a2091f497d6bfe35b493299580a7b457493dd5522296802972979fd691605e1",
+      "tracked": true
+    },
+    {
+      "path": "src/client/GunClient.luau",
+      "bytes": 10214,
+      "sha256": "8d39c4bf97237f8bca6f5fec341fd452156c2b92f1be04f2f67bfb6858fca3b1",
+      "tracked": true
+    },
+    {
+      "path": "src/client/GunSfx.luau",
+      "bytes": 2626,
+      "sha256": "ba890986e6a1f1d88789ea297f1e39d814011a13cbc8f7318e5c2ccabb3324b8",
+      "tracked": false
+    },
+    {
+      "path": "src/client/HeistControls.luau",
+      "bytes": 3707,
+      "sha256": "5bdf279bf7ae50edfbb5c1bf81be3a075905f6b718b15fe431aa7cb1761787a9",
+      "tracked": true
+    },
+    {
+      "path": "src/client/HeistHud.luau",
+      "bytes": 17784,
+      "sha256": "6b4814a9cbc56bcb04e0541fd8f5d8e6a4a8f4433c0acefe06b65be75e84098d",
+      "tracked": true
+    },
+    {
+      "path": "src/client/Hud.luau",
+      "bytes": 12588,
+      "sha256": "db4a7ecbbdee4a9a98546ba1c66ce4644303f43e931aed4e5cb781e30c070e60",
+      "tracked": true
+    },
+    {
+      "path": "src/client/KartClient.luau",
+      "bytes": 8711,
+      "sha256": "4466750ea65fec5a4a03aff4e53db996f59b794758540293e18c74dff62b12d2",
+      "tracked": true
+    },
+    {
+      "path": "src/client/KartVisuals.luau",
+      "bytes": 5935,
+      "sha256": "2e969b7ed7a6cbaf502a3fad2ee6ca36a86ff78df3ef2ffedf29886acb8be4ea",
+      "tracked": true
+    },
+    {
+      "path": "src/client/LaserView.luau",
+      "bytes": 1717,
+      "sha256": "e59e6c5c10f64a881c12b82cb192cdc8583a95eed86d496d04b9e42320a5b83d",
+      "tracked": true
+    },
+    {
+      "path": "src/client/LobbyClient.luau",
+      "bytes": 8587,
+      "sha256": "652507522f3157bca4e0394cd8dc4e86a348ba7e64b27f9e28bfd1871c142844",
+      "tracked": true
+    },
+    {
+      "path": "src/client/LockerClient.luau",
+      "bytes": 17915,
+      "sha256": "f1e0af520e16391e2456f96dd56a473b16a23c31603d5015b8c972379d7d5ef0",
+      "tracked": true
+    },
+    {
+      "path": "src/client/Main.client.luau",
+      "bytes": 3899,
+      "sha256": "973e86b2aeaae486f221d793bb6a003f922fbeaf5398fe0f0faf4605c1557339",
+      "tracked": true
+    },
+    {
+      "path": "src/client/Menus.luau",
+      "bytes": 2668,
+      "sha256": "5bfce09dc5e144f60fd01b0f079ededcdd19923b57304a519d6131f9d8639764",
+      "tracked": true
+    },
+    {
+      "path": "src/client/ParkingGlow.luau",
+      "bytes": 4668,
+      "sha256": "cb6f5877d4f8e5b312ecc3b9f32c606566b6552789cceb05b55d61c3a06aff49",
+      "tracked": true
+    },
+    {
+      "path": "src/client/PerfOverlay.luau",
+      "bytes": 2901,
+      "sha256": "5d24676961163b8392921be8a262d70cf4635469322d4e08813f47ec11f1528c",
+      "tracked": true
+    },
+    {
+      "path": "src/client/RepairUI.luau",
+      "bytes": 3372,
+      "sha256": "18f718a741d9f8773eee08ee0794e7111db7551c641df77fb999edf5d543f13f",
+      "tracked": true
+    },
+    {
+      "path": "src/client/SettingsUI.luau",
+      "bytes": 4481,
+      "sha256": "9e2b04dc919f2a904fb9279dc81e9f7eeb4febe062fc222b3da7ab591459b4c3",
+      "tracked": true
+    },
+    {
+      "path": "src/client/ShopClient.luau",
+      "bytes": 4675,
+      "sha256": "018e10b5547ba1f3eca857a9c78eca0bcec6564463a6eef95166d9f5cf562722",
+      "tracked": false
+    },
+    {
+      "path": "src/client/SocialClient.luau",
+      "bytes": 1999,
+      "sha256": "a64f9a51d27173342313f71e853e72daa469560dc8e392a6bd0a1d36d096af17",
+      "tracked": false
+    },
+    {
+      "path": "src/client/ViewModel.luau",
+      "bytes": 9814,
+      "sha256": "6ddaa639b7c18b47616b5749b7bb7002884f0693c247d09308366bdd4dda8e9e",
+      "tracked": true
+    },
+    {
+      "path": "src/client/VortexMeshes.luau",
+      "bytes": 5908,
+      "sha256": "dd58eb02b4d5b78893af60e12266abc0fca44b2a8853973114ee06c0aa4d127d",
+      "tracked": false
+    },
+    {
+      "path": "src/client/Wheel.luau",
+      "bytes": 4825,
+      "sha256": "d6f987f78f1341470ef133d5f9f112c76cdf197dc2a11b653030c0b4146485cb",
+      "tracked": true
+    },
+    {
+      "path": "src/client/WorldAudio.luau",
+      "bytes": 2266,
+      "sha256": "b046ab1a6a68686631583f5dd193f22575ae8d45ca80a7bec5eb47945b0d7930",
+      "tracked": false
+    },
+    {
+      "path": "src/server/Appearance.luau",
+      "bytes": 1579,
+      "sha256": "1099e8c26a5fa4de6d0da3bcffe41e4910f9035f6f1df1ef0653edbe47cdd47a",
+      "tracked": true
+    },
+    {
+      "path": "src/server/EconomyService.luau",
+      "bytes": 1786,
+      "sha256": "9d855664e7b33a5780921420f11f02ed0861c31b53f65c6f598001218dd98db2",
+      "tracked": false
+    },
+    {
+      "path": "src/server/Garage.luau",
+      "bytes": 8410,
+      "sha256": "7b5132580b4912a23419c27d023e33dd6fcd9640a111ba4829fa80d0d1f1f66d",
+      "tracked": true
+    },
+    {
+      "path": "src/server/GarageKarts.luau",
+      "bytes": 5468,
+      "sha256": "278c01422813c8f8625ee4f39b8e79bb280b02b8d51df2cb1cfdfed4312ffd55",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Lobby.luau",
+      "bytes": 9768,
+      "sha256": "f571606053db8511df0662c0ec45ebff22f74d638d2f941fffdab7774acd4fde",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Main.server.luau",
+      "bytes": 4725,
+      "sha256": "72af48a8107a40827610f19e52aca84a7aca5827405a22df1a24fbd5bd9b9ba2",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Profiles.luau",
+      "bytes": 5277,
+      "sha256": "b1ffc3eb9e23eb3323216bbe238743d98eded813d7efa238c15487be1e9ba5d9",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Range.luau",
+      "bytes": 8128,
+      "sha256": "dd876e6e30c983ff2151f15b3ae717ba75b6bd162994c7049d5f93aabaa1adc3",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Receipts.luau",
+      "bytes": 1536,
+      "sha256": "ac768ee57a3bafbaa00f3c290a9618d903834ae854b5c6e691a4693ff3ed0ef1",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Remotes.luau",
+      "bytes": 1245,
+      "sha256": "770500b061d1607c32954971bbfbbb2dfbf64fcdf5836983b2bddfe627fc0f36",
+      "tracked": true
+    },
+    {
+      "path": "src/server/ServerState.luau",
+      "bytes": 96,
+      "sha256": "e76bedba8c6d41059ab833151124c8523917b109543fa57d2b1c59d914fab65c",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Social.luau",
+      "bytes": 2538,
+      "sha256": "050a522f1368be0966e105629415658f890e718394ed465cf825bc7e02fe7432",
+      "tracked": false
+    },
+    {
+      "path": "src/server/Targets.luau",
+      "bytes": 4244,
+      "sha256": "4941087a9cf6db48d8ccc767737c6df4a52abe29b7e4fc5924a02e6f31fd7969",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Telemetry.luau",
+      "bytes": 641,
+      "sha256": "5835537aca57e5aa897f66ebee459d53ec35bc8092a2265c991864a2c7386771",
+      "tracked": false
+    },
+    {
+      "path": "src/server/Teleport.luau",
+      "bytes": 2756,
+      "sha256": "764e0311b6cb7d706de6144f464ff2a9a1c20dad48b05a7fb95aa2c37f83576d",
+      "tracked": true
+    },
+    {
+      "path": "src/server/Weapons.luau",
+      "bytes": 11558,
+      "sha256": "9744f64a6c67625e4d2cc0916dcfe5815128fef348dff10d7cbae863be38cdbd",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/City.luau",
+      "bytes": 4453,
+      "sha256": "6605a0a343a0eaf3f99b20472fd9f5adffb11a1ee89d3a43971af70ca4a2669e",
+      "tracked": false
+    },
+    {
+      "path": "src/server/heist/Crew.luau",
+      "bytes": 6212,
+      "sha256": "a120f72bedae8ac58e896ed3883dcd223ce57c69d9c275a9a61ec70a637ce92e",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Drones.luau",
+      "bytes": 6945,
+      "sha256": "9d2b52de4f5321fb57ab1c895d65b940610e8d5826c35a455e854a494e100a7f",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Enemies.luau",
+      "bytes": 13851,
+      "sha256": "1f714040648651f2b665deca6fbae7b1b1f55380b390242af54c555f55177c92",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Escape.luau",
+      "bytes": 4188,
+      "sha256": "590d12ac8c375d9f59d08f100d580f54ed4fcebb395a47c583b4fb93fa7fe28d",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Gauntlet.luau",
+      "bytes": 3002,
+      "sha256": "b311f13aa46ebdb8d03be665ba791dcdeb0e85f97bda8809a01d93827435c0cc",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Heist.luau",
+      "bytes": 7815,
+      "sha256": "a295479adcd21406fe310ed6a0403a19d3a4adcb3b613fdc92b7d6237bf105ce",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Interact.luau",
+      "bytes": 3136,
+      "sha256": "23d5fdb097cba4b7ab83d8444cfe5b799286944c1781b28566acb55a0e0900d4",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Karts.luau",
+      "bytes": 14836,
+      "sha256": "55f38e22eb384276ab6135830c87bb5bcd73f2e407ff5d43eee66b617bad0d73",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Loot.luau",
+      "bytes": 6509,
+      "sha256": "b4d4434be2bcd99e1d8acee9d8f5985c1076190166ed0ffe72963eb7392444c5",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Map.luau",
+      "bytes": 9766,
+      "sha256": "c317aecb7de91167b451e5b176a42aebd2a6ddd94ab243d3b66df00ec9a7919d",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Security.luau",
+      "bytes": 3075,
+      "sha256": "3c7f1c967262cf69f253653319588e70127269ebac73a69ab1a022a519ce4a61",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Session.luau",
+      "bytes": 4653,
+      "sha256": "4e7967b8ad2310c240b08c30bbd2c35624cb581eb85a5745a16d09f8df3abf10",
+      "tracked": true
+    },
+    {
+      "path": "src/server/heist/Twist.luau",
+      "bytes": 2052,
+      "sha256": "43cee66fc002e1f6a76da44ece0529aaa213d8f0231b3209793d9edb8895ecea",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Actions.luau",
+      "bytes": 4971,
+      "sha256": "3ff0711bcf6b676e369e3a03c7d129d6ebe3d27d39cdd2d80d14d9dffd5d0a6c",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Alarm.luau",
+      "bytes": 2127,
+      "sha256": "d99d9b1786a83d64933e0f2ac9b4c4bd8400744de3b2e8d434ec158f24fdc650",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Carry.luau",
+      "bytes": 940,
+      "sha256": "3ea61213628c9ba6857858125c6ba9a62fcde2a2fb062ffc2e466cd756d0efc3",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/CityRoute.luau",
+      "bytes": 699,
+      "sha256": "6c58d5786a51e5ea17834f91b4cb41848d951ad761d9a9c6105b8fecbe4565fd",
+      "tracked": false
+    },
+    {
+      "path": "src/shared/Config.luau",
+      "bytes": 40254,
+      "sha256": "59e7998d6d38b2f4316f47c6494bb36c095dbc387bd282691f850c5e4e493aab",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/CosmeticKit.luau",
+      "bytes": 4500,
+      "sha256": "def1ecba33fbc4038264ab10a5da40b84d5ceef7da2d7cda94056a79ce1fc878",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Crews.luau",
+      "bytes": 3048,
+      "sha256": "212ab8334c87f7511ddb28fa5b269cf64dbc42d985a322b8b50e6bfd8e2bfb5f",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Economy.luau",
+      "bytes": 5004,
+      "sha256": "8a82be716f4df8096422deef6fd1e8f1e53263fd7f97da7b1094fde3be7b0df0",
+      "tracked": false
+    },
+    {
+      "path": "src/shared/GarageMap.luau",
+      "bytes": 6903,
+      "sha256": "fd1c605c385caa29dc4cab9d581765482eb686b70c78af2adf238148c8c1a679",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/GunArt/buzz.luau",
+      "bytes": 56392,
+      "sha256": "4d030798936e705f0c3e3a79c955fa9d2d68d79c930243c4cdd4425b7e19e3ad",
+      "tracked": false
+    },
+    {
+      "path": "src/shared/GunArt/dart9.luau",
+      "bytes": 38696,
+      "sha256": "ae279e6261d4add4ebf51a6c35e89e5f13e0026ac9a46d5b6e0d3d87f9b6cd9a",
+      "tracked": false
+    },
+    {
+      "path": "src/shared/GunArt/needle.luau",
+      "bytes": 43864,
+      "sha256": "d3d84200118db6b083ddaa9b0176d51676acee559ef4cbccb928603d6e8573ed",
+      "tracked": false
+    },
+    {
+      "path": "src/shared/GunArt/ranger.luau",
+      "bytes": 48772,
+      "sha256": "c56b5bfa92a1b9dc18baca525b75714a6f9841b74cdd609bd1e0977c34a9596b",
+      "tracked": false
+    },
+    {
+      "path": "src/shared/GunModel.luau",
+      "bytes": 10617,
+      "sha256": "f86f31296ba81064d8fa8a05f6d3db1960d1add98e71e0ecb04a0ee4a7bf99a1",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/GunStats.luau",
+      "bytes": 1939,
+      "sha256": "82f5c1f084b24417b2a9f9354468e374ba409dfbdc9342302f97a84f8a1a009b",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/HeistMap.luau",
+      "bytes": 9241,
+      "sha256": "8d21a824cfb15e5380f88aacd0a5d1a0cdf1f8e9fbdcd51dd3b73ab6e1fcc637",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/HudScale.luau",
+      "bytes": 732,
+      "sha256": "8ee07a0ca2bec0a71876a23eec527e523144338ef90bc6923ccb6cd2fe9d4f3d",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/KartModel.luau",
+      "bytes": 16657,
+      "sha256": "57913ff6dca4cc6db9fe1b951958c33217051b5c3f52b0962ad1ae9b105f97fa",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/KartPhysics.luau",
+      "bytes": 13325,
+      "sha256": "02e00d20e3f4204ba81669d6341d1fcc70ccf10e2676af036e94fa919137f37f",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Lasers.luau",
+      "bytes": 994,
+      "sha256": "6450149fe19588032d1e22d1751b40bb19af7156d609fa7ca88a57361e4fadc7",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Log.luau",
+      "bytes": 925,
+      "sha256": "1447d324ab0bb07950ad6c6f363b77a282c57e5f90c14ed986b81fef4d23b136",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Net.luau",
+      "bytes": 1890,
+      "sha256": "f67776dc16f2790bf080babb9f3bb2c4cb63cee122815e975969b3668c6eb5fa",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Parking.luau",
+      "bytes": 1251,
+      "sha256": "ec0f58dc4c76c697d441a896d1dbafe78ca0681d5894f4f4368a221f421b3936",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Payout.luau",
+      "bytes": 901,
+      "sha256": "468f392434fe6d012d0bd800e320af64df7fab8fc32d8eb0cc6c76c408f06130",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Perception.luau",
+      "bytes": 1267,
+      "sha256": "131135d5206f9b9736e593ff3841b8671bdaf4cc5e9cf82909518d27b541be46",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Place.luau",
+      "bytes": 393,
+      "sha256": "75476b3f4b3a4a37e5d21b9c25a2ca3da31ca732433b69d80d9540d38e563cc0",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Queue.luau",
+      "bytes": 3130,
+      "sha256": "e6dce10b4f321815d4130056bb54e0a7847e4ac468b261b15dcfeb398fd1e4b7",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/RateLimit.luau",
+      "bytes": 868,
+      "sha256": "5ff22055f96babdd3124b457f3cf4f236184f7cec19b4edb47b270c30d39a9af",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Recoil.luau",
+      "bytes": 1945,
+      "sha256": "8505d5fd9ee4277f41b52e7bb505aa4010f807362266eb29c52aa431129c1957",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Repair.luau",
+      "bytes": 1221,
+      "sha256": "ccef67033be639253643f44dec9d561421e94c6162f89844379ae19ce0da025d",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Rules.luau",
+      "bytes": 8215,
+      "sha256": "30e85484270cf51e31a75d62c14e41b435dbef6edda56be16993b0f176ca758a",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Spread.luau",
+      "bytes": 873,
+      "sha256": "f194d712667e67e08faf122931b93ca4379320d9719d46bcc60619187b11d4c7",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/StatSheet.luau",
+      "bytes": 4144,
+      "sha256": "9acab7308bbc43c6a8a74d8d558c8539759be68ddefc745d46cbe4152cf724ef",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/TimeOfDay.luau",
+      "bytes": 512,
+      "sha256": "49e749e19e5ee6fddbaa85dd94d8432a0c7e92d206b11dbc037e0c17762a5a3c",
+      "tracked": false
+    },
+    {
+      "path": "src/shared/TrackKit.luau",
+      "bytes": 5934,
+      "sha256": "6eb885b222902b6800ba278cb3e1ff8553a28b779f6796d019fb83965f415e02",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/Twists.luau",
+      "bytes": 1256,
+      "sha256": "72d42ccf4138e7863be39b7777c49121d6c4afdf0f1497143bc3044272701794",
+      "tracked": true
+    },
+    {
+      "path": "src/shared/VortexArt.luau",
+      "bytes": 233999,
+      "sha256": "70d689c4dc8fe426c8dcd41964fc33de18023829cffa0d178a8997cd9c0d3ed2",
+      "tracked": false
+    },
+    {
+      "path": "src/shared/WheelLogic.luau",
+      "bytes": 1632,
+      "sha256": "391f3ffb5016bf64544299e20bc00558c7c7e7daa9235347c42c015102460fe4",
+      "tracked": true
+    },
+    {
+      "path": "test-heist.project.json",
+      "bytes": 1062,
+      "sha256": "1f9862084333ebe483a5e663d0909a6da8b7003d0d66ed521aba2bc0d2054411",
+      "tracked": true
+    },
+    {
+      "path": "test.project.json",
+      "bytes": 831,
+      "sha256": "9ef3010c09b76852db6b19329a748b2ab11b853e95e19162e9646a7d55e74ceb",
+      "tracked": true
+    },
+    {
+      "path": "tests/client/Probe.client.luau",
+      "bytes": 18973,
+      "sha256": "98ab0ab07d7ce5056d7dea98c242c0f632848d5e8e3af910767b5614db993447",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/multi/Multi.spec.luau",
+      "bytes": 6613,
+      "sha256": "0fe61c0dbb48ca3e829473d3819bfaae9a219a3e7e9fdcc151a437078477742f",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Alarm.spec.luau",
+      "bytes": 4332,
+      "sha256": "fb1c8bf61c5fc1138fadcb71374d6ba6bb82ed9a9663e12aba5cb73ccf4c7754",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Carry.spec.luau",
+      "bytes": 7613,
+      "sha256": "289b6e8e73a3af4a26ae73ab4688bd1395d61877d26ea09b9b92ef902cc898d0",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/City.spec.luau",
+      "bytes": 2109,
+      "sha256": "23af29b7a9a751464ebfd36ff465b93d956b9167ac025f2bfdf69cc48dcd7f34",
+      "tracked": false
+    },
+    {
+      "path": "tests/heist/specs/Content.spec.luau",
+      "bytes": 1582,
+      "sha256": "e2a280e3f1adddc05a047e588e7d3774e77ff90db67e5226a4527899f289617b",
+      "tracked": false
+    },
+    {
+      "path": "tests/heist/specs/Cosmetics.spec.luau",
+      "bytes": 2042,
+      "sha256": "59e37b6a55b45998cad537d1b202c32f178f581f26bcd2580b744ac7b89bf779",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Downed.spec.luau",
+      "bytes": 3362,
+      "sha256": "a33e5805ceec85e608c41534948f1c160dcb8cc9134a0c2202a8f3d345f05d39",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Enemies.spec.luau",
+      "bytes": 6782,
+      "sha256": "de50cbbe0fb0544ddf4823bd4643fcd7daddba32d4e2f342c3912e4609af92f9",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Escape.spec.luau",
+      "bytes": 8385,
+      "sha256": "026d54ed6eecd7a1684e46e3609418ddc358ed875528b52dc122d8b6975b7ec9",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/HeistClient.spec.luau",
+      "bytes": 526,
+      "sha256": "a71e6a809cdfa44d3ec1ccf9e0dc88e23e9d594ff7d7bdf18f67086c2e4ac8fe",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/HudHeist.spec.luau",
+      "bytes": 4716,
+      "sha256": "8267db84085aa9fdabcb17188037e66353fe74e1cedf24c6d169e0f509995265",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Kart.spec.luau",
+      "bytes": 13916,
+      "sha256": "09c08e147cc66d210bd3a85c8b78743498685aba5f6e858ed576fde3e19695a1",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Lasers.spec.luau",
+      "bytes": 3031,
+      "sha256": "ccd3cb4a6ed3455190acdaeab925f4a3bfafe7c7efe6a8d8e8fb9b7f0db1e0e0",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Map.spec.luau",
+      "bytes": 2729,
+      "sha256": "1b7966d7b15ea076013b8fee8326bf9e5d4c68ea64bed01858ac2387afb5b451",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Perf.spec.luau",
+      "bytes": 1248,
+      "sha256": "9ba8a1be265553c329637ede5d00528e5998f1110c9394501de44e229e6d568b",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/RouteDrive.spec.luau",
+      "bytes": 1840,
+      "sha256": "f3328702929da56dc80a9fe8ebad9e70220d8d019675eb320d567ff13f08b6a3",
+      "tracked": false
+    },
+    {
+      "path": "tests/heist/specs/Session.spec.luau",
+      "bytes": 4400,
+      "sha256": "500cc8db43aac20c900b18f17f1d46c6b92c9315996db21702abc3b1bd973a2a",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Suspension.spec.luau",
+      "bytes": 12531,
+      "sha256": "077390692e8a040849c3aa061b20e563d624e54f5e0ec9c830181b1b3c8cfeaa",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Twists.spec.luau",
+      "bytes": 2476,
+      "sha256": "7b08ff4d2590a183fdd32cff76d5124d1cfd05c9b83c7e9ad14d9c9779d8a269",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Vortex.spec.luau",
+      "bytes": 4598,
+      "sha256": "f5050e047c86a0d22046efb16ae6f3daf0421e4d7539ed8af62bb0381f2be4ac",
+      "tracked": true
+    },
+    {
+      "path": "tests/heist/specs/Zz_Flow.spec.luau",
+      "bytes": 5093,
+      "sha256": "3e0bed048ea887484854fa38fbe6ac102e24a814d21bb547347962709c56f978",
+      "tracked": true
+    },
+    {
+      "path": "tests/heistclient/Probe.client.luau",
+      "bytes": 4175,
+      "sha256": "cd078f9c0d5cf85e468438849590c0df879448e106206547052a386f62c5ea4d",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/Runner.server.luau",
+      "bytes": 5017,
+      "sha256": "94fe4b3a714b595e8f56710cc799a213a0285ef813ac1ae112c10ebc0906d9aa",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Armory.spec.luau",
+      "bytes": 12773,
+      "sha256": "4077f280b0cb026aa503b3c2c15bbfc871ec6b2507bb5ad127d3e6c64aff3cf3",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Build3.spec.luau",
+      "bytes": 4272,
+      "sha256": "7c0d9ef05b464192ef71a54e6b6c3083466026e09cbb21a0601e6ee6f8b3ad51",
+      "tracked": false
+    },
+    {
+      "path": "tests/server/specs/Client.spec.luau",
+      "bytes": 1326,
+      "sha256": "5832e525c7fc3c45f9a2780803b0037127932f48cc2f5dd0aa97a8c0236f5b95",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Config.spec.luau",
+      "bytes": 3032,
+      "sha256": "222cadb9dd75d581128dd8178fe19b1768abf36291fcc30b2808172e292bff86",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Crews.spec.luau",
+      "bytes": 1771,
+      "sha256": "466922890b6eeb70221a39a210a43dbc4ca5a9ce26a9fe022fe4753ffb378d62",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Economy.spec.luau",
+      "bytes": 1882,
+      "sha256": "d0fa5734ac02edd849a9a1562301882457cc9188a3ed31630a3cdffa47ec8b18",
+      "tracked": false
+    },
+    {
+      "path": "tests/server/specs/Fire.spec.luau",
+      "bytes": 9303,
+      "sha256": "2390891c94c0649c13734d64568984ce120ddf4e6ec78e73d5f26fbb3b747671",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Garage.spec.luau",
+      "bytes": 7137,
+      "sha256": "7ce054d915aab34069a4273f4a2465b560455d4990ce9baeed20e432846d0080",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/GunFeel.spec.luau",
+      "bytes": 2536,
+      "sha256": "3b40c3283985a241fffe8844873ad8794a5701ac66d12bbd4b5d04419a528057",
+      "tracked": false
+    },
+    {
+      "path": "tests/server/specs/Guns.spec.luau",
+      "bytes": 6738,
+      "sha256": "c202c02563fa0a6f4543def8c4e0e33db28bfd4150d6c511eda2307125008f0a",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Hud.spec.luau",
+      "bytes": 3219,
+      "sha256": "9c5d7bd8770faf619a3a32dd5e0e331c6473faee21fc852c36e75cf76e09731f",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Lobby.spec.luau",
+      "bytes": 9876,
+      "sha256": "d237c717ed654ebf5cbf577919bf9848bd8a7afa27564e188386d0e175852880",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Locker.spec.luau",
+      "bytes": 12529,
+      "sha256": "18eaabcc064dbc4cea34bf88c6a8b270f6d574720e90027b9a87ebb503a3bf5c",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Profiles.spec.luau",
+      "bytes": 8786,
+      "sha256": "e4ca7a8a7d357c4a5d400d015de9b340ad930a9f16b343a0072ba3c87ae9419e",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Receipts.spec.luau",
+      "bytes": 2178,
+      "sha256": "84a03931c5431447a8da931bf550bfcb32403c1a2148e43e1c6d1e8c656dff12",
+      "tracked": true
+    },
+    {
+      "path": "tests/server/specs/Wheel.spec.luau",
+      "bytes": 1615,
+      "sha256": "56478d9a62c207c24337c671a6ea5250a1d9f7c4de0c940d8752014e8ac91ed2",
+      "tracked": true
+    },
+    {
+      "path": "tools/build.py",
+      "bytes": 4834,
+      "sha256": "86eb36eef8bca117130c6a77a3308050bbf9926ac36b47efa70d890869535b5d",
+      "tracked": true
+    },
+    {
+      "path": "tools/export_vortex.py",
+      "bytes": 2647,
+      "sha256": "121886344af531055227312f76c545f2b490e5f94af8f1d4197e0121bac25ae5",
+      "tracked": false
+    },
+    {
+      "path": "tools/render_vortex_review.py",
+      "bytes": 1945,
+      "sha256": "a2547bca49260b1da7eb55f842479ae10e782dabe680c553acafce6f0b28c0be",
+      "tracked": false
+    },
+    {
+      "path": "tools/run_multi.luau",
+      "bytes": 486,
+      "sha256": "b84de31ef224da7e2fb078213cbd5249a00274f70d20bb575c964ea1dd368e76",
+      "tracked": true
+    },
+    {
+      "path": "tools/run_studio.py",
+      "bytes": 4946,
+      "sha256": "824657a6a9d093ecb2527e3476ce807218e87a1aedf10fb0958dc38e10bad60a",
+      "tracked": true
+    },
+    {
+      "path": "tools/run_tests.luau",
+      "bytes": 441,
+      "sha256": "bae413b1b1bca82df6a31d2987f7d7ea5be91360b1f7a95f5eb7af80811bba96",
+      "tracked": true
+    },
+    {
+      "path": "tools/smoke.log",
+      "bytes": 379951,
+      "sha256": "7475734d5d9d3a823208e0985a5a3eb57c2fc0e4296907b26237eba6b45603aa",
+      "tracked": false
+    },
+    {
+      "path": "tools/smoke.luau",
+      "bytes": 2065,
+      "sha256": "21cb0da294ef5cc810a64d2f04f5804afdb0298832122c059a0e08ca27794100",
+      "tracked": true
+    },
+    {
+      "path": "tools/smoke.studio.log",
+      "bytes": 2279,
+      "sha256": "91d3bb0c2e03506a9dc95fa133dea156877bdd23b59073911f962cba863071ac",
+      "tracked": false
+    },
+    {
+      "path": "tools/test.py",
+      "bytes": 3970,
+      "sha256": "f270a67cbb285a80da06fb0f72bb144e4be6e5f027946df75932933f36e8c2d6",
+      "tracked": true
+    }
+  ],
+  "exact_duplicate_groups": [
+    {
+      "sha256": "3742113f9aa15c0075036b783d3633659805f46f59d2307d9a578d7471d4f28c",
+      "bytes_each": 2793,
+      "paths": [
+        "assets/guns/color/gun_points.json",
+        "assets/guns/detail/gun_points.json"
+      ]
+    },
+    {
+      "sha256": "40c987ab7eb9a7866cbfab102c4406acc2d4117001276e174bbbe0007e52b947",
+      "bytes_each": 413351,
+      "paths": [
+        "assets/karts/vortex/blackout_vortex.blend",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/blackout_vortex.blend"
+      ]
+    },
+    {
+      "sha256": "a23849e945f0863e4d77e9cde0d015d1b9f7cbe947e7f04b18fc463da6fb9821",
+      "bytes_each": 16073,
+      "paths": [
+        "assets/karts/vortex/build_vortex.py",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/build_vortex.py"
+      ]
+    },
+    {
+      "sha256": "5aaaa94b48b23706ef791413f97a2cff460a193bc25a942e8feee36a264df8d3",
+      "bytes_each": 69229,
+      "paths": [
+        "assets/karts/vortex/export/VortexKartProxy.rbxmx",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/VortexKartProxy.rbxmx",
+        "assets/roblox/VortexKartApproved.rbxmx"
+      ]
+    },
+    {
+      "sha256": "fc136bbf2bba960d4026172569058faef579c8cf614d5cbfec47a41a9e8a56b5",
+      "bytes_each": 1372172,
+      "paths": [
+        "assets/karts/vortex/export/blackout_vortex.fbx",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/blackout_vortex.fbx"
+      ]
+    },
+    {
+      "sha256": "4bb13943396a684af53a4d3505cbc48f4b1258e11d4883e54d18cd64f94a1bc0",
+      "bytes_each": 549748,
+      "paths": [
+        "assets/karts/vortex/export/blackout_vortex.glb",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/blackout_vortex.glb"
+      ]
+    },
+    {
+      "sha256": "7beb42938265efeffa36f4dc08b60dfd246d0016c499cd17cd82950edbb158a9",
+      "bytes_each": 1148742,
+      "paths": [
+        "assets/karts/vortex/export/cockpit-preview.png",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/cockpit-preview.png"
+      ]
+    },
+    {
+      "sha256": "02acb1b483cb122ff358da8644fe857dec99eb6ca9c2f68bdded2e73a3d61277",
+      "bytes_each": 537,
+      "paths": [
+        "assets/karts/vortex/export/manifest.json",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/manifest.json"
+      ]
+    },
+    {
+      "sha256": "2a5ecd255eb6de615216476011fa9d8746ca17d5069198569348b0110094b9f2",
+      "bytes_each": 972044,
+      "paths": [
+        "assets/karts/vortex/export/preview.png",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/preview.png"
+      ]
+    },
+    {
+      "sha256": "90ef54b50072254eb2b0dab8c500faa701d5d38a13faa3e7ea70be048d1f84b2",
+      "bytes_each": 945459,
+      "paths": [
+        "assets/karts/vortex/export/rear-preview.png",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/rear-preview.png"
+      ]
+    },
+    {
+      "sha256": "cfd5b280a43030587c47e74b49aebda36d0547d575bc81f18ba8113410c01a7d",
+      "bytes_each": 908784,
+      "paths": [
+        "assets/karts/vortex/export/side-preview.png",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/side-preview.png"
+      ]
+    },
+    {
+      "sha256": "5e2c0c3287955eec9c74533e9f6f01e6c101a9731fd7ac54a8e10ed3de570b46",
+      "bytes_each": 892588,
+      "paths": [
+        "assets/karts/vortex/export/vortex_shaped_body.fbx",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/export/vortex_shaped_body.fbx"
+      ]
+    },
+    {
+      "sha256": "31d210501e862e76167250d6227855514c046e8905c044e46c7c8433f3cf73da",
+      "bytes_each": 3878,
+      "paths": [
+        "assets/karts/vortex/merge_studio_import.py",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/merge_studio_import.py"
+      ]
+    },
+    {
+      "sha256": "1e9b42094f150b23c8c5185a643b6cda3c49a7bb33e75c78afcf3da2bb59c110",
+      "bytes_each": 11296,
+      "paths": [
+        "assets/karts/vortex/refine_canopy.py",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/refine_canopy.py"
+      ]
+    },
+    {
+      "sha256": "81ffa895c671b9d12c8608529f07e49a99aa2e912bbf4d01290ff40e4086f2ae",
+      "bytes_each": 1895,
+      "paths": [
+        "assets/karts/vortex/render_preview.py",
+        "assets/karts/vortex/revisions/approved-reference-cockpit/render_preview.py"
+      ]
+    },
+    {
+      "sha256": "0c5afee7637a728ad46e73ddc955059eef40d2150bdd5e2fb949d70c7d333da5",
+      "bytes_each": 36401,
+      "paths": [
+        "assets/karts/vortex/revisions/approved-reference-cockpit/cockpit-reference.jpeg",
+        "refs/kart/vortex/cockpit-reference.jpeg"
+      ]
+    },
+    {
+      "sha256": "8ead30ffea8067cf77c10ac770468aec62e1496452fd610f1598b483498474cb",
+      "bytes_each": 7884,
+      "paths": [
+        "assets/karts/vortex/revisions/approved-reference-cockpit/shape_vortex.py",
+        "assets/karts/vortex/revisions/canopy-before-reference/shape_vortex.py",
+        "assets/karts/vortex/shape_vortex.py"
+      ]
+    },
+    {
+      "sha256": "fbddaff7e5b3654fad469ca3a11a53ee2697ffc689fa7c80161fdc0f0c01f866",
+      "bytes_each": 1109,
+      "paths": [
+        "assets/karts/vortex/revisions/approved-reference-cockpit/verify_export.py",
+        "assets/karts/vortex/verify_export.py"
+      ]
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes_each": 0,
+      "paths": [
+        "build/alive1.studio.log",
+        "build/regression-build3-progress.log"
+      ]
+    },
+    {
+      "sha256": "7345286bba9ea6c63b1d5c4adfdfeacead0d992d66af781e839d5e92c5d64ae9",
+      "bytes_each": 3525,
+      "paths": [
+        "build/regression-build3-first.log",
+        "build/regression-build3-summary.log"
+      ]
+    },
+    {
+      "sha256": "585025ab6d10ea03a5d9c206c9317a9ec0792f4d6dd8ba5d1349b19ddeef18c0",
+      "bytes_each": 115,
+      "paths": [
+        "build/smoke-build3-heist-summary.log",
+        "build/smoke-linked-heist-summary.log"
+      ]
+    },
+    {
+      "sha256": "32ab7ffe4b4a8552a9e821fb2b90a09e57564e615972f3b1a97390aa2eb9dea8",
+      "bytes_each": 94,
+      "paths": [
+        "build/smoke-build3-lobby-summary.log",
+        "build/smoke-linked-lobby-summary.log"
+      ]
+    }
+  ]
+}

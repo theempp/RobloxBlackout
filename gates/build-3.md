@@ -1,4 +1,5 @@
 # Gate — Build 3A: garage, kart and onboarding
+Historical checkpoint; Oct 1 continuation supersedes its pending-authorisation statements. Current evidence: `phone-test-readiness.md`.
 Status: ready for owner playtest of the 3A blockout. Build 3B–3D remain pending. Current build stays 3.
 Revision stage 1 (locker room, personal armory, queue pads) is built on top of 3A: see `revision-stage-1.md` (awaiting owner review).
 

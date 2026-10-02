@@ -25,7 +25,7 @@ rayParams.FilterType = Enum.RaycastFilterType.Exclude
 
 -- RAZOR kart (KartModel): invisible physics box + visual mesh/placeholder; pivot = ground point at rest.
 function Karts.build(owner, slot, groundCF)
-	local m, root, seat = KartModel.build(slot, groundCF, { name = "Kart" .. slot, number = slot })
+	local m, root, seat = KartModel.build(slot, groundCF, { name = "Kart" .. slot, number = slot, topTier = S.profiles.loaded[owner] and S.profiles.loaded[owner].karts.owned.vortex })
 	m.ModelStreamingMode = Enum.ModelStreamingMode.Persistent -- 4 karts max: always known to every client
 	m:SetAttribute("Owner", owner.UserId)
 	m:SetAttribute("Parked", false)
@@ -184,11 +184,27 @@ function Karts.beginRepair(_, _, player, model)
 	return true
 end
 
+function Karts.skipRepair(player,model)
+ local d=S.profiles.loaded[player]
+ local k
+ for _,x in ipairs(Karts.list) do if x.model==model then k=x end end
+ local root=player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+ if not d or not k or k.skipBusy or not model:GetAttribute("Sabotaged") or not root
+  or (root.Position-k.root.Position).Magnitude>Config.Actions.repair.range or player:GetAttribute("BC_Downed") then return false end
+ local price=Config.Economy.RepairSkip
+ if d.credits<price then S.notify(player,"Repair skip needs "..price.." Credits") return false end
+ k.skipBusy=true d.credits-=price
+ if not S.profiles:save(player,false) then d.credits+=price k.skipBusy=nil S.notify(player,"Save failed; skip reversed") return false end
+ model:SetAttribute("Sabotaged",false) model:SetAttribute("SabotageFill",0) k.fill=0 k.steps=0
+ for p in pairs(k.repairers) do repairEvent(k,p,true) end table.clear(k.repairers)
+ k.skipBusy=nil publishStatus(k) S.pushProfile(player) return true
+end
+
 function Karts.repairTap(player, model, tap, now)
 	now = now or workspace:GetServerTimeNow()
 	for _, k in ipairs(Karts.list) do
 		local r = k.model == model and k.repairers[player]
-		if r then
+		if r and not k.skipBusy then
 			if Repair.hit(tap, now, r.t0, r.period, r.zone, RC) then
 				k.steps += 1
 				if k.steps >= RC.Steps then
@@ -242,7 +258,7 @@ local function physicsStep(dt)
 			if spin then
 				k.spunAt = m:GetAttribute("EmpAt")
 			end
-			KartPhysics.step(k.root, k.state, input or { t = 0, s = 0, b = true }, dt, K, rayParams,
+			KartPhysics.step(k.root, k.state, input or { t = 0, s = 0, b = true }, dt, KartPhysics.forModel(m,K), rayParams,
 				{ sabotaged = m:GetAttribute("Sabotaged"), emp = emp, spin = spin })
 		end
 	end
@@ -268,6 +284,13 @@ function Karts.tick(_, run, dt)
 	refreshRays()
 	for _, k in ipairs(Karts.list) do
 		local m = k.model
+		if k.root.Position.Y < Config.City.RecoverBelow then
+			k.lastGood = k.roadSafe or k.lastGood
+			Karts.rubberBand(k)
+		elseif k.root.AssemblyLinearVelocity.Magnitude < K.MaxSpeed * K.SpeedTolerance then
+			local hit = workspace:Raycast(k.root.Position, Vector3.new(0,-8,0), rayParams)
+			if hit and hit.Instance.CanCollide and k.root.CFrame.UpVector.Y > .6 then k.roadSafe = k.root.CFrame end
+		end
 		if m:GetAttribute("Driver") and not K.ServerPhysics and k.lastT then
 			local elapsed = now - k.lastT
 			if elapsed >= 0.2 then
@@ -325,6 +348,7 @@ function Karts.init(s)
 	S.interact.effects.repair = Karts.beginRepair
 	S.Remotes.bind(S.remotes, "KartInput", Karts.input)
 	S.Remotes.bind(S.remotes, "KartAction", Karts.action)
+	S.Remotes.bind(S.remotes, "RepairSkip", Karts.skipRepair)
 	S.Remotes.bind(S.remotes, "Repair", function(player, model, tap)
 		Karts.repairTap(player, model, tap)
 	end)

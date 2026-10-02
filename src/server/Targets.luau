@@ -4,7 +4,7 @@ local CollectionService = game:GetService("CollectionService")
 local shared = game:GetService("ReplicatedStorage"):WaitForChild("BlackoutCrew")
 local Config = require(shared.Config)
 
-local Targets = { TAG = "BC_Target" }
+local Targets = { TAG = "BC_Target", defeats = 0 } -- defeats: server-wide counter = unique id per defeat (ELIMINATED dedupe)
 
 function Targets.fromPart(part)
 	local m = part:FindFirstAncestorOfClass("Model")
@@ -37,7 +37,8 @@ function Targets.setDown(model, down)
 	end
 end
 
--- Returns damage dealt, killed.
+-- Returns damage dealt, killed, defeatId (only the hit that takes Health to 0 gets killed = true and a new id;
+-- a downed target ignores further damage, so pellets / multi-hits / other players can never defeat it twice).
 function Targets.damage(model, amount)
 	if model:GetAttribute("Down") or amount <= 0 then
 		return 0, false
@@ -49,15 +50,18 @@ function Targets.damage(model, amount)
 	setBar(model)
 	if h <= 0 then
 		Targets.setDown(model, true)
+		Targets.defeats += 1
+		local id = Targets.defeats
+		model:SetAttribute("DefeatId", id)
 		if model:GetAttribute("NoRespawn") then
-			return dealt, true -- heist enemies stay down for the run
+			return dealt, true, id -- heist enemies stay down for the run
 		end
 		task.delay(model:GetAttribute("RespawnTime") or Config.Range.RespawnTime, function()
 			if model.Parent then
 				Targets.setDown(model, false)
 			end
 		end)
-		return dealt, true
+		return dealt, true, id
 	end
 	return dealt, false
 end

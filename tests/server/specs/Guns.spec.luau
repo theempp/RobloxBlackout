@@ -9,9 +9,41 @@ return function(T)
 	for _, g in ipairs(C.Guns) do
 		local s = GunStats.resolve(g.id)
 		T.check(g.id .. " resolves", s ~= nil and math.abs(s.interval - 60 / g.rpm) < 1e-9)
-		local tris = GunModel.estimateTris(g)
-		T.check(g.id .. " world tri budget", tris <= C.TriBudget.WorldGun, tris)
-		T.check(g.id .. " first-person tri budget", tris <= C.TriBudget.FirstPersonGun, tris)
+		local art = GunModel.art(g.id)
+		T.eq(g.id .. " art flag matches GunArt module", g.art == true, art ~= nil)
+		if art then
+			-- generated data agrees with Config and the budgets (render cost is measured separately: GunFeel.spec)
+			T.check(g.id .. " art first-person tris <= budget", art.tris <= C.TriBudget.FirstPersonGun, art.tris)
+			local est = 0
+			for _, w in ipairs(art.world) do
+				est += w.kind == "Cylinder" and C.TriEstimate.Cylinder or C.TriEstimate.Block
+			end
+			T.check(g.id .. " world LOD estimate <= budget", est <= C.TriBudget.WorldGun, est)
+			T.check(g.id .. " world LOD has >= 8 primitives", #art.world >= 8, #art.world)
+			local p = art.points
+			T.check(g.id .. " points: Sight, FrontSight, Grip, Engrave", p.Sight and p.FrontSight and p.Grip and p.Engrave ~= nil)
+			T.check(g.id .. " sight line parallel to bore", math.abs(p.Sight.Y - p.FrontSight.Y) < 0.004 and math.abs(p.Sight.X) < 1e-3
+				and math.abs(p.FrontSight.X) < 1e-3, p.Sight.Y - p.FrontSight.Y)
+			T.check(g.id .. " front sight ahead of rear sight", p.FrontSight.Z < p.Sight.Z - 0.2)
+			T.check(g.id .. " sight above bore", p.Sight.Y > g.muzzle.Y)
+			T.check(g.id .. " fp tuning present", g.fp and typeof(g.fp.hip) == "Vector3" and type(g.fp.eye) == "number" and g.fp.kick ~= nil)
+			for _, m in ipairs(art.meshes) do
+				T.check(g.id .. " mesh " .. m.group .. "/" .. m.zone .. " zone known", art.zones[m.zone] ~= nil)
+			end
+			local okGroups = true
+			for _, m in ipairs(art.meshes) do
+				okGroups = okGroups and (m.group == "Receiver" or m.group == "Mover" or m.group == "Mag")
+			end
+			T.check(g.id .. " mesh groups valid", okGroups)
+			-- decode round trip: first vertex inside its declared bounds
+			local m1 = art.meshes[1]
+			local buf = GunModel.decode(m1.data)
+			T.eq(g.id .. " decoded byte length", buffer.len(buf), m1.verts * 6 + m1.tris * 6)
+		else
+			local tris = GunModel.estimateTris(g)
+			T.check(g.id .. " world tri budget", tris <= C.TriBudget.WorldGun, tris)
+			T.check(g.id .. " first-person tri budget", tris <= C.TriBudget.FirstPersonGun, tris)
+		end
 		local m = GunModel.build(g)
 		local parts, collide, engr = 0, 0, 0
 		for _, d in ipairs(m:GetDescendants()) do
@@ -24,10 +56,23 @@ return function(T)
 				engr += 1
 			end
 		end
-		T.eq(g.id .. " model parts", parts, #g.shape + 1)
+		T.eq(g.id .. " world model parts", parts, (art and #art.world or #g.shape) + 1)
 		T.eq(g.id .. " parts non-colliding/massless", collide, 0)
 		T.eq(g.id .. " one engraving layer", engr, 1)
-		T.check(g.id .. " muzzle attachment", m.PrimaryPart and m.PrimaryPart:FindFirstChild("Muzzle") ~= nil)
+		local mz = m.PrimaryPart and m.PrimaryPart:FindFirstChild("Muzzle")
+		T.check(g.id .. " muzzle attachment = Config", mz ~= nil and (mz.Position - g.muzzle).Magnitude < 1e-4)
+		if art then
+			local sightAtt = m.PrimaryPart:FindFirstChild("Sight")
+			T.check(g.id .. " art points on the model", sightAtt ~= nil and (sightAtt.Position - art.points.Sight).Magnitude < 1e-4)
+			-- the traced muzzle tip lands on Config's muzzle (length kept, bore height from the art)
+			local tip = Vector3.zero
+			for _, w in ipairs(art.world) do
+				if w.zone == "Foam" then
+					tip = w.pos - Vector3.new(0, 0, w.size.Z / 2)
+				end
+			end
+			T.check(g.id .. " foam tip at Config muzzle", math.abs(tip.Z - g.muzzle.Z) < 0.03 and math.abs(tip.Y - g.muzzle.Y) < 0.01, tostring(tip))
+		end
 		m:Destroy()
 	end
 

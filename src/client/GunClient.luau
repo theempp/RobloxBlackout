@@ -1,17 +1,21 @@
 -- Client gun logic. Sends only aim (seq, origin, direction, ads) — the server decides hits and damage.
 -- Locally predicts tracers + a grey hit marker using the SAME seeded spread as the server; server
 -- confirms with Hit (damage numbers, white/yellow/red marker) and corrects ammo/gun via State.
+-- ELIMINATED shows once per server-issued defeat id (h.e): pellets, multi-hits and repeated events never duplicate it,
+-- and nothing kill-related is predicted locally. ADS/scope snaps off on swap, death, menu, holster and driving.
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")
 
-local GunClient = { stats = nil, gunId = nil, ammo = {}, seq = 0, ads = false, confirmedHits = 0, shots = 0 }
+local GunClient = { stats = nil, gunId = nil, ammo = {}, seq = 0, ads = false, confirmedHits = 0, shots = 0, eliminations = 0 }
 local ctx, C, GunStats, Spread, Recoil, WheelLogic
 local lp = Players.LocalPlayer
 local trigger, consumed = false, false
 local nextShot, drawnAt, reloadEnd = 0, 0, 0
 local recoil
 local wheel
+local seenDefeats, seenOrder = {}, {}
+local dryPlayed = false
 local loadout = { "", "", "" }
 local attachments = {}
 local params = RaycastParams.new()
@@ -61,8 +65,9 @@ local function equipLocal(slot, gunId)
 	drawnAt = os.clock() + C.Fire.DrawTime
 	reloadEnd = 0
 	recoil = Recoil.new()
-	GunClient.setAds(false)
+	GunClient.resetAds()
 	ctx.ViewModel.set(gunId)
+	ctx.ViewModel.setEmpty(GunClient.ammo[gunId] <= 0)
 	ctx.Hud.setGun(s.name)
 	ctx.Hud.setReload(nil)
 	updateAmmo()
@@ -71,6 +76,9 @@ end
 
 function GunClient.setAds(on)
 	on = on == true
+	if on and (ctx.holstered or ctx.driving or ctx.cursorFree or not GunClient.stats) then
+		return -- no aiming while holstered, driving or in a menu
+	end
 	if on == GunClient.ads then
 		return
 	end
@@ -83,12 +91,22 @@ function GunClient.setAds(on)
 	ctx.Hud.setCrosshair(not on, s and 6 + GunStats.cone(s, false) * 3)
 end
 
+-- Instant reset: ADS off, zoom and scope gone this frame (swap, death, menu, holster, driving).
+function GunClient.resetAds()
+	GunClient.setAds(false)
+	ctx.ViewModel.snapAds()
+end
+
 function GunClient.reload()
 	local s = GunClient.stats
 	if not s or reloadEnd > 0 or GunClient.ammo[GunClient.gunId] >= s.mag then
 		return
 	end
 	reloadEnd = os.clock() + s.reload
+	ctx.ViewModel.reload(s.reload)
+	if ctx.GunSfx then
+		ctx.GunSfx.play("Reload")
+	end
 	ctx.remotes.Reload:FireServer()
 	ctx.netSends += 1
 	updateAmmo()
@@ -113,6 +131,21 @@ function GunClient.swapLast()
 	if last then
 		GunClient.equip(last)
 	end
+end
+
+-- One tag per server defeat id; ids remembered (bounded) so a repeated event can never re-show it.
+function GunClient.confirmElimination(id)
+	if seenDefeats[id] then
+		return false
+	end
+	seenDefeats[id] = true
+	table.insert(seenOrder, id)
+	if #seenOrder > C.HitFx.SeenCap then
+		seenDefeats[table.remove(seenOrder, 1)] = nil
+	end
+	GunClient.eliminations += 1
+	ctx.Hud.eliminated()
+	return true
 end
 
 function GunClient.loadout()
@@ -142,7 +175,11 @@ local function shoot(now)
 	GunClient.shots += 1
 	local seq = GunClient.seq
 	GunClient.ammo[GunClient.gunId] -= 1
-	nextShot = (now - nextShot < s.interval) and nextShot + s.interval or now + s.interval
+	if s.bolt then
+		nextShot = now + s.interval -- bolt-action: one full cycle per shot, never banked
+	else
+		nextShot = (now - nextShot < s.interval) and nextShot + s.interval or now + s.interval
+	end
 	local origin, dir = aim.Position, aim.LookVector
 	local cone = GunStats.cone(s, GunClient.ads)
 	local muzzle = ctx.ViewModel.muzzle()
@@ -172,9 +209,17 @@ local function shoot(now)
 	local up, side = Recoil.onShot(recoil, s, now)
 	ctx.CameraRig.kick(up, side, s.recoil.visual)
 	ctx.ViewModel.kick(s.recoil.visual)
+	ctx.ViewModel.cycle()
 	ctx.ViewModel.flash()
+	if ctx.GunSfx then
+		ctx.GunSfx.shot(GunClient.gunId)
+		if s.bolt then
+			ctx.GunSfx.play("Bolt", (s.fp and s.fp.mover and s.fp.mover.delay) or 0.1)
+		end
+	end
 	updateAmmo()
 	if GunClient.ammo[GunClient.gunId] <= 0 then
+		ctx.ViewModel.setEmpty(true)
 		GunClient.reload() -- auto-reload on empty
 	end
 end
@@ -189,6 +234,7 @@ local function tick()
 		if now >= reloadEnd then
 			reloadEnd = 0
 			GunClient.ammo[GunClient.gunId] = s.mag
+			ctx.ViewModel.setEmpty(false)
 			ctx.Hud.setReload(nil)
 			updateAmmo()
 		else
@@ -200,7 +246,12 @@ local function tick()
 		if GunClient.ammo[GunClient.gunId] > 0 then
 			shoot(now)
 			consumed = true
+			dryPlayed = false
 		else
+			if not dryPlayed and ctx.GunSfx then
+				ctx.GunSfx.play("Dry")
+				dryPlayed = true
+			end
 			GunClient.reload()
 		end
 	end
@@ -229,6 +280,11 @@ function GunClient.init(c)
 	ctx.on("reload", GunClient.reload)
 	ctx.on("swapLast", GunClient.swapLast)
 	ctx.on("equip", GunClient.equip)
+	ctx.on("menu", function(name)
+		if name then
+			GunClient.resetAds() -- any menu (armory, locker, settings, wheel) drops the scope
+		end
+	end)
 	ctx.on("profile", function(p)
 		attachments = type(p.attachments) == "table" and p.attachments.equipped or {}
 	end)
@@ -244,7 +300,7 @@ function GunClient.init(c)
 		if (msg.holstered == true) ~= (ctx.holstered == true) then
 			ctx.holstered = msg.holstered == true
 			if ctx.holstered then
-				GunClient.setAds(false)
+				GunClient.resetAds()
 			end
 			ctx.emit("holster", ctx.holstered)
 		end
@@ -264,20 +320,33 @@ function GunClient.init(c)
 		end
 		local best = "hit"
 		for _, h in ipairs(hits) do
-			local kind = h.k and "kill" or h.h and "head" or "hit"
-			GunClient.confirmedHits += 1
-			ctx.Fx.damage(h.p, h.d, kind)
-			if kind == "kill" or (kind == "head" and best == "hit") then
-				best = kind
+			if type(h) == "table" and typeof(h.p) == "Vector3" and type(h.d) == "number" then
+				local kind = h.k and "kill" or h.h and "head" or "hit"
+				GunClient.confirmedHits += 1
+				ctx.Fx.damage(h.p, h.d, kind)
+				if kind == "kill" or (kind == "head" and best == "hit") then
+					best = kind
+				end
+				if h.k and type(h.e) == "number" then
+					GunClient.confirmElimination(h.e)
+				end
 			end
 		end
 		ctx.Hud.hitMarker(best)
 	end)
 
-	lp.CharacterAdded:Connect(function()
+	local function onChar(char)
 		task.defer(refreshFilter)
-		GunClient.setAds(false)
-	end)
+		GunClient.resetAds()
+		local hum = char:WaitForChild("Humanoid", 10)
+		if hum then
+			hum.Died:Connect(GunClient.resetAds)
+		end
+	end
+	lp.CharacterAdded:Connect(onChar)
+	if lp.Character then
+		task.spawn(onChar, lp.Character)
+	end
 	Players.PlayerAdded:Connect(function(p)
 		p.CharacterAdded:Connect(function()
 			task.defer(refreshFilter)

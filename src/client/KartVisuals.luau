@@ -59,9 +59,9 @@ local function lights(m, v)
 	local on = m:GetAttribute("LightsOn") ~= false
 	if v.lights == on then return end
 	v.lights = on
-	for _, p in ipairs(m:GetChildren()) do
+	for _, p in ipairs(m:GetDescendants()) do
 		if p:IsA("BasePart") and p:GetAttribute("VortexLED") then
-			p.Material = on and Enum.Material.Neon or Enum.Material.SmoothPlastic
+			p.Material = Enum.Material.SmoothPlastic
 			p.Color = on and Color3.fromRGB(243, 248, 255) or Color3.fromRGB(23, 25, 28)
 		end
 	end

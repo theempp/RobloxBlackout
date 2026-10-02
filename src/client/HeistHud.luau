@@ -59,7 +59,13 @@ local function buildMap(root)
 	Hud.corner(box, 10)
 	Hud.surface(box, true)
 	local world = frame(box, { Name = "World", BackgroundTransparency = 1, Size = UDim2.fromOffset(0, 0) })
-	for _, b in ipairs(M.Blocks) do
+	local route=require(ctx.shared.CityRoute)
+ frame(world,{Name="BayMap",Position=toMap(Vector3.new(1040,0,-240)),Size=UDim2.fromOffset(1140*SCALE,620*SCALE),BackgroundColor3=Color3.fromRGB(65,130,145)})
+ for i=2,#route.Points do
+  local a,b=route.Points[i-1],route.Points[i] local d=b-a
+  frame(world,{Name="EscapeRoute",AnchorPoint=Vector2.new(.5,.5),Position=toMap((a+b)/2),Size=UDim2.fromOffset(Vector2.new(d.X,d.Z).Magnitude*SCALE,route.Width*SCALE),Rotation=math.deg(math.atan2(d.Z,d.X)),BackgroundColor3=Color3.fromRGB(140,155,144)})
+ end
+ for _, b in ipairs(M.Blocks) do
 		local s = b.max - b.min
 		frame(world, { Position = toMap(b.min), Size = UDim2.fromOffset(s.X * SCALE, s.Z * SCALE), BackgroundColor3 = Color3.fromRGB(60, 64, 80), BackgroundTransparency = 0.3 })
 	end

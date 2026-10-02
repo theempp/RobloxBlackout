@@ -1,0 +1,40 @@
+[
+  {
+    "created_at": "2026-10-02T04:17:05.33137Z",
+    "display_name": "GPT Image 2.5",
+    "id": "cc77457c-bd75-4469-ac4c-8f9239d95393",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_041705_cc77457c-bd75-4469-ac4c-8f9239d95393_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [
+        {
+          "data": {
+            "id": "8119d619-995b-430a-8c7c-80c80c5622ec",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/8119d619-995b-430a-8c7c-80c80c5622ec_resize.jpg"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "2d9e58e2-8b04-4c8e-847d-a925b08078f4",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/2d9e58e2-8b04-4c8e-847d-a925b08078f4.webp"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "flare",
+      "prompt": "Restyle the first attached image (our chosen concept, Getaway Route daily-reward screen) into a darker, stealth look for Blackout Crew, a blacked-out heist game. KEEP the exact overall structure and layout: title lockup top-left with a kart, isometric rooftop route of 7 stash stops running left to right climbing to the Directive tower vault on Day 7, kart driving the route, repo drones with vision cones over locked days, bottom-left DAY 3 REWARD card with big CLAIM button, bottom-right streak + tomorrow's reward + timer pills, close X top-right. Keep state logic: DAY 1 and DAY 2 CLAIMED with green checks, DAY 3 TODAY (largest, raised, lit), DAY 4 to 7 LOCKED with padlock pills. Same text as the first image, EXCEPT remove the 'EVENT ENDS IN' pill entirely, and make the close X plain dark (not red). The second image is only a craft and depth reference. Art direction: overall BLACK. Near-black matte buildings and UI panels, charcoal and graphite materials, stealth, mysterious, modern, minimalist, clean sparse UI with thin precise lines, no clutter. Light comes only from restrained sources: thin cool LED-white edge lighting on panels, pill outlines and rooftop edges, small white window lights, and a warm gold glow on the TODAY item (Day 3) only. No other colored glow, no neon, no rainbow. Squad blue only as a tiny accent on the kart. Keep 3D chunky Roblox-blocky props with bevels and specular highlights, soft depth of field, dark night city, moon. Kid-friendly, no blood, no real guns, no real brands. Variant 3: ultra minimalist. Fewer details, larger dark negative space and heavy darkness fading the far city to silhouette with fog, flat clean black UI plates with hairline white LED outlines, simplified props, gold glow on Day 3, subtle white LED route arrows.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_041705_cc77457c-bd75-4469-ac4c-8f9239d95393.png",
+    "status": "completed"
+  }
+]

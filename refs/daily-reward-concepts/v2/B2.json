@@ -1,0 +1,48 @@
+[
+  {
+    "created_at": "2026-10-02T04:08:24.246856Z",
+    "display_name": "GPT Image 2.5",
+    "id": "38837cc0-9b2a-466c-a971-12496407f5a5",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040824_38837cc0-9b2a-466c-a971-12496407f5a5_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [
+        {
+          "data": {
+            "id": "7679d15c-2627-4a48-9202-901a0a0ecb21",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/7679d15c-2627-4a48-9202-901a0a0ecb21.webp"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "0e8e3e9c-25ff-496c-b575-0ff4c6a778af",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/0e8e3e9c-25ff-496c-b575-0ff4c6a778af.webp"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "ff490c01-9055-4e6f-b5a8-3191e49247cd",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/ff490c01-9055-4e6f-b5a8-3191e49247cd.webp"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "flare",
+      "prompt": "Premium mobile-game UI key art, full-bleed 16:9, no empty margins. The three attached images are QUALITY and STYLE references only (3D-rendered chunky Roblox-blocky hero props with bevels, specular highlights and soft contact shadows, layered 2D UI chrome on top, blurred depth-of-field diorama scene, extruded 3D title lettering with stroke and gradient, pill labels): match that craft level, but do NOT copy their titles, props layout or text. Original game: Blackout Crew, a kid-friendly co-op heist vs the Directive, a gray megacorp AI; our identity is colorful glitch versus gray. Deadpan humor, no blood, no real guns, no real brands or place names. Squad colors sky blue #56B4E9, orange #E69F00, green #009E73, pink-purple #CC79A7. Rich cinematic lighting, soft specular highlights and rim light. Soft warm glow ONLY on the TODAY item; no neon or emissive glow anywhere else. Seven days, DAY 1 to DAY 7. Exact state logic: DAY 1 and DAY 2 are CLAIMED with green check badges, DAY 3 is TODAY (largest, lit, raised, callout), DAY 4 to DAY 7 are LOCKED with padlock pills and dimmed. Show: close X top-right, '2 DAY STREAK' counter, huge CLAIM button, small timer pill 'NEXT REWARD 12H 36M', and a tomorrow teaser. Rewards are 3D props: Credits cash stacks, spray can (Spray Tag), kart decal sheet, ping icon token, loot crates, Day 7 grand prize crate with a Static Face Mask. Keep on-image text minimal, large, exact and legible; no tiny paragraphs. CONCEPT B variant, title 'GETAWAY ROUTE' extruded 3D white/orange. Layout: tilted top-down isometric city map in the lower two-thirds, route snaking left to right across 7 rooftop stash pads with 3D props (cash, spray can, decal sheet, crates), kart parked at DAY 3 pad with lit crate; gray drone sentries on locked pads; big CLAIM button bottom-right; Directive tower with vault top-right.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040824_38837cc0-9b2a-466c-a971-12496407f5a5.png",
+    "status": "completed"
+  }
+]

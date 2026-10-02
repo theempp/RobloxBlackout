@@ -201,6 +201,14 @@ function Loot.start(_, run)
 	end
 end
 
+function Loot.tick(_,run,dt)
+ if run.wing~="prototype" then return end
+ for p,m in pairs(run.loot.heavyOf) do
+  local root=p.Character and p.Character:FindFirstChild("HumanoidRootPart")
+  if root and root.AssemblyLinearVelocity.Y < -35 then Loot.drop(S,run,p) S.notify(p,"Fragile prototype dropped—retrieve it") end
+ end
+end
+
 function Loot.leave(_, run, player)
 	Loot.dropFor(run, player)
 end

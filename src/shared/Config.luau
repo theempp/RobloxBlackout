@@ -2,11 +2,11 @@
 -- Units: studs, seconds, degrees. Product id 0 = hidden/disabled.
 local Config = {}
 
-Config.Build = "build3A"
+Config.Build = "build3-phone-candidate"
 
 -- Places + teleport (§11). Place ids = publish target [OPEN owner]; 0 = unpublished -> "local" mode:
 -- nothing teleports (Studio: open build/heist.rbxlx to play the heist directly).
-Config.Places = { Lobby = 0, Heist = 0 }
+Config.Places = { Lobby = 102861732553937, Heist = 125919969708119 }
 Config.Teleport = { Retries = 1, RetryDelay = 2, PadResetAfter = 20 }
 
 -- Crews (ported from roblox 1): cap 4; haul bonus +8% per extra member, capped at +24% (§4).
@@ -65,7 +65,7 @@ Config.Heist = {
 Config.Profile = {
 	StoreName = "BlackoutCrew_Profile_v1",
 	Persistence = true, -- live DataStore outside Studio; Studio is always session-only
-	SchemaVersion = 4, -- 3: saved onboarding completion; 4: equipped cosmetics
+	SchemaVersion = 5, -- 3: saved onboarding completion; 4: equipped cosmetics
 	LockSeconds = 180,
 	AutosaveSeconds = 55,
 	Retries = 3,
@@ -83,7 +83,7 @@ Config.Branding = { Name = "BLACKOUT CREW", Monogram = "DG", DecalId = "" }
 Config.Products = {} :: { { id: number, credits: number } }
 
 -- Whitelists for profile ids that later builds fill in.
-Config.Karts = {} :: { { id: string } }
+Config.Karts = { { id = "base" }, { id = "vortex" } }
 
 -- Cosmetics (locker room, revision stage 1). Placeholder matte primitives (no assets, no neon) welded to the
 -- character. Disguises are COSMETIC ONLY: nothing reads them for stealth. free = starter item everyone
@@ -176,6 +176,7 @@ Config.Fire = {
 	DrawTime = 0.3, -- after equip before firing is allowed
 	MaxSeqJump = 1000,
 	MaxRange = 500, -- absolute cap regardless of gun
+	BoltSlack = 0.05, -- bunch-1 (bolt) guns: seconds of network jitter forgiven per shot (sustained rate still capped)
 	FxRadius = 250, -- other players within this get tracer FX
 }
 
@@ -185,8 +186,56 @@ Config.Recoil = {
 	VisualReturn = 14, -- viewmodel kick spring return speed
 }
 
+-- First-person feel defaults (per-gun overrides in Config.Guns[i].fp). Distances in studs, angles in degrees.
+Config.ViewModel = {
+	Hip = Vector3.new(0.72, -0.72, -1.45), -- legacy guns without fp.hip
+	Eye = 0.6, -- legacy guns: eye relief behind the sight in ADS
+	Kick = { back = 0.06, rise = 2, roll = 1, spring = 300, damp = 26 },
+	Draw = { drop = 0.45, tilt = 35 }, -- equip: rises from below over Config.Fire.DrawTime
+	Reload = { tilt = 22, roll = 18, dip = 0.12, magDrop = 0.35 },
+	Bob = { amp = 0.035, rate = 1.6, adsMult = 0.15 }, -- walk bob (reduced motion = off)
+	Sway = { look = 2, ads = 0.2 },
+	ScopeShowAt = 0.85, -- ADS progress at which a scope gun swaps to the full-view reticle
+}
+
+-- Full-viewport scope (Needlepoint): reticle across the whole play view, light edge shading only (no black ring).
+Config.Scope = {
+	LineColor = Color3.fromRGB(12, 12, 14), LineThickness = 2, CenterGap = 18, ThickFrom = 0.22, -- thick outer posts from 22% of half-width
+	EdgeShade = 0.55, -- transparency of the corner shading (1 = none)
+	Dot = 4,
+}
+
+-- Hit feedback. ELIMINATED appears once per server-confirmed defeat, below-right of the reticle (never over it).
+Config.HitFx = {
+	ElimText = "ELIMINATED", ElimTime = 1.1, ElimColor = Color3.fromRGB(255, 70, 70),
+	ElimOffset = Vector2.new(46, 52), -- design px from screen centre to the tag's top-left corner
+	DamageOffset = Vector2.new(0.9, 0.9), -- BillboardGui SizeOffset: numbers float up-right of the hit, off the reticle
+	SeenCap = 64, -- remembered defeat ids (dedupe)
+}
+
+-- Gun sound. PLACEHOLDERS: the only offline sounds are Roblox's built-in client content (rbxasset://sounds). Real
+-- per-gun audio needs owner-approved uploads; set ids here and nothing else changes. volume 0-1, speed = PlaybackSpeed.
+Config.Sfx = {
+	Placeholder = true,
+	PoolPerGun = 4, -- overlapping shots (auto fire) without allocating
+	OtherShots = 6, -- 3D pool for teammates' shots
+	OtherMaxDistance = 140,
+	Shot = {
+		dart9 = { id = "rbxasset://sounds/action_jump_land.mp3", volume = 0.55, speed = 1.7 },
+		buzz = { id = "rbxasset://sounds/action_jump_land.mp3", volume = 0.45, speed = 2.3 },
+		ranger = { id = "rbxasset://sounds/impact_explosion_03.mp3", volume = 0.22, speed = 2.6 },
+		needle = { id = "rbxasset://sounds/impact_explosion_03.mp3", volume = 0.35, speed = 1.5 },
+		default = { id = "rbxasset://sounds/action_jump_land.mp3", volume = 0.5, speed = 1.9 },
+	},
+	Bolt = { id = "rbxasset://sounds/action_get_up.mp3", volume = 0.4, speed = 1.6 },
+	Reload = { id = "rbxasset://sounds/action_get_up.mp3", volume = 0.35, speed = 1.2 },
+	Dry = { id = "rbxasset://sounds/volume_slider.ogg", volume = 0.5, speed = 0.8 },
+}
+
 -- Per-player remote rate limits: { per second, burst }.
 Config.RateLimits = {
+	SocialAction = { 2, 4 },
+	EconomyAction = { 2, 4 },
 	GarageAction = { 5, 10 },
 	Fire = { 20, 30 },
 	Reload = { 3, 5 },
@@ -201,6 +250,7 @@ Config.RateLimits = {
 	KartInput = { 20, 30 }, -- server-physics mode only
 	KartAction = { 4, 6 }, -- driver controls for doors and white LEDs
 	Repair = { 6, 10 },
+	RepairSkip = { 1, 2 },
 }
 
 -- Tri budgets (§6 REC-AUTO, verify on low-end phone) and per-primitive estimates used to check them.
@@ -222,6 +272,7 @@ Config.Colors = {
 	Predict = Color3.fromRGB(200, 200, 200),
 	Head = Color3.fromRGB(255, 214, 64),
 	Kill = Color3.fromRGB(255, 70, 70),
+	Puff = Color3.fromRGB(236, 230, 220), -- muzzle air puff (foam blaster; matte, not a glow)
 	Text = Color3.fromRGB(255, 255, 255),
 	Panel = Color3.fromRGB(14, 16, 24),
 	Accent = Color3.fromRGB(64, 220, 255),
@@ -231,11 +282,13 @@ Config.Colors = {
 	Slots = { Color3.fromHex("56B4E9"), Color3.fromHex("E69F00"), Color3.fromHex("009E73"), Color3.fromHex("CC79A7") },
 }
 
---[[ Guns. Fictional names, placeholder foam-tactical primitives.
+--[[ Guns. Fictional names. art = true: locked v2 art (GunArt/<id>, generated by assets/guns/gun_v2.py; first-person
+ meshes + world primitives). Scatterpop + Rattler keep placeholder primitives (shape) until their art is approved.
  recoil: kick per shot i = (side[(i-1) % #side + 1], up * (1 + grow * min(i-1, 10))) degrees (x right, y up).
  Deterministic and learnable; the player counters by dragging down. recover = fraction of the spray's
  vertical climb returned after firing stops, over recoverTime.
- shape parts: { kind, size, pos, color = "Body"|"Accent"|"Foam" } in studs, muzzle along -Z. ]]
+ shape parts: { kind, size, pos, color = "Body"|"Accent"|"Foam" } in studs, muzzle along -Z.
+ fp: first-person feel (hip pose, ADS eye relief, recoil spring, mover); bolt + bunch = 1: bolt-action cadence. ]]
 export type Gun = {
 	id: string, name: string, class: string, price: number, auto: boolean,
 	damage: number, headMult: number, rpm: number, mag: number, reload: number,
@@ -243,7 +296,8 @@ export type Gun = {
 	hipSpread: number, adsSpread: number, pelletSpread: number,
 	adsFov: number, adsTime: number, adsSpeedMult: number,
 	recoil: { up: number, grow: number, side: { number }, recover: number, recoverTime: number, visual: number },
-	slots: { string }, accent: Color3, shape: { any }, muzzle: Vector3,
+	slots: { string }, accent: Color3, shape: { any }?, muzzle: Vector3,
+	art: boolean?, fp: any?, bolt: boolean?, bunch: number?,
 }
 
 local function part(kind, sx, sy, sz, px, py, pz, color)
@@ -259,11 +313,9 @@ Config.Guns = {
 		adsFov = 58, adsTime = 0.12, adsSpeedMult = 0.85,
 		recoil = { up = 0.9, grow = 0, side = { 0.10, -0.10 }, recover = 0.7, recoverTime = 0.2, visual = 1.0 },
 		slots = { "optic", "barrel", "mag" }, accent = Color3.fromRGB(64, 220, 255),
-		muzzle = Vector3.new(0, 0.1, -1.05),
-		shape = {
-			part("Block", 0.25, 0.35, 1.2, 0, 0.1, -0.4), part("Block", 0.22, 0.55, 0.3, 0, -0.25, -0.05),
-			part("Cylinder", 0.16, 0.16, 0.3, 0, 0.1, -1.0, "Foam"), part("Block", 0.27, 0.06, 0.9, 0, 0.29, -0.4, "Accent"),
-		},
+		muzzle = Vector3.new(0, 0.1, -1.05), art = true,
+		fp = { hip = Vector3.new(0.6, -0.6, -1.35), eye = 0.95, kick = { back = 0.09, rise = 4.5, roll = 2, spring = 260, damp = 22 },
+			mover = { kind = "slide", travel = 0.13, time = 0.09 }, bob = 1.0 },
 	},
 	{
 		id = "buzz", name = "Buzzline", class = "SMG", price = 1000, auto = true,
@@ -273,12 +325,8 @@ Config.Guns = {
 		adsFov = 62, adsTime = 0.14, adsSpeedMult = 0.8,
 		recoil = { up = 0.35, grow = 0.04, side = { 0.05, 0.12, 0.18, 0.10, -0.08, -0.2, -0.22, -0.05, 0.14, 0.2 }, recover = 0.5, recoverTime = 0.3, visual = 0.6 },
 		slots = { "optic", "barrel", "mag", "grip" }, accent = Color3.fromRGB(120, 255, 90),
-		muzzle = Vector3.new(0, 0.12, -1.35),
-		shape = {
-			part("Block", 0.3, 0.4, 1.5, 0, 0.1, -0.55), part("Block", 0.2, 0.5, 0.25, 0, -0.25, -0.1),
-			part("Block", 0.18, 0.7, 0.22, 0, -0.35, -0.55), part("Block", 0.24, 0.24, 0.6, 0, 0.05, 0.45),
-			part("Cylinder", 0.16, 0.16, 0.3, 0, 0.12, -1.3, "Foam"), part("Block", 0.32, 0.06, 1.2, 0, 0.32, -0.55, "Accent"),
-		},
+		muzzle = Vector3.new(0, 0.15, -1.35), art = true,
+		fp = { hip = Vector3.new(0.62, -0.68, -1.05), eye = 0.45, kick = { back = 0.035, rise = 1.2, roll = 0.8, spring = 420, damp = 30 }, bob = 0.9 },
 	},
 	{
 		id = "ranger", name = "Ranger", class = "Rifle", price = 3000, auto = true,
@@ -288,13 +336,8 @@ Config.Guns = {
 		adsFov = 50, adsTime = 0.18, adsSpeedMult = 0.75,
 		recoil = { up = 0.5, grow = 0.05, side = { 0, 0.08, 0.15, 0.2, 0.1, -0.1, -0.2, -0.25, -0.1, 0.1 }, recover = 0.5, recoverTime = 0.35, visual = 0.8 },
 		slots = { "optic", "barrel", "mag", "grip" }, accent = Color3.fromRGB(255, 80, 200),
-		muzzle = Vector3.new(0, 0.12, -1.95),
-		shape = {
-			part("Block", 0.3, 0.42, 2.1, 0, 0.1, -0.8), part("Block", 0.2, 0.5, 0.25, 0, -0.25, -0.1),
-			part("Block", 0.2, 0.6, 0.25, 0, -0.35, -0.75), part("Block", 0.26, 0.4, 0.8, 0, 0, 0.6),
-			part("Cylinder", 0.16, 0.16, 0.35, 0, 0.12, -1.9, "Foam"), part("Block", 0.32, 0.06, 1.8, 0, 0.33, -0.8, "Accent"),
-			part("Block", 0.14, 0.18, 0.3, 0, 0.4, -0.3),
-		},
+		muzzle = Vector3.new(0, 0.216, -1.95), art = true,
+		fp = { hip = Vector3.new(0.6, -0.72, -1.0), eye = 0.5, kick = { back = 0.05, rise = 1.8, roll = 1.0, spring = 360, damp = 28 }, bob = 1.0 },
 	},
 	{
 		id = "scatter", name = "Scatterpop", class = "Shotgun", price = 6000, auto = false,
@@ -312,20 +355,18 @@ Config.Guns = {
 		},
 	},
 	{
-		id = "needle", name = "Needlepoint", class = "Marksman", price = 10000, auto = false,
-		damage = 48, headMult = 2.0, rpm = 220, mag = 10, reload = 2.4,
-		range = 400, falloffStart = 200, minDamageMult = 0.75, pellets = 1,
-		hipSpread = 3.0, adsSpread = 0, pelletSpread = 0,
-		adsFov = 32, adsTime = 0.24, adsSpeedMult = 0.65,
-		recoil = { up = 1.8, grow = 0, side = { 0.15, -0.05, 0.1 }, recover = 0.85, recoverTime = 0.3, visual = 1.6 },
+		-- Owner lock Oct 1: single-shot bolt-action sniper. Cadence + damage below are a PROPOSAL for owner balance
+		-- review (was a 220 rpm marksman, 48 dmg): 50 rpm = 1.2 s bolt cycle, 95 body / 190 head, 5-round mag.
+		id = "needle", name = "Needlepoint", class = "Sniper", price = 10000, auto = false, bolt = true, bunch = 1,
+		damage = 95, headMult = 2.0, rpm = 50, mag = 5, reload = 2.8,
+		range = 500, falloffStart = 300, minDamageMult = 0.85, pellets = 1,
+		hipSpread = 4.0, adsSpread = 0, pelletSpread = 0,
+		adsFov = 20, adsTime = 0.28, adsSpeedMult = 0.6,
+		recoil = { up = 2.6, grow = 0, side = { 0.25, -0.2, 0.3 }, recover = 0.9, recoverTime = 0.45, visual = 2.2 },
 		slots = { "optic", "barrel", "mag", "grip" }, accent = Color3.fromRGB(160, 110, 255),
-		muzzle = Vector3.new(0, 0.12, -2.45),
-		shape = {
-			part("Block", 0.28, 0.4, 2.6, 0, 0.1, -1.05), part("Block", 0.2, 0.5, 0.25, 0, -0.25, -0.1),
-			part("Block", 0.18, 0.55, 0.22, 0, -0.3, -0.6), part("Block", 0.26, 0.42, 0.9, 0, 0, 0.65),
-			part("Cylinder", 0.22, 0.22, 0.7, 0, 0.45, -0.5), part("Cylinder", 0.14, 0.14, 0.3, 0, 0.12, -2.4, "Foam"),
-			part("Block", 0.3, 0.06, 2.2, 0, 0.31, -1.05, "Accent"),
-		},
+		muzzle = Vector3.new(0, 0.205, -2.45), art = true,
+		fp = { hip = Vector3.new(0.58, -0.7, -0.95), eye = 0.35, scope = true, kick = { back = 0.14, rise = 6, roll = 2.5, spring = 160, damp = 16 },
+			mover = { kind = "bolt", lift = 60, travel = 0.24, delay = 0.12, time = 0.8 }, bob = 1.1 },
 	},
 	{
 		id = "rattler", name = "Rattler", class = "Heavy", price = 15000, auto = true,
@@ -494,7 +535,7 @@ Config.Downed = { MaxHP = 100, BleedOut = 25, ReviveHP = 50, Overrides = 1, Reca
 
 -- Twists (§5c): one per run. Numbers ending in Mult multiply the run's params. Force = an id for playtests.
 Config.Twists = {
-	Enabled = { "blackout", "doublePatrol" }, -- 3C adds laserStorm, shortFuse, glitchSurge, loudFloor
+	Enabled = { "blackout", "doublePatrol", "laserStorm", "shortFuse", "glitchSurge", "loudFloor" }, -- 3C adds laserStorm, shortFuse, glitchSurge, loudFloor
 	Force = nil,
 	blackout = {
 		name = "BLACKOUT",
@@ -502,6 +543,10 @@ Config.Twists = {
 		lighting = { Brightness = 0.15, ClockTime = 0, Ambient = Color3.fromRGB(14, 14, 24), OutdoorAmbient = Color3.fromRGB(20, 20, 34), FogEnd = 420 },
 	},
 	doublePatrol = { name = "DOUBLE PATROL", sentryMult = 2 },
+ laserStorm = { name = "LASER STORM", laserMult = 1.6 },
+ shortFuse = { name = "SHORT FUSE", alarmMult = 2 },
+ glitchSurge = { name = "GLITCH SURGE", reroute = true },
+ loudFloor = { name = "LOUD FLOOR", bumpMult = { gunfire = 2 } },
 }
 
 -- One-seat kart (§3b, §7): owner's RAZOR model on an invisible physics box. KartPhysics = fixed-step
@@ -510,6 +555,7 @@ Config.Twists = {
 -- kart centre at the RAZOR design ride height, +X right, +Y up, nose -Z. All numbers = placeholders.
 Config.Kart = {
 	ServerPhysics = false,
+ TopTierSpeedMult = 1.08, TopTierAccelMult = 1.04,
 	MaxSpeed = 60, Accel = 42, Reverse = 20, Brake = 95, -- studs/s, studs/s^2
 	Drag = 0.13, Roll = 1.5, AirDrag = 0.05, -- coast: Drag x speed + Roll (studs/s^2)
 	TopTaper = 0.15, -- drive force fades to 0 over the top 15% of MaxSpeed
@@ -531,7 +577,7 @@ Config.Kart = {
 		SteerHub = Vector3.new(0, 1.85, -0.95), SteerTilt = 30, SteerRatio = 4, -- steering wheel turns 4x the road wheels
 		HoodPlate = { Center = Vector3.new(0, 1.48, -3.4), Size = Vector3.new(1.88, 0.05, 1.57), Pitch = -6.6 }, -- §17 decal zones (hood follows ZCEN 1.40..1.58)
 		RearPlate = { Center = Vector3.new(0, 1.1, 5.0), Size = Vector3.new(1.56, 0.46, 0.05) },
-		Tris = 4200, -- Vortex offline model estimate: 16 cylindrical details, 3 curved shells, hard-surface panels and links
+		Tris = 6616, -- optimized approved source geometry; rendered derivative measured separately
 	},
 	Susp = {
 		Freq = 2.3, -- ride frequency (Hz): spring rate = (2 pi f)^2 per unit corner mass, preloaded to sit at static
@@ -562,7 +608,7 @@ Config.Kart = {
 }
 
 -- Offline Vortex RBXMX ships with both places. The editable Blender/FBX source is in assets/karts/vortex.
-Config.KartModel = { Template = "VortexKart", HubTolerance = 0.15 }
+Config.KartModel = { Template = "VortexKartApproved", HubTolerance = 0.15 }
 
 -- Parking (§5d): park = leave the kart within Radius of your spot. Teammates' spots show within GlowRange.
 Config.Parking = { Radius = 7, GlowRange = 60 }
@@ -576,6 +622,10 @@ Config.Drones = {
 }
 
 -- Escape (§5d): per-player gate timer from driving away (after the breach); run cap = safety net.
+Config.WorldAudio = { Roll = "rbxasset://sounds/action_footsteps_plastic.mp3", Drone = "rbxasset://sounds/action_swim.mp3", Cue = "rbxasset://sounds/volume_slider.ogg", RollVolume = .12, DroneVolume = .08, CueVolume = .18, CuePool = 4, Range = 90, UpdateSeconds = .1 }
+
+Config.City = { CycleSeconds = 1200, StartHours = { 9, 17, 21 }, UpdateSeconds = 1, MaxLights = 6, LightRange = 140, RecoverBelow = -5 }
+
 Config.Escape = { DashTime = 75, RunCap = 720, MinDashMult = 1.3, StepRate = 0.5 }
 
 -- Repair minigame (§5d): 3 steps; needle period per revolution (owner self-repair is slower).
@@ -625,6 +675,20 @@ Config.Range = {
 }
 
 Config.Log = { Level = "info" } -- debug | info | warn
+
+-- Private-test economy: all production product IDs remain zero, no Robux prompts.
+Config.Economy = { Season = 1, XpPerTier = 250, RunXp = 250, FailXp = 50, TierCredits = 100,
+ AttachmentPrice = 600, RepairSkip = 100, PaidRandomEnabled = false, PassProduct = 0,
+ SpinProduct = 0, SpinPackProduct = 0, CrateProduct = 0, BundleProducts = { 0, 0, 0 },
+ SpinItems = {}, SeasonName = "Static Signal" }
+local names = { "Slate", "Sand", "Harbor", "Courier", "Circuit", "Carbon", "Static Face", "Signal", "Buffering", "Midnight", "Ivory", "Full Static" }
+local weights = {10,10,10,10,10,10,8.33,8.33,8.34,5.5,5.5,4}
+for i,name in ipairs(names) do
+ local id="static_"..i
+ local col=RGB(45+i*8,55+i*6,65+i*5)
+ table.insert(Config.Cosmetics,{id=id,slot="mask",name=name,parts={piece("Head","Block",V3(.85,.35,.1),V3(0,0,-.55),col)}})
+ table.insert(Config.Economy.SpinItems,{id=id,weight=weights[i],rank=i<=6 and 1 or (i<=9 and 2 or (i<=11 and 3 or 4))})
+end
 
 -- Lookup tables (built once).
 Config.GunsById = {} :: { [string]: Gun }

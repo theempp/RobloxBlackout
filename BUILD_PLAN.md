@@ -1,6 +1,8 @@
 # Blackout Crew — Build Plan (v1 = alpha-ready)
 Truth: DIRECTIVE_GRAY.md (numbers = placeholders -> one Config module). Old-code audit: SALVAGE.md. 3 builds, sequential. Each ends at a **gate**: stop, write `gates/build-N.md` (≤1 page: test counts, perf, gaps, owner tasks), owner phone-tests, owner says "go".
 
+Current Oct 1 continuation: stages 3–4 and Build 3B–3D local test preparation authorised. See `gates/phone-test-readiness.md` for current evidence and explicit gaps; alpha acceptance remains pending.
+
 ## Global rules
 - Placeholders/primitives only; no generated assets, no Higgsfield, until owner approves plan + cost quotes.
 - Mobile first: StreamingEnabled, matte surfaces, no neon/emissive (owner override Sept 30); dynamic lights remain prohibited except a small, performance-tested number of practical city streetlights (owner approval Oct 1), tri budgets (§6). AI cap ~8.

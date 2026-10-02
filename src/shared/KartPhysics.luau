@@ -9,6 +9,14 @@
 -- Roblox gravity so Kart.Gravity rules) and fold any collision change back in next frame.
 -- input: { t = throttle -1..1, s = steer -1..1, b = brake bool }. mods: { sabotaged, emp, spin }.
 local KartPhysics = {}
+local tiers=setmetatable({},{__mode="k"})
+function KartPhysics.forModel(model,cfg)
+ if model:GetAttribute("KartTier")~="vortex" then return cfg end
+ if not tiers[cfg] then
+  local top=table.clone(cfg) top.MaxSpeed=cfg.MaxSpeed*cfg.TopTierSpeedMult top.Accel=cfg.Accel*cfg.TopTierAccelMult tiers[cfg]=top
+ end
+ return tiers[cfg]
+end
 
 local V3 = Vector3.new
 local Y = Vector3.yAxis

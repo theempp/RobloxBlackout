@@ -122,6 +122,7 @@ return function(T)
 		now += 1
 		local weak = dummy(40, { health = 10 })
 		local _, _, killHits = shoot(weak)
+		T.check("server defeat id attached", killHits[1] and type(killHits[1].e) == "number")
 		T.check("kill reported", killHits[1] and killHits[1].k == true and weak:GetAttribute("Down") == true)
 		now += 1
 		local _, _, downHits = shoot(weak)
@@ -145,7 +146,26 @@ return function(T)
 		local _, _, pellets = shoot(d3)
 		local one = GunStats.damageAt(st.stats, 10, false)
 		T.check("pellets aggregate into one hit > 1 pellet", pellets[1] and #pellets == 1 and pellets[1].d > one, pellets[1] and pellets[1].d)
-		st.loan = {}
+		d3:Destroy()
+        T.check("bolt loan equips", Weapons.loan(player, "needle"))
+        now += 2
+        T.check("bolt first shot accepted", shoot(nil))
+        now += st.stats.interval * 0.5
+        T.eq("bolt half cycle rejected", select(2, shoot(nil)), "rate")
+        now += st.stats.interval * 0.5 + 0.001
+        T.check("bolt full cycle accepted", shoot(nil))
+        now += 10
+        T.check("bolt idle shot accepted", shoot(nil))
+        now += st.stats.interval * 0.5
+        T.eq("bolt idle cannot bank burst", select(2, shoot(nil)), "rate")
+        local dead = dummy(25, { health = 1 })
+        local _, killed, id = Targets.damage(dead, 10)
+        local dealt, twice, repeated = Targets.damage(dead, 10)
+        T.check("multi-hit defeat emitted once", killed and type(id) == "number" and dealt == 0 and not twice and repeated == nil)
+        Targets.setDown(dead, false)
+        local _, again, newId = Targets.damage(dead, 10000)
+        T.check("respawn has new defeat id", again and newId ~= id)
+        st.loan = {}
 
 		local a = Spread.direction(Vector3.yAxis, 3, Spread.seed(player.UserId, 7, 1))
 		T.check("spread deterministic", a == Spread.direction(Vector3.yAxis, 3, Spread.seed(player.UserId, 7, 1)))

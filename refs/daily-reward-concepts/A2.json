@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-10-02T04:02:25.779632Z",
+    "display_name": "GPT Image 2.5",
+    "id": "e411921c-91cc-4939-ba16-d5b90d8ee6b4",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_e411921c-91cc-4939-ba16-d5b90d8ee6b4_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "flare",
+      "prompt": "Stylized blocky Roblox-style cartoon game UI concept art, 16:9 landscape phone game screen, matte flat colors, thick dark outlines, rounded panels, sticker-like cards, chunky bold readable text. Strictly NO neon, NO glow, NO bloom, NO lens flare, NO emissive light, NO glossy shine. Heist-comedy tone, kid-friendly, no blood, no weapons shown. Reward state system: 7 days; claimed days have a green check stamp, today is highlighted with a dark outline and a TODAY pill, locked days have a padlock pill. Includes a close X button top-right, a streak counter, and one big CLAIM button. Title lockup 'DEAD DROP' as a sticker logo. Layout: flat warm off-white rounded panel over a blurred garage background, a 7-card grid of sticker item cards each shaped like a small locker door with a number: Day 1 '500 Credits', Day 2 'Spray Tag', Day 3 '1,000 Credits', Day 4 'Kart Decal' (TODAY), Day 5 'Ping Icons', Day 6 '2,000 Credits', Day 7 'Static Face Mask' (bigger card, gold trim). Big pill button 'CLAIM'. '3 DAY STREAK' pill. Palette: off-white, charcoal, sky blue, orange, green, pink-purple.",
+      "quality": "low",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_e411921c-91cc-4939-ba16-d5b90d8ee6b4.png",
+    "status": "completed"
+  }
+]

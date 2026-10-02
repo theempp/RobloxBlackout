@@ -51,7 +51,11 @@ function Queue:join(p, now)
 	if #self.members >= self.cfg.MaxSquad then
 		return false, "full"
 	end
-	local ok, why = self.crews:join(p, self.members[1])
+	local existing=self.crews:crewOf(p)
+ local leader=self.members[1]
+ local ok,why
+ if existing and (not leader or existing==self.crews:crewOf(leader)) then ok=true
+ else ok,why=self.crews:join(p,leader) end
 	if not ok then
 		return false, why
 	end

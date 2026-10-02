@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-10-02T04:02:25.813646Z",
+    "display_name": "GPT Image 2.5",
+    "id": "8bee53d7-e9d7-4c18-8b76-35dc34bfc4e4",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_8bee53d7-e9d7-4c18-8b76-35dc34bfc4e4_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "flare",
+      "prompt": "Stylized blocky Roblox-style cartoon game UI concept art, 16:9 landscape phone game screen, matte flat colors, thick dark outlines, rounded panels, sticker-like cards, chunky bold readable text. Strictly NO neon, NO glow, NO bloom, NO lens flare, NO emissive light, NO glossy shine. Heist-comedy tone, kid-friendly, no blood, no weapons shown. Reward state system: 7 days; claimed days have a green check stamp, today is highlighted with a dark outline and a TODAY pill, locked days have a padlock pill. Includes a close X button top-right, a streak counter, and one big CLAIM button. Title lockup 'DIRECTIVE PAYROLL'. Layout: gray corporate ID-badge card on the left showing a cartoon crew member mask avatar with name 'EMPLOYEE 4417'; right side a stack of 7 stamped payslip forms (Day 1 '500 Credits', Day 2 'Spray Tag', Day 3 '1,000 Credits', Day 4 'Kart Decal' TODAY, Day 5 'Ping Icons', Day 6 '2,000 Credits', Day 7 'Static Face Mask'), claimed ones covered by colorful glitch stickers, locked ones with padlock pills. Deadpan footer 'Compensation approved. Do not feel valued.' Button 'COLLECT'. Gray with sky blue, orange, green, pink-purple accents.",
+      "quality": "low",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_8bee53d7-e9d7-4c18-8b76-35dc34bfc4e4.png",
+    "status": "completed"
+  }
+]

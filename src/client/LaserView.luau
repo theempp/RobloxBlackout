@@ -26,7 +26,7 @@ function LaserView.init(ctx)
 		local cam = workspace.CurrentCamera
 		local near = st and (cam.CFrame.Position - centre).Magnitude < 160
 		local now = workspace:GetServerTimeNow()
-		local off = not near or now < (st:GetAttribute("LasersOffUntil") or 0)
+		local off = (st and st:GetAttribute("Wing") == "bullion") or not near or now < (st:GetAttribute("LasersOffUntil") or 0)
 		local mult = st and st:GetAttribute("LaserSpeed") or 1
 		for i, def in ipairs(M.Lasers) do
 			local p = LaserView.beams[i]

@@ -32,7 +32,7 @@ server:SetAttribute("BCRole", S.role)
 local function pushProfile(player)
 	local d = profiles.loaded[player]
 	if d then
-		remotes.Profile:FireClient(player, { settings = d.settings, guns = d.guns, attachments = d.attachments, cosmetics = d.cosmetics, credits = d.credits })
+		remotes.Profile:FireClient(player, { settings = d.settings, guns = d.guns, attachments = d.attachments, cosmetics = d.cosmetics, credits = d.credits, glitchCoins = d.glitchCoins, progress = d.progress, wheel = d.wheel, karts = d.karts })
 	end
 end
 S.pushProfile = pushProfile
@@ -60,12 +60,16 @@ end)
 
 MarketplaceService.ProcessReceipt = Receipts.handler({
 	products = Config.Products,
+ grant = function(data,product) return require(shared.Economy).receiptGrant(data,product) end,
 	profiles = profiles,
 	getPlayer = function(id)
 		return Players:GetPlayerByUserId(id)
 	end,
 	onGranted = pushProfile,
 })
+
+require(server.EconomyService).init(S)
+require(server.Telemetry).init(S)
 
 Weapons.init(S)
 S.Weapons = Weapons
@@ -114,6 +118,7 @@ else
 	S.Garage.init(S)
 	S.Lobby = require(server.Lobby)
 	S.Lobby.init(S)
+	require(server.Social).init(S)
 	S.onTeleportGiveUp = function(players, why)
 		for _, p in ipairs(players) do
 			S.rejoin(p)

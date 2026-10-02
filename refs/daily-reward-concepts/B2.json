@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-10-02T04:02:25.771135Z",
+    "display_name": "GPT Image 2.5",
+    "id": "d0da3510-2c37-4a26-af98-34eb2514b10d",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_d0da3510-2c37-4a26-af98-34eb2514b10d_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "flare",
+      "prompt": "Stylized blocky Roblox-style cartoon game UI concept art, 16:9 landscape phone game screen, matte flat colors, thick dark outlines, rounded panels, sticker-like cards, chunky bold readable text. Strictly NO neon, NO glow, NO bloom, NO lens flare, NO emissive light, NO glossy shine. Heist-comedy tone, kid-friendly, no blood, no weapons shown. Reward state system: 7 days; claimed days have a green check stamp, today is highlighted with a dark outline and a TODAY pill, locked days have a padlock pill. Includes a close X button top-right, a streak counter, and one big CLAIM button. Title lockup 'GETAWAY ROUTE' like stamped stencil on kraft paper. Scene: a heist planning table, kraft-paper city map with push-pins and hand-drawn kart route between 7 numbered stops, tiny polaroids of rewards pinned at each stop: Day 1 '500 Credits', Day 2 'Spray Tag', Day 3 '1,000 Credits', Day 4 'Kart Decal' TODAY, Day 5 'Charm', Day 6 '2,000 Credits', Day 7 'Static Face Mask' pinned on a tower drawing. Locked stops marked with padlock tape. A cartoon patrol drone toy sits on the map. Clipboard claim card with 'CLAIM' button. '3 DAY STREAK'.",
+      "quality": "low",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_d0da3510-2c37-4a26-af98-34eb2514b10d.png",
+    "status": "completed"
+  }
+]

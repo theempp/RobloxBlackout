@@ -6,11 +6,11 @@ local V = Vector3.new
 local M = {}
 
 M.Wall = { Height = 16, Thick = 2 }
-M.Bounds = { min = V(-260, 0, -240), max = V(1140, 0, 240) }
+M.Bounds = { min = V(-260, 0, -240), max = V(2180, 0, 380) }
 M.Arrival = { spawn = V(-150, 0, 20), kart = V(-200, 0, -12), kartGap = 8, yaw = -90 } -- karts face +X
 M.TowerSpawn = V(100, 0, 30) -- recall respawn (outside the front door)
 M.Tower = { min = V(40, 0, 40), max = V(160, 0, 160), door = V(100, 0, 40), service = V(160, 0, 146) }
-M.Gate = { pos = V(1062, 0, 0), halfX = 12, halfZ = 30 }
+M.Gate = { pos = V(2110, 48, 35), halfX = 12, halfZ = 30 }
 M.Barricades = { V(400, 0, 0), V(800, 0, 0) } -- 8 x 40 blockers across the avenue
 
 -- Blocks: sidewalk slabs. kind: "tower" | "lotS" | "lotE" | "lotW" | nil (generic buildings).
@@ -124,6 +124,18 @@ M.GuardSets = {
 		},
 	},
 }
+
+-- Alternate guard loops use the same verified walkable rooms; phase and direction change per run.
+for _,id in ipairs({"B","C"}) do
+ local set={sentries={},watchers={},cameras=M.GuardSets.A.cameras}
+ for _,kind in ipairs({"sentries","watchers"}) do
+  for _,route in ipairs(M.GuardSets.A[kind]) do
+   local r={} for i=1,#route do r[i]=route[id=="B" and (#route-i+1) or (i%#route+1)] end
+   table.insert(set[kind],r)
+  end
+ end
+ M.GuardSets[id]=set
+end
 
 -- Parking pool (§5d REC-AUTO): 3 zones x 5 = 1 obvious (near the exits), 2 medium, 2 hidden (garages).
 local function spot(id, zone, quality, x, z, yaw)

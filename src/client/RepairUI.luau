@@ -23,15 +23,18 @@ function RepairUI.init(ctx)
 	-- TAP sits bottom-centre under the dial: clear of FIRE / ADS / the weapon button and the left stick.
 	-- (The dial is the one mid-screen element, and only while repairing.)
 	local tap = Hud.button(Hud.root, "RepairTap", "TAP", 84, { Visible = false })
-	local function place()
+	local skip=Hud.button(Hud.root,"RepairSkip","SKIP • "..C.Economy.RepairSkip.." Credits",180,{Visible=false})
+ skip.Activated:Connect(function() if RepairUI.open then ctx.remotes.RepairSkip:FireServer(RepairUI.open.kart) end end)
+ local function place()
 		panel.Position = UDim2.fromOffset(Hud.W / 2, Hud.H * 0.4)
-		tap.Position = UDim2.fromOffset(Hud.W / 2, Hud.H * 0.8)
+		tap.Position = UDim2.fromOffset(Hud.W / 2-80, Hud.H * 0.8)
+		skip.Position = UDim2.fromOffset(Hud.W / 2+75, Hud.H * 0.8)
 	end
 	ctx.on("rescale", place)
 	place()
 	local function close()
 		RepairUI.open = nil
-		panel.Visible, tap.Visible = false, false
+		panel.Visible, tap.Visible, skip.Visible = false, false, false
 	end
 	tap.Activated:Connect(function()
 		local o = RepairUI.open
@@ -53,7 +56,7 @@ function RepairUI.init(ctx)
 			return
 		end
 		RepairUI.open = d
-		panel.Visible, tap.Visible = true, true
+		panel.Visible, tap.Visible, skip.Visible = true, true, true
 		label.Text = string.format("REPAIR %d/%d", d.steps or 0, d.need or RC.Steps)
 		for i, dot in ipairs(dots) do
 			local a = 2 * math.pi * (d.zone + d.width * (i - 1) / (#dots - 1)) - math.pi / 2

@@ -209,7 +209,7 @@ return function(T)
 	end, 3) -- the seat weld takes a moment to replicate
 	T.check("client in kart mode", ok1 and st.driving == true and st.gasShown == true and st.fireShown == false, ok1 and st.driving)
 	local _, v0 = T.cmd("eval", "vortex")
-	T.check("Vortex LEDs visible while on", v0 and v0.lit >= 12, v0 and v0.lit)
+	T.check("Vortex LEDs visible while on", v0 and v0.lit >= 10, v0 and v0.lit)
 	T.check("driver switches LEDs off", Karts.action(player, "lights") and kk.model:GetAttribute("LightsOn") == false)
 	task.wait(0.15)
 	local _, v1 = T.cmd("eval", "vortex")

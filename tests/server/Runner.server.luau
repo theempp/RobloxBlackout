@@ -99,9 +99,16 @@ local ok, err = pcall(function()
 			local t = os.clock()
 			repeat
 				task.wait(0.05)
-			until replies[id] or os.clock() - t > 8
+			until replies[id] or os.clock() - t > (T.cmdTimeout or 8)
 			local r = replies[id]
 			return r ~= nil and r.ok, r and r.res
+		end
+		function T.cmdLong(timeout, name, ...)
+			local old = T.cmdTimeout
+			T.cmdTimeout = timeout
+			local ok, res = T.cmdTo(player, name, ...)
+			T.cmdTimeout = old
+			return ok, res
 		end
 		function T.cmd(name, ...)
 			return T.cmdTo(player, name, ...)

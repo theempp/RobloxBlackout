@@ -130,13 +130,14 @@ function Rules.defaultProfile()
 		glitchCoins = 0,
 		guns = { owned = free, loadout = { first, "", "" } },
 		attachments = { owned = {}, equipped = {} },
-		karts = { owned = {} },
+		karts = { owned = { base = true } },
 		cosmetics = { owned = Rules.freeCosmetics(), equipped = {} }, -- schema 4: equipped
 		wheel = { freeSpins = 0, pity = 0, season = 0 },
 		heist = { runs = 0, lastObvious = false }, -- schema 2
 		tutorial = { done = false }, -- schema 3
 		settings = Rules.defaultSettings(),
 		receipts = {},
+		progress = require(script.Parent.Economy).clean(nil),
 	}
 end
 
@@ -198,6 +199,7 @@ function Rules.clean(raw)
 		return p, false
 	end
 	local newer = Rules.finite(raw.schemaVersion) and raw.schemaVersion > P.SchemaVersion
+	p.progress = require(script.Parent.Economy).clean(raw.progress)
 	p.credits = count(raw.credits, P.MaxCurrency) or 0
 	p.glitchCoins = count(raw.glitchCoins, P.MaxCurrency) or 0
 
@@ -241,6 +243,7 @@ function Rules.clean(raw)
 	end
 
 	p.karts.owned = ownedSet(type(raw.karts) == "table" and raw.karts.owned, Config.Karts)
+	p.karts.owned.base = true
 	local cos = type(raw.cosmetics) == "table" and raw.cosmetics or {}
 	for id in pairs(ownedSet(cos.owned, Config.Cosmetics)) do
 		p.cosmetics.owned[id] = true

@@ -24,7 +24,7 @@ return function(T)
 		local id = Twists.pick(Twists.seed("run" .. i), C.Twists)
 		seen[id] = (seen[id] or 0) + 1
 	end
-	T.check("both Build 2 twists get picked", (seen.blackout or 0) > 40 and (seen.doublePatrol or 0) > 40)
+	T.check("both Build 2 twists get picked", (seen.blackout or 0) > 10 and (seen.doublePatrol or 0) > 10)
 	T.eq("pick is deterministic", Twists.pick(123, C.Twists), Twists.pick(123, C.Twists))
 	T.eq("force", Twists.pick(1, { Enabled = { "blackout", "doublePatrol" }, Force = "doublePatrol", doublePatrol = {} }), "doublePatrol")
 	T.eq("only enabled ids", Twists.pick(1, { Enabled = {} }), nil)

@@ -64,7 +64,7 @@ end
 
 function CameraRig.setAds(on, targetFov)
 	CameraRig.ads = on
-	adsFov = targetFov or CAM.Fov
+	adsFov = targetFov or adsFov -- kept on release so the zoom-out eases from the gun's ADS FOV
 end
 
 -- Point the camera at a world position (spawn facing, tests).
@@ -137,8 +137,11 @@ local function step(dt)
 	end
 	CameraRig.pitch = math.clamp(CameraRig.pitch + pitchDelta, -CAM.PitchLimit, CAM.PitchLimit)
 
-	local target = CameraRig.ads and adsFov or CAM.Fov
-	fov += (target - fov) * math.min(1, CAM.FovLerp * dt)
+	-- FOV follows the view model's ADS progress (same eased curve as the gun pose), so zoom, sight alignment and
+	-- the scope reticle arrive together; a snap reset (swap / death / menu) restores the hip FOV in the same frame.
+	local a = ctx.ViewModel and ctx.ViewModel.adsProgress() or (CameraRig.ads and 1 or 0)
+	a = a * a * (3 - 2 * a)
+	fov = CAM.Fov + (adsFov - CAM.Fov) * a
 	camera.FieldOfView = fov
 
 	-- critically-damped-ish spring for the visual kick

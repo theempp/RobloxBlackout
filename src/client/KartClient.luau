@@ -97,7 +97,7 @@ local function physics(dt)
 	if spin then
 		spunAt = empAt
 	end
-	KartClient.speed = KartPhysics.step(root, state, KartClient.input(), dt, K, rayParams,
+	KartClient.speed = KartPhysics.step(root, state, KartClient.input(), dt, KartPhysics.forModel(m,K), rayParams,
 		{ sabotaged = m:GetAttribute("Sabotaged"), emp = sNow < (m:GetAttribute("EmpUntil") or 0), spin = spin })
 	KartClient.steps += 1
 end
@@ -235,7 +235,7 @@ function KartClient.init(c)
 		local lit = 0
 		if m then
 			for _, p in ipairs(m:GetChildren()) do
-				if p:IsA("BasePart") and p:GetAttribute("VortexLED") and p.Material == Enum.Material.Neon then lit += 1 end
+				if p:IsA("BasePart") and p:GetAttribute("VortexLED") and p.Color.R > 0.8 and p.Material ~= Enum.Material.Neon then lit += 1 end
 			end
 		end
 		return { cockpit = KartClient.cockpit, cameraGap = root and (workspace.CurrentCamera.CFrame.Position - root.Position).Magnitude or -1,

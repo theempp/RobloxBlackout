@@ -45,7 +45,7 @@ function Karts.spawn(p)
 	local slot = 1
 	while used[slot] do slot += 1 end
 	local cf = Map.frame(C.Garage.KartBay + Vector3.new((slot - 1) % 4 * C.Garage.KartGap, 0, math.floor((slot - 1) / 4) * C.Garage.KartGap))
-	local m, root, seat = Model.build((slot - 1) % 4 + 1, cf, { name = "GarageKart" .. p.UserId, number = slot })
+	local m, root, seat = Model.build((slot - 1) % 4 + 1, cf, { name = "GarageKart" .. p.UserId, number = slot, topTier = S.profiles.loaded[p] and S.profiles.loaded[p].karts.owned.vortex })
 	m.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
 	m:SetAttribute("Owner", p.UserId)
 	Tags:AddTag(m, "BC_Kart")
@@ -109,7 +109,7 @@ function Karts.init(s)
 				local driver = k.model:GetAttribute("Driver")
 				if not driver or C.Kart.ServerPhysics then
 					local input = k.input and os.clock() - k.inputAt < C.Kart.InputTimeout and k.input or { t = 0, s = 0, b = true }
-					Physics.step(root, k.state, input, dt, C.Kart, params, {})
+					Physics.step(root, k.state, input, dt, Physics.forModel(k.model,C.Kart), params, {})
 				end
 				if root.Position.Y < C.Garage.ResetBelow then
 					if k.seat.Occupant then k.seat.Occupant.Sit = false end

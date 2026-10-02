@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shop Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarpanch:wght@700;900&family=Oswald:wght@500;700&family=Roboto+Condensed:wght@400;700;800&family=Michroma&family=Titillium+Web:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#0c0b0e;color:#f4efe6;font:14px/1.4 "Roboto Condensed",system-ui,sans-serif;padding:24px 16px 60px}
+h1{font:900 28px Sarpanch;letter-spacing:.02em}
+.lead{color:#b9b0bd;max-width:874px;margin:6px 0 16px}
+.ref{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 18px;max-width:874px;margin:0 0 30px;font-size:12.5px;color:#cfc7d2}
+.ref h4,.notes h4{font:700 12px Oswald;letter-spacing:.1em;color:#ffb24a;margin-bottom:2px}
+section{margin:0 0 44px}
+.cap{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:10px}
+.cap b{font:900 22px Sarpanch;letter-spacing:.03em}.cap span{color:#b9b0bd}
+.fit{width:100%;max-width:874px;overflow:hidden}
+.phone{width:874px;height:402px;position:relative;overflow:hidden;border-radius:40px;outline:6px solid #000;transform-origin:0 0;isolation:isolate}
+.island{position:absolute;left:10px;top:50%;width:34px;height:120px;margin-top:-60px;border-radius:20px;background:#000;z-index:50}
+.home{position:absolute;bottom:7px;left:50%;width:140px;margin-left:-70px;height:5px;border-radius:3px;background:#fff9;z-index:50}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px 22px;max-width:874px;margin-top:14px;color:#cfc7d2;font-size:13px}
+.notes ul{padding-left:16px}
+svg{overflow:visible}
+
+/* ===== shared kit ===== */
+/* chamfered frame: ::before = gradient border, ::after = inner fill, wrapper filter = outer glow */
+.fx{position:absolute;--ch:12px;--bw:2px;filter:drop-shadow(0 0 var(--glr,7px) var(--gl,transparent)) drop-shadow(0 3px 0 #000)}
+.fx::before,.fx::after,.fx>.sc{content:"";position:absolute;clip-path:polygon(var(--ch) 0,100% 0,100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,0 100%,0 var(--ch))}
+.fx::before{inset:0;background:var(--bd,#333);z-index:-3}
+.fx::after{inset:var(--bw);background:var(--in,#111);z-index:-2}
+.fx>.sc{inset:var(--bw);z-index:-1}
+.fx>*{position:relative;z-index:2}
+.fx>.abs,.abs,.fx>.fx{position:absolute}
+/* glossy 3-stop button with inner bevel + outer glow */
+.btn{position:absolute;display:flex;align-items:center;gap:8px;padding:0 12px;border-radius:9px;color:#fff;
+ background:linear-gradient(180deg,var(--b1) 0%,var(--b2) 47%,var(--b3) 53%,var(--b4) 100%);border:2px solid var(--bk);
+ box-shadow:inset 0 2px 0 #ffffffa0,inset 0 -3px 0 #00000045,0 0 0 2px #050505,0 0 16px var(--bg),0 4px 0 2px #000;
+ text-shadow:0 2px 0 #0007;font-weight:900;white-space:nowrap}
+.btn .cart{width:22px;height:22px;flex:none}
+.btn .dv{width:2px;align-self:stretch;margin:8px 2px;background:linear-gradient(#fff0,#fff9,#fff0)}
+.btn .co{flex:none;filter:drop-shadow(0 1px 0 #0008)}
+.btn s{opacity:.75;font-size:.55em;font-weight:700;text-decoration-thickness:2px}
+.btn .go{margin-left:auto;letter-spacing:.02em}
+.o{--b1:#ffd08a;--b2:#ff9426;--b3:#f47410;--b4:#c95300;--bk:#7a2e00;--bg:#ff7a1a99}
+.g{--b1:#fff2b0;--b2:#ffcf3a;--b3:#f5b100;--b4:#c27c00;--bk:#6e4300;--bg:#ffc23a88;color:#3a2200;text-shadow:0 1px 0 #fff8}
+.c{--b1:#b8f5ff;--b2:#3fd2ff;--b3:#14b2f0;--b4:#0a78c2;--bk:#05406a;--bg:#2bd0ff99}
+.gr{--b1:#d6ffb0;--b2:#7ee04a;--b3:#56c722;--b4:#2f8f10;--bk:#1d5208;--bg:#6ee03a88}
+.gy{--b1:#e9edf3;--b2:#aab3c0;--b3:#8e98a8;--b4:#5f6878;--bk:#2c323c;--bg:#aab3c044}
+.mg{--b1:#ffc2ef;--b2:#ff4fd2;--b3:#f02bbf;--b4:#a8128a;--bk:#5a0748;--bg:#ff3ec899}
+.rar{position:absolute;font:800 9px "Roboto Condensed";letter-spacing:.12em;padding:2px 7px 1px;color:#fff;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%);text-shadow:0 1px 0 #0008}
+.r-c{background:linear-gradient(#b8c0cc,#6d7684)}.r-r{background:linear-gradient(#6fd0ff,#1a7fd6)}.r-e{background:linear-gradient(#c79bff,#7a3cff)}.r-l{background:linear-gradient(#ffe68a,#f0a800);color:#3a2200;text-shadow:none}
+.bokeh{position:absolute;inset:0;pointer-events:none;background:
+ radial-gradient(circle at 8% 22%,var(--bk) 0 2px,#0000 6px),radial-gradient(circle at 18% 70%,var(--bk) 0 3px,#0000 8px),radial-gradient(circle at 34% 12%,var(--bk) 0 1.5px,#0000 5px),
+ radial-gradient(circle at 52% 82%,var(--bk) 0 2.5px,#0000 7px),radial-gradient(circle at 66% 30%,var(--bk) 0 2px,#0000 6px),radial-gradient(circle at 78% 64%,var(--bk) 0 3px,#0000 9px),
+ radial-gradient(circle at 90% 18%,var(--bk) 0 2px,#0000 6px),radial-gradient(circle at 96% 88%,var(--bk) 0 2px,#0000 6px)}
+.ico{display:inline-block;width:16px;height:16px;vertical-align:-3px;flex:none}
+
+/* ===== A · VAULT LINE ===== */
+.A{background:radial-gradient(ellipse 55% 55% at 12% 0,#ff7a1a30,#0000 70%),radial-gradient(ellipse 50% 60% at 100% 100%,#ff7a1a22,#0000 70%),linear-gradient(#151010,#0a0807);font-family:"Roboto Condensed"}
+.A .strip{position:absolute;top:0;left:0;right:0;height:4px;background:repeating-linear-gradient(90deg,#0000 0 70px,#ffb24a 70px 120px,#0000 120px 190px);filter:drop-shadow(0 0 6px #ff8a1a)}
+.A .haz{position:absolute;right:70px;bottom:6px;width:130px;height:7px;background:repeating-linear-gradient(-50deg,#ff8a1a 0 7px,#0000 7px 14px);opacity:.75;z-index:3}
+.A .logo{position:absolute;left:64px;top:12px;font:900 37px/1 Sarpanch;background:linear-gradient(#fff 0,#fff 46%,#ffd9a3 54%,#e3a04f);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1.5px #1a0f05;filter:drop-shadow(0 3px 0 #000) drop-shadow(0 0 10px #ff8a1a66)}
+.A .tab{top:8px;width:68px;height:50px;--ch:8px;--bd:linear-gradient(#6a5644,#241c16);--in:linear-gradient(#2e2621,#16110e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:800 10px "Roboto Condensed";letter-spacing:.08em;color:#d8cbbd}
+.A .tab .ico{width:22px;height:22px;color:#e9dccd;filter:drop-shadow(0 2px 0 #000)}
+.A .tab.on{--bd:linear-gradient(#fff0cc,#ff8a1a);--in:linear-gradient(#ffcd7a,#ff961f 48%,#ef7208 52%,#c65200);--gl:#ff8a1acc;color:#2a1200}
+.A .tab.on .ico{color:#2a1200;filter:drop-shadow(0 1px 0 #ffd9a0)}
+.A .pill{top:13px;height:40px;--ch:7px;--bd:linear-gradient(#7a6450,#2a2018);--in:linear-gradient(#221b16,#0f0b09);display:flex;align-items:center;gap:6px;padding:0 6px 0 9px;font:900 18px Sarpanch}
+.A .pill .ico{width:22px;height:22px}
+.A .plus{position:relative;width:28px;height:28px;padding:0;justify-content:center;font:900 22px/1 Sarpanch;border-radius:6px}
+.A .x{top:9px;left:766px;width:46px;height:46px;--ch:8px;--bd:linear-gradient(#ffd08a,#c95300);--in:linear-gradient(#2a1d14,#120c08);--gl:#ff8a1a88;display:grid;place-items:center;color:#ffb24a;font:900 26px/1 Sarpanch}
+.A .hero{left:62px;top:66px;width:408px;height:312px;--ch:16px;--bd:linear-gradient(140deg,#ffe0a0,#ff8a1a 25%,#4a2006 55%,#ff8a1a 90%);--in:#0d0907;--gl:#ff8a1a88}
+.A .vault{position:absolute;right:-50px;top:-40px;width:290px;height:290px;border-radius:50%;opacity:.85;
+ background:radial-gradient(circle,#ffcf7a 0 5%,#ff8a1a 7%,#5a2c0c 9% 11%,#2a1a10 12% 29%,#8a5222 30% 32%,#1d130c 33% 52%,#7a4a1c 53% 55%,#1a110a 56% 70%,#3a2414 71% 72%,#0000 73%),
+ repeating-conic-gradient(#0000 0 12deg,#00000066 12deg 24deg);box-shadow:0 0 60px #ff8a1a40}
+.A .floor{position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(#0000,#ff8a1a1f 70%,#ff8a1a33)}
+.A .kick{font:800 11px "Roboto Condensed";letter-spacing:.18em;color:#ffb24a;margin:14px 0 0 16px;text-shadow:0 0 8px #ff8a1a88}
+.A .ttl{font:900 42px/.9 Sarpanch;margin:3px 0 0 16px;color:#fff;filter:drop-shadow(0 3px 0 #000)}
+.A .ttl em{font-style:normal;background:linear-gradient(#ffe0a0,#ff9a26 55%,#e06a00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px #ff8a1a88)}
+.A .tag{font:700 10px "Roboto Condensed";letter-spacing:.2em;color:#d6c6b4;margin:5px 0 4px 16px}
+.A .inc{list-style:none;padding:0;margin-left:16px;width:150px}
+.A .inc li{display:flex;gap:8px;align-items:center;font:700 11.5px "Roboto Condensed";letter-spacing:.08em;padding:2px 0;border-top:1px solid;border-image:linear-gradient(90deg,#ff8a1a66,#0000) 1}
+.A .chip{width:20px;height:20px;border-radius:5px;display:grid;place-items:center;background:linear-gradient(#ffd890,#e88a10);box-shadow:inset 0 1px 0 #fff8,0 0 0 1.5px #3a1a00,0 0 8px #ff8a1a66;color:#2a1200}
+.A .chip .ico{width:15px;height:15px}
+.A .ribbon{position:absolute;right:16px;top:16px;font:900 11px Sarpanch;letter-spacing:.08em;color:#3a2200;background:linear-gradient(#fff2b0,#ffc23a 50%,#e8a000);padding:3px 12px 2px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);filter:drop-shadow(0 0 6px #ffc23a)}
+.A .off{position:absolute;right:16px;top:40px;font:900 15px/1 Sarpanch;color:#fff;background:linear-gradient(#ff8a5a,#e0300a);padding:5px 8px 4px;border-radius:4px;box-shadow:inset 0 1px 0 #fff8,0 0 10px #ff4a1a88;transform:rotate(-4deg);z-index:3}
+.A .hero .btn{left:14px;right:14px;bottom:14px;height:56px;font:900 32px Sarpanch;padding:0 18px;z-index:4}
+.A .hero .btn .co{width:30px;height:30px}
+.A .t{width:163px;height:152px;--ch:12px;--bd:linear-gradient(150deg,#ffcf8a,#ff8a1a 25%,#3a1a06 60%,#a04a0a);--in:#0e0a08;--gl:#ff8a1a55;--glr:5px}
+.A .t .sc{background:radial-gradient(ellipse 80% 60% at 50% 72%,#ff8a1a3a,#0000 70%),linear-gradient(#17110d,#0b0807)}
+.A .t h3{font:900 15px/1 Sarpanch;letter-spacing:.02em;margin:10px 0 0 10px;filter:drop-shadow(0 2px 0 #000)}
+.A .t small{display:block;margin-left:10px;font:700 9px "Roboto Condensed";letter-spacing:.18em;color:#c9b39c}
+.A .t .art{position:absolute;left:8px;right:8px;top:40px;height:62px;z-index:2}
+.A .t .btn{left:9px;right:9px;bottom:10px;height:36px;font:900 16px Sarpanch;gap:4px;padding:0 8px}
+.A .t .btn .dv{margin:8px 1px}.A .t .btn .cart{width:15px;height:15px}.A .t .btn .co{width:18px;height:18px}
+.A .t .rar{right:10px;top:28px;z-index:3}
+.A .odds{position:absolute;right:10px;top:26px;z-index:3;font:800 9px "Roboto Condensed";letter-spacing:.1em;color:#bff4ff;padding:3px 7px;border:1.5px solid #5fe0ff;border-radius:4px;box-shadow:0 0 8px #2bd0ff88,inset 0 0 6px #2bd0ff55;background:#05202c}
+
+/* ===== B · NIGHT OPS ===== */
+.B{background:radial-gradient(ellipse 45% 70% at 30% 45%,#1ec8ff26,#0000 70%),radial-gradient(ellipse 40% 60% at 100% 0,#1ec8ff1c,#0000 70%),linear-gradient(90deg,#06121a,#08161f 50%,#050c12);font-family:"Roboto Condensed"}
+.B:before{content:"";position:absolute;inset:0;background:linear-gradient(#2be4ff0c 1px,#0000 1px),linear-gradient(90deg,#2be4ff0c 1px,#0000 1px);background-size:22px 22px}
+.B .rt{left:62px;width:76px;height:52px;--ch:9px;--bd:linear-gradient(#2e5566,#0e1f28);--in:linear-gradient(#142630,#0a141a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:700 11px Oswald;letter-spacing:.1em;color:#9fc6d4}
+.B .rt .ico{width:22px;height:22px;filter:drop-shadow(0 2px 0 #000)}
+.B .rt.on{--bd:linear-gradient(#d8faff,#2bc8ff);--in:linear-gradient(#7fe8ff,#22b4f0 48%,#0f94d6 52%,#0a68a6);--gl:#2bd0ffcc;color:#03141c}
+.B .rt.gd{--bd:linear-gradient(#fff2b0,#c27c00);--in:linear-gradient(#3a2a08,#1a1204);color:#ffd260;--gl:#ffc23a55}
+.B .hd{position:absolute;left:150px;top:12px;font:700 30px/1 Oswald;color:#fff;letter-spacing:.02em;filter:drop-shadow(0 2px 0 #000)}
+.B .hd em{font-style:normal;color:#5fe0ff;text-shadow:0 0 12px #2bd0ffaa}
+.B .hs{position:absolute;left:152px;top:44px;font:700 10px "Roboto Condensed";letter-spacing:.2em;color:#7fa9b8}
+.B .pill{top:12px;height:38px;--ch:7px;--bd:linear-gradient(#3e7286,#0e2430);--in:linear-gradient(#10212a,#081218);display:flex;align-items:center;gap:6px;padding:0 6px 0 9px;font:700 18px Oswald}
+.B .pill .ico{width:20px;height:20px}
+.B .plus{position:relative;width:26px;height:26px;padding:0;justify-content:center;font:700 20px/1 Oswald;border-radius:6px}
+.B .x{top:9px;left:768px;width:44px;height:44px;--ch:8px;--bd:linear-gradient(#bff4ff,#0a78c2);--in:linear-gradient(#0f2430,#071016);--gl:#2bd0ff77;display:grid;place-items:center;color:#7fe8ff;font:700 22px/1 Oswald}
+.B .stage{left:148px;top:62px;width:372px;height:316px;--ch:16px;--bd:linear-gradient(160deg,#c4f6ff,#1aa8e8 25%,#06324a 60%,#1aa8e8);--in:linear-gradient(#0b1a22,#061017);--gl:#2bd0ff77}
+.B .beam{position:absolute;left:24px;top:0;width:160px;height:236px;background:linear-gradient(#2be4ff00,#2be4ff2a);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
+.B .ped{position:absolute;left:28px;top:206px;width:152px;height:36px;border-radius:50%;background:radial-gradient(ellipse,#0b2b3a 0 45%,#2be4ff66 60%,#0000 72%);border:2px solid #8ff2ff;box-shadow:0 0 18px #2bd0ff,inset 0 0 14px #2bd0ff99}
+.B .ped2{position:absolute;left:46px;top:214px;width:116px;height:22px;border-radius:50%;border:1.5px solid #5fe0ff88}
+.B .big{position:absolute;left:34px;top:50px;width:140px;height:156px;z-index:3;filter:drop-shadow(0 0 14px #2bd0ff66)}
+.B .info{position:absolute;left:192px;top:16px;right:14px}
+.B .info h3{font:700 27px/1 Oswald;letter-spacing:.01em;color:#fff;filter:drop-shadow(0 2px 0 #000)}
+.B .info .sub{font:700 10px "Roboto Condensed";letter-spacing:.18em;color:#7fc8de;margin:3px 0 6px}
+.B .info p{font:400 12px/1.3 "Roboto Condensed";color:#b9d2db}
+.B .lbl{font:800 9px "Roboto Condensed";letter-spacing:.2em;color:#7fa9b8;margin:10px 0 5px}
+.B .sw{display:flex;gap:5px}
+.B .sw div{width:30px;height:30px;border-radius:6px;background:linear-gradient(#18303c,#0a161c);border:1.5px solid #2e5566;display:grid;place-items:center}
+.B .sw div.on{border-color:#bff4ff;box-shadow:0 0 0 1.5px #2bd0ff,0 0 10px #2bd0ff}
+.B .sw svg{width:22px;height:24px}
+.B .swn{font:700 11px Oswald;letter-spacing:.08em;color:#bff4ff;margin-top:4px}
+.B .set{height:8px;border-radius:4px;background:#0a1a22;border:1px solid #2e5566;overflow:hidden;margin-top:4px}
+.B .set i{display:block;height:100%;width:50%;background:linear-gradient(90deg,#1aa8e8,#8ff2ff);box-shadow:0 0 8px #2bd0ff}
+.B .try{position:absolute;left:14px;bottom:14px;width:120px;height:48px;border-radius:9px;border:2px solid #5fe0ff;background:#05202c;color:#bff4ff;display:flex;align-items:center;justify-content:center;gap:6px;font:700 16px Oswald;letter-spacing:.06em;box-shadow:0 0 12px #2bd0ff66,inset 0 0 12px #2bd0ff33;z-index:3}
+.B .stage .btn{left:144px;right:14px;bottom:14px;height:48px;font:700 26px Oswald;z-index:3}
+.B .stage .btn .co{width:24px;height:24px}
+.B .gt{width:138px;height:102px;--ch:9px;--bd:linear-gradient(160deg,#3e7286,#0c1e28);--in:linear-gradient(#10212b,#091319);--glr:5px}
+.B .gt.sel{--bd:linear-gradient(160deg,#d8faff,#2bc8ff 40%,#0a5a88);--gl:#2bd0ffaa}
+.B .gt svg.m{position:absolute;left:12px;top:8px;width:46px;height:50px;z-index:2}
+.B .gt b{position:absolute;left:9px;top:60px;font:700 12px Oswald;letter-spacing:.06em;color:#eaf8fc}
+.B .gt span{position:absolute;left:9px;top:77px;font:700 13px Oswald;display:flex;gap:4px;align-items:center;color:#fff}
+.B .gt span .ico{width:15px;height:15px}
+.B .gt .rar{right:7px;top:7px;left:auto}
+.B .gt .bar{position:absolute;left:2px;right:2px;bottom:2px;height:3px;z-index:3;box-shadow:0 0 8px currentColor;background:currentColor}
+
+/* ===== C · STATIC SIGNAL ===== */
+.C{background:radial-gradient(ellipse 40% 60% at 0 30%,#ff2bd626,#0000 70%),radial-gradient(ellipse 40% 60% at 100% 75%,#2be4ff22,#0000 70%),linear-gradient(#100e16,#08070c);font-family:"Titillium Web"}
+.C:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#0000 0 3px,#00000022 3px 4px);pointer-events:none;z-index:40}
+.C .logo{position:absolute;left:64px;top:16px;font:400 26px/1 Michroma;color:#fff;letter-spacing:.04em;text-shadow:-2px 0 #ff3ec8,2px 0 #2be4ff,0 0 14px #ff3ec888}
+.C .seg{position:absolute;left:188px;top:10px;width:330px;height:44px}
+.C .st{top:0;width:62px;height:44px;--ch:7px;--bd:linear-gradient(#4a3a5a,#1a1422);--in:linear-gradient(#1d1826,#100d16);display:flex;flex-direction:column;align-items:center;justify-content:center;font:700 11px "Titillium Web";letter-spacing:.08em;color:#b9adc8;line-height:1.1}
+.C .st i{font:700 8px "Titillium Web";font-style:normal;color:#6f6380}
+.C .st.on{--bd:linear-gradient(#fff6c8,#e0a000);--in:linear-gradient(#fff0a8,#ffcf3a 48%,#f5b100 52%,#c27c00);--gl:#ffc23acc;color:#3a2200}
+.C .st.on i{color:#7a5200}
+.C .pill{top:13px;height:38px;--ch:7px;--bd:linear-gradient(#ff3ec8,#2be4ff);--in:linear-gradient(#1a1422,#0d0b12);display:flex;align-items:center;gap:6px;padding:0 6px 0 9px;font:900 18px "Titillium Web"}
+.C .pill .ico{width:20px;height:20px}
+.C .plus{position:relative;width:26px;height:26px;padding:0;justify-content:center;font:900 20px/1 "Titillium Web";border-radius:6px}
+.C .x{top:10px;left:768px;width:44px;height:44px;--ch:8px;--bd:linear-gradient(#ff8ae0,#7a2cff);--in:linear-gradient(#1d1428,#0d0a14);--gl:#ff3ec877;display:grid;place-items:center;color:#ffb8ee;font:400 20px/1 Michroma}
+.C .ban{left:62px;top:62px;width:750px;height:146px;--ch:16px;--bd:linear-gradient(90deg,#ff3ec8,#8a4dff 50%,#2be4ff);--in:linear-gradient(90deg,#170b1a,#0e0b17 45%,#0a1622);--gl:#ff3ec888}
+.C .rays{position:absolute;inset:0;background:repeating-conic-gradient(from 200deg at 72% 70%,#ff3ec81c 0 4deg,#0000 4deg 13deg)}
+.C .sky{position:absolute;right:0;bottom:0;width:430px;height:90px;opacity:.9}
+.C .gl1,.C .gl2,.C .gl3{position:absolute;height:5px;mix-blend-mode:screen}
+.C .gl1{left:300px;top:30px;width:120px;background:#2be4ff55}.C .gl2{left:520px;top:96px;width:160px;background:#ff3ec855}.C .gl3{left:360px;top:118px;width:60px;background:#2be4ff44;height:3px}
+.C .bart{position:absolute;right:14px;top:0;width:380px;height:144px;z-index:3}
+.C .ltd{position:absolute;left:18px;top:14px;font:900 10px "Titillium Web";letter-spacing:.18em;color:#fff;background:linear-gradient(90deg,#ff3ec8,#a12cff);padding:2px 10px 1px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);filter:drop-shadow(0 0 6px #ff3ec8)}
+.C .bt{position:absolute;left:18px;top:34px;font:400 34px/1 Michroma;color:#fff;letter-spacing:.01em;filter:drop-shadow(0 3px 0 #000)}
+.C .bt em{font-style:normal;background:linear-gradient(90deg,#5ff0ff,#ff5fd8);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(-2px 0 #ff3ec8) drop-shadow(2px 0 #2be4ff88)}
+.C .bs{position:absolute;left:20px;top:74px;font:700 10px "Titillium Web";letter-spacing:.22em;color:#cbb8de}
+.C .ban .btn{left:18px;bottom:14px;width:236px;height:44px;font:900 18px "Titillium Web";z-index:4}
+.C .ban .btn .co{width:22px;height:22px}
+.C .new{position:absolute;left:266px;bottom:20px;font:700 10px "Titillium Web";letter-spacing:.14em;color:#bff4ff;border:1.5px solid #5fe0ff;padding:5px 9px 4px;border-radius:5px;background:#05202c;box-shadow:0 0 10px #2bd0ff66;z-index:4}
+.C .md{top:216px;height:162px;--ch:12px;--in:linear-gradient(#141019,#0b090f)}
+.C .mh{position:absolute;left:10px;top:9px;display:flex;align-items:center;gap:7px;font:400 12px Michroma;color:#fff;letter-spacing:.04em}
+.C .mh i{font:900 10px "Titillium Web";font-style:normal;color:#0b090f;background:var(--hc);padding:1px 5px;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%)}
+.C .mr{position:absolute;right:12px;top:11px;font:700 9px "Titillium Web";letter-spacing:.16em;color:#8f84a0}
+.C .whl{position:absolute;left:8px;top:32px;width:112px;height:126px;z-index:2;filter:drop-shadow(0 0 10px #ff3ec866)}
+.C .wc{position:absolute;left:130px;right:12px;top:34px;bottom:12px;display:flex;flex-direction:column;gap:6px}
+.C .odds{align-self:flex-start;font:700 10px "Titillium Web";letter-spacing:.12em;color:#bff4ff;padding:2px 8px;border:1.5px solid #5fe0ff;border-radius:4px;background:#05202c;box-shadow:0 0 8px #2bd0ff77}
+.C .pity{font:700 10px "Titillium Web";letter-spacing:.1em;color:#d8c8ea}
+.C .pips{display:flex;gap:3px;margin-top:-2px}.C .pips i{flex:1;height:6px;border-radius:2px;background:#2a2234}.C .pips i.f{background:linear-gradient(#ff8ae0,#c42ab0);box-shadow:0 0 6px #ff3ec8}
+.C .wc .btn{position:relative;height:34px;font:900 17px "Titillium Web";padding:0 10px;gap:6px}
+.C .wc .btn .co{width:18px;height:18px}.C .wc .btn .go{font-size:13px}
+.C .save{position:absolute;right:-6px;top:-9px;font:900 8px "Titillium Web";letter-spacing:.08em;color:#fff;background:linear-gradient(#ff5fd8,#c42ab0);padding:1px 5px;border-radius:3px;box-shadow:0 0 6px #ff3ec8;text-shadow:none}
+.C .pk{top:34px;width:108px;height:118px;--ch:8px;--bw:2px;--glr:5px}
+.C .pk .sc{background:radial-gradient(ellipse 70% 50% at 50% 55%,var(--pg),#0000 70%),linear-gradient(#1a1622,#0e0c13)}
+.C .pk b{position:absolute;left:0;right:0;top:8px;text-align:center;font:900 19px/1 "Titillium Web";color:#fff;filter:drop-shadow(0 2px 0 #000)}
+.C .pk .bon{position:absolute;left:0;right:0;top:28px;text-align:center;font:700 9px "Titillium Web";letter-spacing:.12em;color:var(--pc)}
+.C .pk svg.pile{position:absolute;left:14px;top:42px;width:80px;height:36px;z-index:2}
+.C .pk .btn{left:7px;right:7px;bottom:8px;height:28px;font:900 13px "Titillium Web";justify-content:center;gap:4px;padding:0 4px}
+.C .pk .btn .ico{width:13px;height:13px}
+.C .mp{position:absolute;left:-2px;right:-2px;top:-15px;z-index:5;text-align:center;font:900 9px "Titillium Web";letter-spacing:.12em;color:#3a2200;background:linear-gradient(#fff2b0,#ffc23a);padding:2px 0 1px;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 100%,0 100%)}
+</style></head><body>
+
+<!-- ===== art library: shaded vector stand-ins for the 3D renders (real build = ViewportFrame renders of the actual models) ===== -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+ <linearGradient id="gRim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c4"/><stop offset=".45" stop-color="#ffcc3d"/><stop offset=".55" stop-color="#e48c00"/><stop offset="1" stop-color="#8a4a00"/></linearGradient>
+ <linearGradient id="gFace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7ae0"/><stop offset=".5" stop-color="#8a4dff"/><stop offset="1" stop-color="#3ad8ff"/></linearGradient>
+ <linearGradient id="oRim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe0b8"/><stop offset=".45" stop-color="#ff9a3a"/><stop offset=".55" stop-color="#ef6e10"/><stop offset="1" stop-color="#9a3a00"/></linearGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a5b66"/><stop offset=".3" stop-color="#2c2d34"/><stop offset=".7" stop-color="#16161a"/><stop offset="1" stop-color="#0a0a0c"/></linearGradient>
+ <linearGradient id="tipG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc896"/><stop offset=".5" stop-color="#ff7420"/><stop offset="1" stop-color="#b83c00"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a8dcff"/><stop offset=".45" stop-color="#2f5f80"/><stop offset="1" stop-color="#0c1a26"/></linearGradient>
+ <linearGradient id="bodyK" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a4b56"/><stop offset=".35" stop-color="#1e1e24"/><stop offset="1" stop-color="#08080a"/></linearGradient>
+ <radialGradient id="tire"><stop offset=".55" stop-color="#2a2a2f"/><stop offset="1" stop-color="#050506"/></radialGradient>
+ <radialGradient id="rimG" cx=".4" cy=".35"><stop offset="0" stop-color="#f2f5fa"/><stop offset=".5" stop-color="#8d939e"/><stop offset="1" stop-color="#33363d"/></radialGradient>
+ <radialGradient id="hl"><stop offset="0" stop-color="#fffbe6"/><stop offset=".35" stop-color="#ffe9a8" stop-opacity=".8"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+ <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3c896"/><stop offset="1" stop-color="#d89a62"/></linearGradient>
+ <linearGradient id="cF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3b43"/><stop offset="1" stop-color="#18181d"/></linearGradient>
+ <linearGradient id="cS" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#16161a"/><stop offset="1" stop-color="#0b0b0d"/></linearGradient>
+ <linearGradient id="cT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a5b66"/><stop offset="1" stop-color="#3a3b43"/></linearGradient>
+ <linearGradient id="strap" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e8c48a"/><stop offset="1" stop-color="#a87a3a"/></linearGradient>
+ <radialGradient id="maskG" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#e6e9ef"/><stop offset="1" stop-color="#a9b0bc"/></radialGradient>
+ <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".4" stop-color="#ffcc33"/><stop offset=".7" stop-color="#d48a00"/><stop offset="1" stop-color="#7a4400"/></linearGradient>
+ <radialGradient id="shadeR"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+ <radialGradient id="bulb"><stop offset="0" stop-color="#fffbe6"/><stop offset=".4" stop-color="#ffe9a8" stop-opacity=".9"/><stop offset="1" stop-color="#ffcf6a" stop-opacity="0"/></radialGradient>
+</defs>
+<symbol id="gc" viewBox="0 0 32 32"><path d="M16 1 29.5 8.8v14.4L16 31 2.5 23.2V8.8z" fill="url(#gRim)" stroke="#3b2200" stroke-width="1.3"/><path d="M16 5.6 25.6 11v10L16 26.4 6.4 21V11z" fill="url(#gFace)" stroke="#5a3300"/><path d="M16 5.6 25.6 11 16 15 6.4 11z" fill="#fff" opacity=".28"/><path d="M10.5 18l4-3 2 2.4 5-3.8" stroke="#fff" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="cr" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14.6" fill="url(#oRim)" stroke="#3a1600" stroke-width="1.3"/><circle cx="16" cy="16" r="10.2" fill="#a83e00" stroke="#5a2000"/><g transform="rotate(-40 16 16)"><rect x="8" y="13.4" width="12" height="5.2" rx="1" fill="#fff"/><rect x="19" y="12.6" width="5.5" height="6.8" rx="2.6" fill="#ffb070" stroke="#fff" stroke-width="1"/></g><path d="M7 11a10 10 0 0 1 14-5" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" fill="none"/></symbol>
+<symbol id="rbx" viewBox="0 0 24 24"><path d="M12 2.5 20.5 7.4v9.2L12 21.5 3.5 16.6V7.4z" fill="none" stroke="currentColor" stroke-width="2.6"/><rect x="9.3" y="9.3" width="5.4" height="5.4" fill="currentColor"/></symbol>
+<symbol id="cart" viewBox="0 0 24 24"><path d="M1.5 3.5h3.2l2.5 10.6a1.6 1.6 0 0 0 1.6 1.2h8.9a1.6 1.6 0 0 0 1.5-1.1l2.3-6.7H6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/><circle cx="9.5" cy="20" r="2" fill="currentColor"/><circle cx="17.5" cy="20" r="2" fill="currentColor"/></symbol>
+<symbol id="crew" viewBox="0 0 100 160"><ellipse cx="50" cy="154" rx="40" ry="6" fill="#000" opacity=".55"/>
+ <path d="M24 92h21v56H24zM47 92h21v56H47z" fill="url(#cF)"/><path d="M68 92l10-6v56l-10 6z" fill="url(#cS)"/><path d="M22 144h24v9H22zM46 144h24v9H46z" fill="#08080a"/>
+ <path d="M82 37l10-5v50l-10 5z" fill="url(#cS)"/>
+ <path d="M34 36h48l-12 6H22z" fill="url(#cT)"/><path d="M22 42h48v50H22z" fill="url(#cF)"/><path d="M70 42l12-6v50l-12 6z" fill="url(#cS)"/>
+ <path d="M29 42h7v50h-7zM56 42h7v50h-7z" fill="url(#strap)"/><path d="M24 66h44v8H24z" fill="#0e0e11"/><path d="M42 64h9v12h-9z" fill="url(#strap)"/>
+ <path d="M8 42h14v46H8z" fill="url(#cF)"/><path d="M8 84h14v8H8z" fill="url(#skin)"/><path d="M82 80l10-5v7l-10 5z" fill="#c48a56"/>
+ <path d="M30 8l12-6h32l-12 6z" fill="url(#cT)"/><path d="M30 8h32v32H30z" fill="url(#cF)"/><path d="M62 8l12-6v32l-12 6z" fill="url(#cS)"/>
+ <path d="M33 18h26v9H33z" fill="url(#skin)"/><path d="M62 18l9-4.5v9L62 27z" fill="#b07a4a"/><path d="M37 20h6v5h-6zM49 20h6v5h-6z" fill="#111"/>
+ <path d="M74 2v32M82 36v50M92 32v50M78 86v56" stroke="currentColor" stroke-width="2.2"/><path d="M30 8v32M22 42v50" stroke="#fff" stroke-opacity=".25"/></symbol>
+<symbol id="kart" viewBox="0 0 200 110"><ellipse cx="100" cy="101" rx="94" ry="8" fill="#000" opacity=".6"/>
+ <path d="M8 74 26 56 70 48 92 30 142 28 166 46 190 54 194 76 178 88 24 92 10 86z" fill="url(#bodyK)" stroke="#000" stroke-width="1.5"/>
+ <path d="M26 56 70 48M166 46 190 54" stroke="#fff" stroke-opacity=".35" stroke-width="1.6" fill="none"/>
+ <path d="M70 48 92 30 142 28 166 46z" fill="url(#glass)" stroke="#000" stroke-width="1.5"/><path d="M98 31.5h12L94 47H82z" fill="#fff" opacity=".35"/>
+ <path d="M40 71 188 64.5 189 69 42 76.5z" fill="currentColor"/><path d="M190 56 194 76" stroke="currentColor" stroke-width="2"/>
+ <ellipse cx="20" cy="75" rx="22" ry="11" fill="url(#hl)"/><path d="M12 73.5 30 70v6l-18 4z" fill="#fffbe6"/>
+ <rect x="98" y="76" width="26" height="13" rx="2" fill="#f4efe4" stroke="#000"/><text x="111" y="86.5" font-family="Sarpanch" font-weight="900" font-size="11" text-anchor="middle" fill="#1a1a1a">07</text>
+ <ellipse cx="46" cy="88" rx="17" ry="18" fill="url(#tire)"/><ellipse cx="46" cy="88" rx="9" ry="10" fill="url(#rimG)"/><circle cx="46" cy="88" r="3" fill="#1a1a1a"/>
+ <ellipse cx="158" cy="86" rx="19" ry="20" fill="url(#tire)"/><ellipse cx="158" cy="86" rx="10" ry="11" fill="url(#rimG)"/><circle cx="158" cy="86" r="3.4" fill="#1a1a1a"/></symbol>
+<symbol id="blaster" viewBox="0 0 160 64"><path d="M6 20h84l10-8h34v12h12v12h-38l-6 6H72l-8 20H46l6-20H26l-8 8H6z" fill="url(#metal)" stroke="#000" stroke-width="1.5"/>
+ <path d="M8 21h82l10-8h33" stroke="#fff" stroke-opacity=".35" stroke-width="1.3" fill="none"/><path d="M60 8h40v5H60z" fill="#2a2b31" stroke="#000"/><path d="M65 8v5M71 8v5M77 8v5M83 8v5M89 8v5M95 8v5" stroke="#000"/>
+ <path d="M28 14h10v6H28z" fill="#222" stroke="#000"/><rect x="18" y="24" width="30" height="7" rx="1" fill="#61626c"/><path d="M76 42h12l-3 16H73z" fill="url(#metal)" stroke="#000"/>
+ <rect x="144" y="23" width="12" height="14" rx="2.5" fill="url(#tipG)" stroke="#000"/><path d="M134 36H96l-6 6" stroke="currentColor" stroke-opacity=".8" stroke-width="1.5" fill="none"/></symbol>
+<symbol id="mask" viewBox="0 0 100 110"><ellipse cx="50" cy="104" rx="30" ry="5" fill="#000" opacity=".45"/>
+ <path d="M12 26C22 4 78 4 88 26c6 30-8 62-38 72C20 88 6 56 12 26z" fill="url(#maskG)" stroke="#23262c" stroke-width="2.5"/>
+ <path d="M70 12c14 8 22 30 14 52-6 16-18 28-34 34 20-14 32-48 20-86z" fill="#000" opacity=".13"/>
+ <path d="M21 39h21l-4 13H26z" fill="#14151a"/><path d="M58 39h21l-3 13H62z" fill="#14151a"/><path d="M22 39h20M58 39h21" stroke="#000" stroke-width="2"/>
+ <path d="M10 62 90 54v6L12 69z" fill="#2be4ff"/><path d="M14 72 86 66v4L16 77z" fill="#ff3ec8"/><path d="M44 82h12M42 87h16" stroke="#555a63" stroke-width="2"/>
+ <path d="M24 15c10-6 22-7 31-5-12 2-22 8-28 16z" fill="#fff" opacity=".9"/></symbol>
+<symbol id="wheel" viewBox="0 0 120 140"><path d="M42 96h36l12 40H30z" fill="url(#metal)" stroke="#000" stroke-width="1.5"/><path d="M26 134h68v6H26z" fill="#111"/>
+ <circle cx="60" cy="58" r="55" fill="url(#goldG)" stroke="#000" stroke-width="1.5"/><circle cx="60" cy="58" r="47" fill="#100c14"/>
+ <g stroke="#100c14" stroke-width="1.5"><path d="M60 58V13A45 45 0 0 1 91.8 26.2z" fill="#3aa8ff"/><path d="M60 58 91.8 26.2A45 45 0 0 1 105 58z" fill="#9aa3b2"/><path d="M60 58H105A45 45 0 0 1 91.8 89.8z" fill="#9b5cff"/><path d="M60 58 91.8 89.8A45 45 0 0 1 60 103z" fill="#9aa3b2"/><path d="M60 58V103A45 45 0 0 1 28.2 89.8z" fill="#ffc22e"/><path d="M60 58 28.2 89.8A45 45 0 0 1 15 58z" fill="#9aa3b2"/><path d="M60 58H15A45 45 0 0 1 28.2 26.2z" fill="#3aa8ff"/><path d="M60 58 28.2 26.2A45 45 0 0 1 60 13z" fill="#ff4fd2"/></g>
+ <circle cx="60" cy="58" r="45" fill="url(#shadeR)"/><path d="M24 38a42 42 0 0 1 48-24" stroke="#fff" stroke-opacity=".45" stroke-width="3" fill="none"/>
+ <g fill="url(#bulb)"><circle cx="110" cy="58" r="5"/><circle cx="103.3" cy="83" r="5"/><circle cx="85" cy="101.3" r="5"/><circle cx="60" cy="108" r="5"/><circle cx="35" cy="101.3" r="5"/><circle cx="16.7" cy="83" r="5"/><circle cx="10" cy="58" r="5"/><circle cx="16.7" cy="33" r="5"/><circle cx="35" cy="14.7" r="5"/><circle cx="85" cy="14.7" r="5"/><circle cx="103.3" cy="33" r="5"/></g>
+ <circle cx="60" cy="58" r="11" fill="url(#goldG)" stroke="#000"/><circle cx="60" cy="58" r="5" fill="#100c14"/><path d="M51 0h18l-9 17z" fill="url(#goldG)" stroke="#000" stroke-width="1.5"/></symbol>
+<symbol id="badge" viewBox="0 0 100 100"><path d="M50 3 91 19v31c0 25-18 41-41 47C27 91 9 75 9 50V19z" fill="url(#goldG)" stroke="#3a2200" stroke-width="2.5"/><path d="M50 12 82 25v25c0 19-14 32-32 38-18-6-32-19-32-38V25z" fill="#16121c"/>
+ <path d="M28 62l-4-24 14 10 12-16 12 16 14-10-4 24z" fill="url(#goldG)" stroke="#3a2200" stroke-width="2"/><rect x="28" y="64" width="44" height="7" rx="2" fill="url(#goldG)" stroke="#3a2200" stroke-width="1.5"/>
+ <circle cx="24" cy="37" r="3" fill="currentColor"/><circle cx="50" cy="31" r="3.5" fill="currentColor"/><circle cx="76" cy="37" r="3" fill="currentColor"/><path d="M16 21 50 8" stroke="#fff" stroke-opacity=".75" stroke-width="2.5"/></symbol>
+<symbol id="tag" viewBox="0 0 24 24"><path d="M2.5 12.5 12 3h9v9l-9.5 9.5z" fill="currentColor"/><circle cx="16.5" cy="7.5" r="2" fill="#000" opacity=".55"/></symbol>
+<symbol id="i-blaster" viewBox="0 0 24 24"><path d="M1.5 8h14l2-2h5v4h-4l-2 2h-4l-2 7H6l2-7H4l-2.5 2.5z" fill="currentColor"/></symbol>
+<symbol id="i-kart" viewBox="0 0 24 24"><path d="M1.5 15.5 4.5 10l6-1.2 3-3.3h4.5l3 4 1.5 6z" fill="currentColor"/><circle cx="7" cy="17.5" r="2.8" fill="currentColor"/><circle cx="18" cy="17.5" r="2.8" fill="currentColor"/></symbol>
+<symbol id="i-mask" viewBox="0 0 24 24"><path d="M3.5 7c4.5-4.5 12.5-4.5 17 0 1 7.5-3 13.5-8.5 14.5C6.5 20.5 2.5 14.5 3.5 7z" fill="currentColor"/><path d="M6.5 10h4.5l-1 3H7.5zM13 10h4.5l-1 3H14z" fill="#000" opacity=".6"/></symbol>
+<symbol id="i-wheel" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="3"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4" stroke="currentColor" stroke-width="2"/></symbol>
+<symbol id="i-pass" viewBox="0 0 24 24"><path d="M12 1.5 21 5v7c0 5.5-4 9-9 10.5C7 21 3 17.5 3 12V5z" fill="currentColor"/><path d="M7.5 14.5 7 9l3 2 2-3 2 3 3-2-.5 5.5z" fill="#000" opacity=".55"/></symbol>
+<symbol id="i-emote" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7 14c2 3 8 3 10 0" stroke="#000" stroke-opacity=".6" stroke-width="2" fill="none"/><rect x="7" y="8" width="3" height="3" fill="#000" opacity=".6"/><rect x="14" y="8" width="3" height="3" fill="#000" opacity=".6"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="3.4" fill="currentColor"/></symbol>
+</svg>
+
+<h1>BLACKOUT CREW · SHOP CONCEPTS v2</h1>
+<p class="lead">Restyled to match the quality of your references. All three are drawn at iPhone 16 Pro landscape size (874×402 pt). <b>Glow is used on the 2D shop UI only.</b> Guns, karts and the world stay no-neon, as your Sept 30 rule says. Item art here is shaded vector stand-ins. In the real game it would be renders of your actual 3D models, which is where the reference's 3D look comes from. (v1 is kept as <a href="concepts-v1.html" style="color:#ffb24a">concepts-v1.html</a>.)</p>
+<div class="ref">
+ <div><h4>BUTTONS</h4>Glossy 3-stop gradient with a hard shine line at the middle, a bright 2 px top bevel, a dark bottom lip, a black outline, an outer glow in the theme colour, and a hard drop shadow. Layout: cart │ coin + price │ BUY.</div>
+ <div><h4>3D</h4>Lit item renders with a coloured rim light, a contact shadow, glass and metal highlights, and a scene behind them (vault door, bokeh, floor bounce). Roblox: ViewportFrame or a pre-rendered image of the real model.</div>
+ <div><h4>2D</h4>Chamfered panels with gradient edges, two-tone headline type, rarity tags, ribbons, % OFF stickers, icon chips, numbered section tags and hazard stripes.</div>
+ <div><h4>GLOW</h4>Coloured light around the active tab, buy buttons, panel edges and title accents. Roblox: 9-slice glow images plus UIGradient/UIStroke. Cheap on phones, no real lights.</div>
+</div>
+
+<!-- ================= A ================= -->
+<section>
+ <div class="cap"><b>A · VAULT LINE</b><span>Amber/foam-orange take on the Vault Break reference: big bundle on the left, 2×2 grid on the right, icon tabs across the top.</span></div>
+ <div class="fit"><div class="phone A">
+  <div class="island"></div><div class="home"></div><div class="strip"></div><div class="haz"></div>
+  <div class="logo">SHOP</div>
+  <div class="fx tab on" style="left:192px"><svg class="ico"><use href="#tag"/></svg>DROPS</div>
+  <div class="fx tab" style="left:262px"><svg class="ico"><use href="#i-blaster"/></svg>BLASTERS</div>
+  <div class="fx tab" style="left:332px"><svg class="ico"><use href="#i-mask"/></svg>STYLE</div>
+  <div class="fx tab" style="left:402px"><svg class="ico"><use href="#i-wheel"/></svg>SPIN</div>
+  <div class="fx tab" style="left:472px"><svg class="ico"><use href="#i-pass"/></svg>PASS</div>
+  <div class="fx pill" style="left:548px;padding-right:11px"><svg class="ico"><use href="#cr"/></svg>4,120</div>
+  <div class="fx pill" style="left:648px"><svg class="ico"><use href="#gc"/></svg>850<span class="btn o plus">+</span></div>
+  <div class="fx x">✕</div>
+
+  <div class="fx hero"><div class="sc" style="background:linear-gradient(#120c09,#0b0806)"><div class="vault"></div><div class="floor"></div><div class="bokeh" style="--bk:#ffb24a88"></div></div>
+   <div class="kick">✦ WEEKLY BUNDLE · ROTATES MONDAY</div>
+   <div class="ttl">STATIC<br><em>CREW</em></div>
+   <div class="tag">GEAR UP. GO DARK. GET OUT.</div>
+   <ul class="inc">
+    <li><span class="chip"><svg class="ico"><use href="#i-blaster"/></svg></span>BLASTER SKIN</li>
+    <li><span class="chip"><svg class="ico"><use href="#i-kart"/></svg></span>KART SKIN</li>
+    <li><span class="chip"><svg class="ico"><use href="#i-mask"/></svg></span>STATIC MASK</li>
+    <li><span class="chip"><svg class="ico"><use href="#i-emote"/></svg></span>EMOTE</li>
+   </ul>
+   <svg class="abs" style="left:150px;top:52px;width:256px;height:200px;z-index:3;color:#ff9a26" viewBox="0 0 256 200">
+    <use href="#kart" x="66" y="78" width="190" height="105"/>
+    <g opacity=".55"><use href="#crew" x="40" y="22" width="78" height="125"/></g>
+    <use href="#crew" x="96" y="44" width="96" height="154"/>
+    <use href="#blaster" x="118" y="132" width="96" height="38"/>
+    <use href="#mask" x="196" y="6" width="54" height="60"/>
+   </svg>
+   <div class="ribbon">BEST VALUE</div><div class="off">-37%</div>
+   <div class="btn o"><svg class="cart"><use href="#cart"/></svg><span class="dv"></span><svg class="co"><use href="#gc"/></svg>499 <s>796</s><span class="go">BUY</span></div>
+  </div>
+
+  <div class="fx t" style="left:478px;top:66px"><div class="sc"></div><h3>NIGHT STATIC</h3><small>KART SKIN</small><span class="rar r-e">EPIC</span>
+   <svg class="art" viewBox="0 0 147 62" style="color:#ff9a26"><use href="#kart" x="18" y="0" width="112" height="62"/></svg>
+   <div class="btn o"><svg class="cart"><use href="#cart"/></svg><span class="dv"></span><svg class="co"><use href="#gc"/></svg>299<span class="go">BUY</span></div></div>
+  <div class="fx t" style="left:649px;top:66px"><div class="sc"></div><h3>GHOST VISOR</h3><small>MASK</small><span class="rar r-r">RARE</span>
+   <svg class="art" viewBox="0 0 147 62"><use href="#mask" x="45" y="-2" width="58" height="64"/></svg>
+   <div class="btn o"><svg class="cart"><use href="#cart"/></svg><span class="dv"></span><svg class="co"><use href="#gc"/></svg>149<span class="go">BUY</span></div></div>
+  <div class="fx t" style="left:478px;top:226px"><div class="sc"></div><h3>STATIC WHEEL</h3><small>SEASON SPIN</small><span class="odds">ODDS</span>
+   <svg class="art" viewBox="0 0 147 62"><use href="#wheel" x="47" y="-4" width="54" height="66"/></svg>
+   <div class="btn c"><svg class="cart"><use href="#i-wheel"/></svg><span class="dv"></span><svg class="co"><use href="#gc"/></svg>199<span class="go">SPIN</span></div></div>
+  <div class="fx t" style="left:649px;top:226px"><div class="sc" style="background:radial-gradient(ellipse 80% 60% at 50% 70%,#ffc23a3a,#0000 70%),linear-gradient(#17110d,#0b0807)"></div><h3>SEASON 1 PASS</h3><small>40 TIERS · 6 WEEKS</small>
+   <svg class="art" viewBox="0 0 147 62" style="color:#ff5a3a"><use href="#badge" x="45" y="-2" width="58" height="64"/></svg>
+   <div class="btn g"><svg class="cart"><use href="#i-pass"/></svg><span class="dv" style="background:linear-gradient(#0000,#3a220088,#0000)"></span><svg class="co"><use href="#gc"/></svg>599<span class="go">GET</span></div></div>
+ </div></div>
+ <div class="notes">
+  <div><h4>STRUCTURE</h4><ul><li>Same skeleton as the reference, with tabs changed to <b>Drops · Blasters · Style · Spin · Pass</b>. No Cash tab, because Credits can't be bought; ⬢ + opens coin packs.</li><li>The bundle gets the reference's BEST VALUE ribbon, a % OFF sticker, a struck-through original price, and gold icon chips for each item.</li><li>Rarity tags on every tile. The Spin tile has a cyan button and an <b>ODDS</b> chip so it's clearly different from a normal purchase (required by Roblox).</li></ul></div>
+  <div><h4>FIT / RISK</h4><ul><li>Closest to your favourite reference, and cheapest to build on the current 5-tab shop code.</li><li>The vault-door background is a single flat image, so it costs nothing on phones.</li><li>The struck-through “796” has to equal the real sum of the item prices. A made-up “original price” is a dark pattern.</li></ul></div>
+ </div>
+</section>
+
+<!-- ================= B ================= -->
+<section>
+ <div class="cap"><b>B · NIGHT OPS</b><span>Cyan night-vision take on the Purchase Panels sheet: tab rail on the left, a big item on a lit pedestal with a colour picker, and a grid of item tiles on the right.</span></div>
+ <div class="fit"><div class="phone B">
+  <div class="island"></div><div class="home"></div>
+  <div class="fx rt" style="top:10px"><svg class="ico"><use href="#tag"/></svg>HOT</div>
+  <div class="fx rt" style="top:68px"><svg class="ico"><use href="#i-blaster"/></svg>GEAR</div>
+  <div class="fx rt on" style="top:126px"><svg class="ico"><use href="#i-mask"/></svg>LOOKS</div>
+  <div class="fx rt" style="top:184px"><svg class="ico"><use href="#i-kart"/></svg>KARTS</div>
+  <div class="fx rt" style="top:242px"><svg class="ico"><use href="#i-wheel"/></svg>SPIN</div>
+  <div class="fx rt gd" style="top:318px;height:58px"><svg class="ico"><use href="#gc"/></svg>COINS</div>
+  <div class="hd">LOOKS <em>/ MASKS</em></div><div class="hs">12 ITEMS · 2 OWNED</div>
+  <div class="fx pill" style="left:566px;padding-right:11px"><svg class="ico"><use href="#cr"/></svg>4,120</div>
+  <div class="fx pill" style="left:664px"><svg class="ico"><use href="#gc"/></svg>850<span class="btn c plus">+</span></div>
+  <div class="fx x">✕</div>
+
+  <div class="fx stage"><div class="sc"><div class="beam"></div><div class="ped"></div><div class="ped2"></div><div class="bokeh" style="--bk:#5fe0ff66"></div></div>
+   <span class="rar r-e abs" style="left:14px;top:14px">EPIC</span>
+   <svg class="big" viewBox="0 0 100 110"><use href="#mask" width="100" height="110"/></svg>
+   <div class="info"><h3>GHOST VISOR</h3><div class="sub">MASK · STATIC SET</div><p>Face plate with a glitch stripe. Shows on your character in heists.</p>
+    <div class="lbl">COLORWAY</div>
+    <div class="sw"><div class="on"><svg viewBox="0 0 100 110"><use href="#mask"/></svg></div><div><svg viewBox="0 0 100 110" style="filter:brightness(.35)"><use href="#mask"/></svg></div><div><svg viewBox="0 0 100 110" style="filter:sepia(1) saturate(4) hue-rotate(160deg)"><use href="#mask"/></svg></div><div><svg viewBox="0 0 100 110" style="filter:sepia(1) saturate(5) hue-rotate(260deg)"><use href="#mask"/></svg></div><div><svg viewBox="0 0 100 110" style="filter:sepia(1) saturate(4)"><use href="#mask"/></svg></div></div>
+    <div class="swn">STATIC · DEFAULT</div>
+    <div class="lbl" style="margin-top:8px">STATIC SET 2/4</div><div class="set"><i></i></div>
+   </div>
+   <div class="try"><svg class="ico" style="width:20px;height:20px"><use href="#i-eye"/></svg>TRY ON</div>
+   <div class="btn c"><svg class="cart"><use href="#cart"/></svg><span class="dv"></span><svg class="co"><use href="#gc"/></svg>149<span class="go">BUY</span></div>
+  </div>
+
+  <div class="fx gt sel" style="left:528px;top:62px"><div class="sc"></div><svg class="m" viewBox="0 0 100 110"><use href="#mask"/></svg><span class="rar r-e">EPIC</span><b>GHOST VISOR</b><span><svg class="ico"><use href="#gc"/></svg>149</span><i class="bar" style="color:#9b5cff"></i></div>
+  <div class="fx gt" style="left:674px;top:62px"><div class="sc"></div><svg class="m" viewBox="0 0 100 110" style="filter:sepia(1) saturate(4)"><use href="#mask"/></svg><span class="rar r-l">LEGEND</span><b>GOLD RUSH</b><span><svg class="ico"><use href="#gc"/></svg>299</span><i class="bar" style="color:#ffc22e"></i></div>
+  <div class="fx gt" style="left:528px;top:170px"><div class="sc"></div><svg class="m" viewBox="0 0 100 110" style="filter:sepia(1) saturate(6) hue-rotate(10deg) brightness(1.1)"><use href="#mask"/></svg><span class="rar r-r">RARE</span><b>SMILEY PLATE</b><span><svg class="ico"><use href="#gc"/></svg>99</span><i class="bar" style="color:#3aa8ff"></i></div>
+  <div class="fx gt" style="left:674px;top:170px"><div class="sc"></div><svg class="m" viewBox="0 0 100 110" style="filter:sepia(1) saturate(5) hue-rotate(260deg)"><use href="#mask"/></svg><span class="rar r-r">RARE</span><b>STATIC FACE</b><span style="font-size:10px;letter-spacing:.12em;color:#ff8ae0"><svg class="ico"><use href="#i-wheel"/></svg>SPIN ONLY</span><i class="bar" style="color:#3aa8ff"></i></div>
+  <div class="fx gt" style="left:528px;top:278px"><div class="sc"></div><svg class="m" viewBox="0 0 100 110" style="filter:brightness(.35)"><use href="#mask"/></svg><span class="rar r-c">COMMON</span><b>NIGHT HOOD</b><span><svg class="ico"><use href="#gc"/></svg>49</span><i class="bar" style="color:#9aa3b2"></i></div>
+  <div class="fx gt" style="left:674px;top:278px"><div class="sc"></div><svg class="m" viewBox="0 0 100 110" style="filter:sepia(1) saturate(4) hue-rotate(160deg)"><use href="#mask"/></svg><span class="rar r-c">COMMON</span><b>CREW BANDANA</b><span style="color:#92dd80;font-size:11px">✔ EQUIPPED</span><i class="bar" style="color:#92dd80"></i></div>
+ </div></div>
+ <div class="notes">
+  <div><h4>STRUCTURE</h4><ul><li>Six tabs in a vertical rail on the thumb side. Coins sits gold at the bottom.</li><li>Tapping a tile on the right updates the big panel: pedestal view, colour picker (Purchase Panels #7), set progress, then <b>TRY ON</b> + <b>BUY</b>.</li><li>Every tile shows its state: price, SPIN ONLY, or EQUIPPED, so you never tap BUY on something you can't buy.</li></ul></div>
+  <div><h4>FIT / RISK</h4><ul><li>Best for browsing lots of cosmetics. TRY ON reuses the locker-room preview you already have.</li><li>Needs more art than the others: one render per item <i>and</i> per colourway.</li><li>Tile text is 12 pt, the minimum for phones.</li></ul></div>
+ </div>
+</section>
+
+<!-- ================= C ================= -->
+<section>
+ <div class="cap"><b>C · STATIC SIGNAL</b><span>Season 1 glitch take on the Section Modules sheet: magenta/cyan banner over the Oceanside skyline, a spin module and a coin-pack shelf, with gold for selected and buy.</span></div>
+ <div class="fit"><div class="phone C">
+  <div class="island"></div><div class="home"></div>
+  <div class="logo">SHOP</div>
+  <div class="seg"><div class="fx st on" style="left:0"><i>01</i>TONIGHT</div><div class="fx st" style="left:66px"><i>02</i>STYLE</div><div class="fx st" style="left:132px"><i>03</i>KARTS</div><div class="fx st" style="left:198px"><i>04</i>SPIN</div><div class="fx st" style="left:264px"><i>05</i>PASS</div></div>
+  <div class="fx pill" style="left:528px;padding-right:11px"><svg class="ico"><use href="#cr"/></svg>4,120</div>
+  <div class="fx pill" style="left:626px"><svg class="ico"><use href="#gc"/></svg>850<span class="btn mg plus">+</span></div>
+  <div class="fx x">✕</div>
+
+  <div class="fx ban"><div class="sc"><div class="rays"></div>
+    <svg class="sky" viewBox="0 0 430 90" preserveAspectRatio="none"><path d="M0 90V60h30V40h22v24h18V20l14-8 14 8v44h20V34h30v30h16V48a14 14 0 0 1 28 0v16h22V28h8V14h8v14h8v36h26V44l12-12 12 12v20h20V38h34v26h18V52h30v38z" fill="#1a1428"/><g fill="#ffd27a" opacity=".55"><rect x="74" y="28" width="3" height="3"/><rect x="82" y="40" width="3" height="3"/><rect x="124" y="42" width="3" height="3"/><rect x="230" y="34" width="3" height="3"/><rect x="238" y="50" width="3" height="3"/><rect x="330" y="46" width="3" height="3"/><rect x="342" y="56" width="3" height="3"/></g></svg>
+    <div class="gl1"></div><div class="gl2"></div><div class="gl3"></div><div class="bokeh" style="--bk:#ff8ae066"></div></div>
+   <svg class="bart" viewBox="0 0 380 144" style="color:#ff3ec8">
+    <use href="#kart" x="130" y="40" width="210" height="104"/>
+    <g opacity=".6"><use href="#crew" x="76" y="14" width="70" height="112"/></g>
+    <use href="#crew" x="110" y="8" width="84" height="134"/>
+    <use href="#mask" x="300" y="10" width="54" height="60"/>
+   </svg>
+   <div class="ltd">SEASON 1 · LIMITED SET</div>
+   <div class="bt">STATIC <em>CREW</em></div>
+   <div class="bs">OPERATOR BUNDLE · 4 ITEMS · COSMETIC ONLY</div>
+   <div class="btn g"><span>BUY BUNDLE</span><span class="dv" style="background:linear-gradient(#0000,#3a220088,#0000)"></span><svg class="co"><use href="#gc"/></svg>499<s style="margin-left:2px">796</s></div>
+   <div class="new">NEW THIS WEEK</div>
+  </div>
+
+  <div class="fx md" style="left:62px;width:268px;--bd:linear-gradient(160deg,#ff8ae0,#7a2cff 40%,#1a0e24);--gl:#ff3ec855;--glr:6px;--hc:#ff8ae0">
+   <div class="mh"><i>01</i>STATIC WHEEL</div>
+   <svg class="whl" viewBox="0 0 120 140"><use href="#wheel" width="120" height="140"/></svg>
+   <div class="wc"><span class="odds">ODDS &amp; PITY</span><div class="pity">EPIC+ IN 4 SPINS</div><div class="pips"><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i></div>
+    <div class="btn c"><svg class="co"><use href="#gc"/></svg>199<span class="go">×1 SPIN</span></div>
+    <div class="btn g"><svg class="co"><use href="#gc"/></svg>799<span class="go">×5 SPIN</span><span class="save">SAVE 20%</span></div></div>
+  </div>
+
+  <div class="fx md" style="left:338px;width:474px;--bd:linear-gradient(160deg,#fff2b0,#c27c00 40%,#2a1a00);--gl:#ffc23a44;--glr:6px;--hc:#ffcf3a">
+   <div class="mh"><i>02</i>GLITCH COINS</div><div class="mr">SPEND ON COSMETICS + PASS</div>
+   <div class="fx pk" style="left:10px;--bd:linear-gradient(#c8d0dc,#4a5260);--pg:#aab3c033;--pc:#aab3c0"><div class="sc"></div><b>400</b><div class="bon">STARTER</div>
+    <svg class="pile" viewBox="0 0 80 40"><use href="#gc" x="27" y="6" width="26" height="26"/></svg><div class="btn gy"><svg class="ico"><use href="#rbx"/></svg>99</div></div>
+   <div class="fx pk" style="left:125px;--bd:linear-gradient(#bff4ff,#0a78c2);--pg:#2bd0ff33;--pc:#5fe0ff;--gl:#2bd0ff55"><div class="sc"></div><b>850</b><div class="bon">+6% BONUS</div>
+    <svg class="pile" viewBox="0 0 80 40"><use href="#gc" x="14" y="12" width="24" height="24"/><use href="#gc" x="42" y="12" width="24" height="24"/><use href="#gc" x="28" y="2" width="24" height="24"/></svg><div class="btn c"><svg class="ico"><use href="#rbx"/></svg>199</div></div>
+   <div class="fx pk" style="left:240px;--bd:linear-gradient(#fff6c8,#e0a000);--pg:#ffc23a40;--pc:#ffd260;--gl:#ffc23acc"><div class="sc"></div><div class="mp">MOST POPULAR</div><b>2,200</b><div class="bon">+10% BONUS</div>
+    <svg class="pile" viewBox="0 0 80 40"><use href="#gc" x="2" y="16" width="22" height="22"/><use href="#gc" x="22" y="16" width="22" height="22"/><use href="#gc" x="42" y="16" width="22" height="22"/><use href="#gc" x="58" y="18" width="20" height="20"/><use href="#gc" x="12" y="3" width="22" height="22"/><use href="#gc" x="32" y="1" width="24" height="24"/><use href="#gc" x="50" y="5" width="20" height="20"/></svg><div class="btn g"><svg class="ico"><use href="#rbx"/></svg>499</div></div>
+   <div class="fx pk" style="left:355px;--bd:linear-gradient(#d6ffb0,#2f8f10);--pg:#6ee03a33;--pc:#a6f07a;--gl:#6ee03a55"><div class="sc"></div><b>4,800</b><div class="bon">+20% BONUS</div>
+    <svg class="pile" viewBox="0 0 80 40"><use href="#gc" x="0" y="18" width="20" height="20"/><use href="#gc" x="16" y="18" width="20" height="20"/><use href="#gc" x="32" y="18" width="20" height="20"/><use href="#gc" x="48" y="18" width="20" height="20"/><use href="#gc" x="62" y="20" width="18" height="18"/><use href="#gc" x="8" y="6" width="20" height="20"/><use href="#gc" x="24" y="4" width="22" height="22"/><use href="#gc" x="42" y="4" width="22" height="22"/><use href="#gc" x="58" y="8" width="18" height="18"/><use href="#gc" x="30" y="-8" width="22" height="22"/></svg><div class="btn gr"><svg class="ico"><use href="#rbx"/></svg>999</div></div>
+  </div>
+ </div></div>
+ <div class="notes">
+  <div><h4>STRUCTURE</h4><ul><li>Banner on top, modules below (Section Modules #01/#06). The season banner and colours swap each season while the layout stays the same.</li><li>Spin shows the pity counter as pips plus an <b>ODDS &amp; PITY</b> button (required, §5i). The 5-pack is gold with a SAVE tag.</li><li>Coin packs climb grey → cyan → gold → green, like the reference's cash stack. Gold is the anchor (“most popular”).</li><li>Shop is cosmetics-only; blasters stay in the armory room.</li></ul></div>
+  <div><h4>FIT / RISK</h4><ul><li>Strongest season identity, and uses the Oceanside skyline from your city concept.</li><li>Busiest colour mix. Gold must stay reserved for “selected / buy” or it turns into noise.</li><li>Coin amounts, bonuses and R$ prices are placeholders. Nothing is in Config yet.</li></ul></div>
+ </div>
+</section>
+
+<section class="notes" style="display:block;max-width:874px">
+ <h4>APPLIES TO ALL THREE</h4>
+ <ul>
+  <li>No countdown timers (§5i). “Rotates Monday” / “New this week” instead.</li>
+  <li>Players restricted by PolicyService see spin tokens instead of Robux prices. The wheel hides once every item is owned.</li>
+  <li>Fonts are all built into Roblox: A = Sarpanch, B = Oswald, C = Michroma + Titillium Web, plus Roboto Condensed.</li>
+ </ul>
+</section>
+
+<script>
+function fit(){document.querySelectorAll('.fit').forEach(f=>{const p=f.firstElementChild,s=Math.min(1,f.clientWidth/874);p.style.transform=`scale(${s})`;f.style.height=402*s+'px'})}
+addEventListener('resize',fit);fit();document.fonts&&document.fonts.ready.then(fit);
+</script>
+</body></html>

@@ -14,7 +14,7 @@ local S
 
 function Escape.inGate(pos)
 	local g = M.Gate
-	return math.abs(pos.X - g.pos.X) <= g.halfX and math.abs(pos.Z - g.pos.Z) <= g.halfZ
+	return math.abs(pos.X - g.pos.X) <= g.halfX and math.abs(pos.Z - g.pos.Z) <= g.halfZ and math.abs(pos.Y - g.pos.Y) <= 8
 end
 
 -- Fastest plausible dash (anti-teleport): straight line spot -> gate at MaxSpeed x MinDashMult.

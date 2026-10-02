@@ -77,15 +77,12 @@ local function lighting()
 end
 
 function Map.buildCity(root)
-	local city = Instance.new("Folder")
+	local city = Instance.new("Model")
+	city.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
 	city.Name = "City"
 	city.Parent = root
 	local b = M.Bounds
-	box(city, "Ground", V(b.max.X - b.min.X, 1, b.max.Z - b.min.Z), V((b.min.X + b.max.X) / 2, -0.5, (b.min.Z + b.max.Z) / 2), COL.road, Enum.Material.Asphalt)
-	for _, e in ipairs({ { V(b.min.X, 0, 0), V(2, 20, b.max.Z - b.min.Z) }, { V(b.max.X, 0, 0), V(2, 20, b.max.Z - b.min.Z) },
-		{ V((b.min.X + b.max.X) / 2, 0, b.min.Z), V(b.max.X - b.min.X, 20, 2) }, { V((b.min.X + b.max.X) / 2, 0, b.max.Z), V(b.max.X - b.min.X, 20, 2) } }) do
-		box(city, "Perimeter", e[2], e[1] + V(0, 10, 0), COL.wall, Enum.Material.Concrete)
-	end
+	box(city, "Ground", V(1040 - b.min.X, 1, 480), V((b.min.X + 1040) / 2, -0.5, 0), COL.road, Enum.Material.Asphalt)
 	local heights = { 46, 72, 38, 60, 84, 52, 66, 40, 58, 76 }
 	for i, blk in ipairs(M.Blocks) do
 		slab(city, "Block", blk.min, blk.max, COL.walk)
@@ -118,6 +115,7 @@ function Map.buildCity(root)
 	for _, at in ipairs(M.Barricades) do
 		box(city, "Barricade", V(8, 5, 40), at + V(0, 2.5, 0), COL.block, Enum.Material.SmoothPlastic)
 	end
+	require(script.Parent.City).build(root, box)
 	local g = M.Gate
 	for _, sgn in ipairs({ -1, 1 }) do
 		box(city, "GatePost", V(3, 18, 3), g.pos + V(0, 9, sgn * (g.halfZ + 2)), COL.gate, TRIM)
@@ -198,6 +196,32 @@ function Map.init(S)
 	tspawn.Parent = folder
 	Map.arrival, Map.towerSpawn = spawn, tspawn
 	Map.setServiceDoor(false)
+end
+
+function Map.start(_,run)
+ if Map.wing then Map.wing:Destroy() end
+ local kit=Instance.new("Model") kit.Name="ActiveVaultWing" kit.ModelStreamingMode=Enum.ModelStreamingMode.Atomic kit.Parent=Map.folder Map.wing=kit
+ local colors={data=Color3.fromRGB(92,145,174),bullion=Color3.fromRGB(196,157,71),prototype=Color3.fromRGB(113,161,126)}
+ box(kit,"VaultKit",V(94,.3,20),V(107,.3,147),colors[run.wing or "data"],Enum.Material.SmoothPlastic,{CanCollide=false})
+ if run.wing=="bullion" then
+  for i=1,6 do box(kit,"PressurePlate",V(18,.15,6),V(i%2==0 and 115 or 85,.2,104+i*4),colors.bullion,Enum.Material.Metal,{CanCollide=false}) end
+ end
+ -- Glitch reroutes between the existing corridor and office gap, without sealing either exit.
+ if run.params.reroute then
+  box(kit,"Reroute",V(12,7,2),V(100,3.5,92),colors.prototype)
+  box(kit,"OfficeBypass",V(12,1,2),V(50,7,90),colors.prototype,Enum.Material.SmoothPlastic,{CanCollide=false})
+ end
+end
+
+function Map.tick(_, run, dt)
+	for _,player in ipairs(run.players) do
+		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+		if root and hum and not hum.SeatPart and root.Position.Y < Config.City.RecoverBelow then
+			root.CFrame = CFrame.new(M.TowerSpawn + V(0,4,0))
+			root.AssemblyLinearVelocity = Vector3.zero
+		end
+	end
 end
 
 function Map.reset(S)

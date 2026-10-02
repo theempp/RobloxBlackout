@@ -268,6 +268,135 @@ RS:WaitForChild("BCTestCmd").OnClientEvent:Connect(function(id, name, ...)
 		elseif name == "menuBack" then -- what the Back binding (Backspace / gamepad B) runs
 			cs.Menus.closeCurrent()
 			return cs.Menus.current == nil
+		elseif name == "gunTris" then -- measured render cost: Stats.SceneTriangleCount with vs without each model in view
+			local GunModel = require(RS.BlackoutCrew.GunModel)
+			local St, RunS, cam = game:GetService("Stats"), game:GetService("RunService"), workspace.CurrentCamera
+			local function frames(n) for _ = 1, n do RunS.RenderStepped:Wait() end end
+			local function measure(m)
+				local best = math.huge
+				for _ = 1, 3 do
+					m.Parent = nil
+					frames(3)
+					local base = St.SceneTriangleCount
+					m:PivotTo(cam.CFrame * CFrame.new(0, 0, -7) * CFrame.Angles(0, math.rad(90), 0))
+					m.Parent = cam
+					frames(3)
+					best = math.min(best, St.SceneTriangleCount - base)
+				end
+				m:Destroy()
+				return best
+			end
+			local out = {}
+			local AS = game:GetService("AssetService")
+			local e1 = AS:CreateEditableMesh()
+			out.direct = tostring(e1)
+			if e1 then e1:Destroy() end
+			out.memMb = game:GetService("Stats"):GetMemoryUsageMbForTag(Enum.DeveloperMemoryTag.GraphicsMeshParts)
+			for _, g in ipairs(cs.Config.Guns) do
+				local fp, kind = GunModel.buildFirstPerson(g)
+				fp.PrimaryPart.Anchored = true
+				local w = GunModel.build(g)
+				w.PrimaryPart.Anchored = true
+				local meshes, sizeOk = 0, true
+				for _, d in ipairs(fp:GetDescendants()) do
+					if d:IsA("MeshPart") then meshes += 1 end
+				end
+				out[g.id] = { kind = kind, status = GunModel.fpStatus[g.id], fp = measure(fp), world = measure(w), meshes = meshes, art = fp:GetAttribute("Tris") }
+			end
+			return out
+		elseif name == "stageGuns" then -- photo staging: fixed camera (cutscene), HUD + viewmodel hidden, guns on a grey backdrop
+			local GunModel = require(RS.BlackoutCrew.GunModel)
+			local cam = workspace.CurrentCamera
+			local old = workspace:FindFirstChild("BCStage")
+			if old then old:Destroy() end
+			local f = Instance.new("Folder")
+			f.Name = "BCStage"
+			local at = CFrame.new(0, 400, 0)
+			local back = Instance.new("Part")
+			back.Anchored, back.Size, back.Color, back.Material = true, Vector3.new(40, 30, 1), Color3.fromRGB(128, 128, 132), Enum.Material.SmoothPlastic
+			back.CFrame = at * CFrame.new(0, 0, -12)
+			back.Parent = f
+			local ids = args[1] or { "dart9", "buzz", "ranger", "needle" }
+			for i, id in ipairs(ids) do
+				local m = GunModel.buildFirstPerson(cs.Config.GunsById[id])
+				m.PrimaryPart.Anchored = true
+				local col, row = (i - 1) % 2, math.floor((i - 1) / 2)
+				m:PivotTo(at * CFrame.new(-2.6 + col * 4.6, 1.3 - row * 2.4, -7) * CFrame.Angles(0, math.rad(args[2] or 90), 0) * CFrame.Angles(math.rad(args[3] or 0), 0, 0))
+				m.Parent = f
+			end
+			f.Parent = workspace
+			cs.cutscene = true
+			for _, g in ipairs(lp.PlayerGui:GetChildren()) do
+				if g:IsA("ScreenGui") then g.Enabled = false end
+			end
+			for _, d in ipairs(cam:GetChildren()) do
+				if d:IsA("Model") then d.Parent = nil end
+			end
+			task.spawn(function()
+				for _ = 1, 3000 do
+					cam.CameraType = Enum.CameraType.Scriptable
+					cam.FieldOfView = 50
+					cam.CFrame = at
+					game:GetService("RunService").RenderStepped:Wait()
+				end
+			end)
+			return true
+		elseif name == "gunEquip" then -- range loan -> the real server equip path; waits for the view model to finish building
+			local G = cs.GunClient
+			cs.remotes.RangeEquip:FireServer(args[1])
+			local t = os.clock()
+			repeat task.wait(0.05) until (G.gunId == args[1] and cs.ViewModel.model() ~= nil) or os.clock() - t > 6
+			task.wait(cs.Config.Fire.DrawTime + 0.15)
+			return { gun = G.gunId, status = cs.ViewModel.status, built = cs.ViewModel.model() ~= nil }
+		elseif name == "elimReplay" then
+			local before = cs.GunClient.eliminations
+			for _ = 1, 3 do cs.GunClient.confirmElimination(args[1]) end
+			return cs.GunClient.eliminations - before
+		elseif name == "gunState" then
+			local cam = workspace.CurrentCamera
+			local m = cs.ViewModel.model()
+			local root = m and m.PrimaryPart
+			local vp = cam.ViewportSize
+			local function px(att)
+				local a = root and root:FindFirstChild(att)
+				if not a then return nil end
+				local v, on = cam:WorldToViewportPoint(a.WorldPosition)
+				return { x = v.X - vp.X / 2, y = v.Y - vp.Y / 2, on = on, z = v.Z }
+			end
+			local hiddenParts, shown = 0, 0
+			for _, d in ipairs(m and m:GetDescendants() or {}) do
+				if d:IsA("BasePart") and d.Transparency < 1 then
+					if d.LocalTransparencyModifier >= 1 then hiddenParts += 1 else shown += 1 end
+				end
+			end
+			local e = cs.Hud.elim
+			return { gun = cs.GunClient.gunId, ads = cs.GunClient.ads, alpha = cs.ViewModel.adsProgress(), fov = cam.FieldOfView,
+				scoped = cs.ViewModel.scoped(), scopeGui = cs.Hud.scopeGui.Enabled, hidden = hiddenParts, shown = shown,
+				cross = cs.Hud.cross.Visible, sight = px("Sight"), front = px("FrontSight"), muzzle = px("Muzzle"),
+				elimShown = cs.Hud.elimShown, eliminations = cs.GunClient.eliminations, menu = cs.Menus.current,
+				elimRect = { x = e.AbsolutePosition.X - vp.X / 2, y = e.AbsolutePosition.Y + game:GetService("GuiService"):GetGuiInset().Y - vp.Y / 2, w = e.AbsoluteSize.X, h = e.AbsoluteSize.Y },
+				status = cs.ViewModel.status, sfx = cs.GunSfx.played, ammo = cs.GunClient.ammo[cs.GunClient.gunId] }
+		elseif name == "gunAds" then -- input-equivalent ADS toggle; waits n seconds
+			cs.GunClient.setAds(args[1] == true)
+			if args[2] then task.wait(args[2]) end
+			return cs.ViewModel.adsProgress()
+		elseif name == "adsSpam" then -- rapid toggles, ends released
+			for i = 1, args[1] do
+				cs.GunClient.setAds(i % 2 == 1)
+				task.wait(args[2] or 0.03)
+			end
+			cs.GunClient.setAds(false)
+			return true
+		elseif name == "gunSwap" then
+			cs.GunClient.equip(args[1])
+			game:GetService("RunService").RenderStepped:Wait()
+			return true
+		elseif name == "openMenu" then
+			cs.SettingsUI.set(true)
+			game:GetService("RunService").RenderStepped:Wait()
+			local r = { fov = workspace.CurrentCamera.FieldOfView, alpha = cs.ViewModel.adsProgress(), scoped = cs.ViewModel.scoped(), menu = cs.Menus.current }
+			cs.SettingsUI.set(false)
+			return r
 		elseif name == "uiAudit" then
 			return audit()
 		elseif name == "armory" then

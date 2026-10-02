@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-10-02T04:02:25.778655Z",
+    "display_name": "GPT Image 2.5",
+    "id": "42c731cb-821c-4f34-bf45-7b03dfdb9017",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_42c731cb-821c-4f34-bf45-7b03dfdb9017_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "flare",
+      "prompt": "Stylized blocky Roblox-style cartoon game UI concept art, 16:9 landscape phone game screen, matte flat colors, thick dark outlines, rounded panels, sticker-like cards, chunky bold readable text. Strictly NO neon, NO glow, NO bloom, NO lens flare, NO emissive light, NO glossy shine. Heist-comedy tone, kid-friendly, no blood, no weapons shown. Reward state system: 7 days; claimed days have a green check stamp, today is highlighted with a dark outline and a TODAY pill, locked days have a padlock pill. Includes a close X button top-right, a streak counter, and one big CLAIM button. Title lockup 'DIRECTIVE PAYROLL' in cold corporate gray type with one colorful offset glitch layer (flat colour split, not glowing). Scene: a deadpan megacorp employee portal in gray, a window with 7 sealed 'FORM 7-D' file folders. Claimed folders have colorful glitch stickers slapped over the gray (sky blue, orange, green, pink-purple) and a CLAIMED stamp. Today folder 4 is open showing 'Kart Decal'. Locked folders have padlock pills. Deadpan text 'Your loyalty has been noted.' Compliance meter bar '3/7' filling in squad colors. Button 'COLLECT COMPENSATION'. Day 7 folder is 'Static Face Mask'.",
+      "quality": "low",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040225_42c731cb-821c-4f34-bf45-7b03dfdb9017.png",
+    "status": "completed"
+  }
+]

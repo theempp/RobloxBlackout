@@ -1,0 +1,48 @@
+[
+  {
+    "created_at": "2026-10-02T04:08:25.088996Z",
+    "display_name": "GPT Image 2.5",
+    "id": "70bb8df3-26c4-4dde-beee-9595445d460a",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040825_70bb8df3-26c4-4dde-beee-9595445d460a_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [
+        {
+          "data": {
+            "id": "4b6a5e7b-05c6-4ccd-80aa-18144ed6dd06",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/4b6a5e7b-05c6-4ccd-80aa-18144ed6dd06.webp"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "ac15c3a4-3ea8-47ac-adcf-30e6811672cb",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/ac15c3a4-3ea8-47ac-adcf-30e6811672cb.webp"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "a1133c84-338d-44e1-b0aa-1a1660346041",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/a1133c84-338d-44e1-b0aa-1a1660346041.webp"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "flare",
+      "prompt": "Premium mobile-game UI key art, full-bleed 16:9, no empty margins. The three attached images are QUALITY and STYLE references only (3D-rendered chunky Roblox-blocky hero props with bevels, specular highlights and soft contact shadows, layered 2D UI chrome on top, blurred depth-of-field diorama scene, extruded 3D title lettering with stroke and gradient, pill labels): match that craft level, but do NOT copy their titles, props layout or text. Original game: Blackout Crew, a kid-friendly co-op heist vs the Directive, a gray megacorp AI; our identity is colorful glitch versus gray. Deadpan humor, no blood, no real guns, no real brands or place names. Squad colors sky blue #56B4E9, orange #E69F00, green #009E73, pink-purple #CC79A7. Rich cinematic lighting, soft specular highlights and rim light. Soft warm glow ONLY on the TODAY item; no neon or emissive glow anywhere else. Seven days, DAY 1 to DAY 7. Exact state logic: DAY 1 and DAY 2 are CLAIMED with green check badges, DAY 3 is TODAY (largest, lit, raised, callout), DAY 4 to DAY 7 are LOCKED with padlock pills and dimmed. Show: close X top-right, '2 DAY STREAK' counter, huge CLAIM button, small timer pill 'NEXT REWARD 12H 36M', and a tomorrow teaser. Rewards are 3D props: Credits cash stacks, spray can (Spray Tag), kart decal sheet, ping icon token, loot crates, Day 7 grand prize crate with a Static Face Mask. Keep on-image text minimal, large, exact and legible; no tiny paragraphs. CONCEPT C, title 'DIRECTIVE PAYROLL' as extruded 3D lettering, 'DIRECTIVE' gray-white and 'PAYROLL' pink-purple, with a deadpan gray exec robot mascot with a tie. Scene: cold gray corporate portal office with blurred cubicles, being glitched by colorful sticker and pixel-tear overlays. Seven 3D sealed folders/envelopes/vault drawers on a conveyor desk row, DAY 3 envelope open with Credits and spray can; compliance meter bar; button 'COLLECT COMPENSATION'.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3ECHNajurEoumDubU4xnLV3A6dY/hf_20261002_040825_70bb8df3-26c4-4dde-beee-9595445d460a.png",
+    "status": "completed"
+  }
+]

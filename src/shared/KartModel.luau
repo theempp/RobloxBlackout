@@ -182,7 +182,7 @@ local function fromTemplate(m, K, tpl, frame)
 						p.Shape = Enum.PartType.Ball
 					end
 					if p.Material == Enum.Material.Neon then p.Material = Enum.Material.SmoothPlastic end
-					if tpl.Name == "VortexKart" then
+					if tpl.Name == Config.KartModel.Template then
 						p.Material = p.Name:match("^Wheel_") and Enum.Material.Rubber or Enum.Material.SmoothPlastic
 						p.Reflectance = p.Name:match("^Wheel_") and 0 or (p.Transparency > 0 and 0.04 or 0.1)
 						if p.Name == "Chassis" then p.Transparency = 1 end
@@ -209,7 +209,7 @@ local function fromTemplate(m, K, tpl, frame)
 					else
 						table.insert(parts, p)
 					end
-					if tpl.Name == "VortexKart" and vortexLED(p.Name) then
+					if tpl.Name == Config.KartModel.Template and vortexLED(p.Name) then
 						p:SetAttribute("VortexLED", true)
 					end
 			end
@@ -263,6 +263,7 @@ function KartModel.build(slot, groundCF, opts)
 	local cc = G.Collider.Center
 	local m = Instance.new("Model")
 	m.Name = opts.name or ("Kart" .. slot)
+ m:SetAttribute("KartTier",opts.topTier and "vortex" or "base")
 	local rootCF = KartPhysics.restCF(groundCF, Kc)
 	local K = rootCF * CFrame.new(-cc) -- kart frame
 	local root = part(m, "Root", G.Collider.Size, rootCF, { Transparency = 1, Anchored = true, CastShadow = false,
@@ -296,7 +297,7 @@ function KartModel.build(slot, groundCF, opts)
 	local parts, wheels, steers, doors, wheelDetails
 	if frame then
 		parts, wheels, steers, doors, wheelDetails = fromTemplate(m, K, tpl, frame)
-		m:SetAttribute("Visual", tpl.Name == "VortexKart" and "vortex" or "razor")
+		m:SetAttribute("Visual", tpl.Name == Config.KartModel.Template and "vortex" or "razor")
 	else
 		local steer
 		parts, wheels, steer = placeholder(m, K)

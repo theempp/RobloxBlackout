@@ -1,6 +1,7 @@
 -- Pooled local effects: tracers, impact flashes, floating damage numbers. Fixed pools created once;
 -- one per-frame loop fades them (no instances or tweens created while shooting).
--- Emissive neon only, no dynamic lights (mobile).
+-- Flat matte parts only (owner: no neon/emissive), no dynamic lights (mobile). Damage numbers float up-right of the
+-- hit point (Config.HitFx.DamageOffset) so they never sit on the reticle or scope crosshair.
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
@@ -76,6 +77,7 @@ function Fx.init(c)
 		gui.Size = UDim2.fromOffset(80, 30)
 		gui.AlwaysOnTop = true
 		gui.Enabled = false
+		gui.SizeOffset = C.HitFx.DamageOffset
 		gui.Adornee = att
 		local label = Instance.new("TextLabel")
 		label.BackgroundTransparency = 1
@@ -94,6 +96,9 @@ function Fx.init(c)
 		end
 		local g = C.GunsById[gunId]
 		Fx.tracer(origin + Vector3.new(0, -0.4, 0), endPoint, g and g.accent or C.Colors.Accent)
+		if ctx.GunSfx then
+			ctx.GunSfx.other(gunId, origin)
+		end
 	end)
 
 	RunService.RenderStepped:Connect(function(dt)

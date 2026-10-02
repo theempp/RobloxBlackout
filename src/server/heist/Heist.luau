@@ -54,13 +54,18 @@ end
 
 function Heist.start(S, players, info)
 	local run = { players = players, info = info, started = now(), slot = {}, ended = false, outcome = nil }
-	run.twist = Twists.pick(Twists.seed(info.runId), Config.Twists)
+	local remix=Random.new(Twists.seed(info.runId.."remix"))
+ run.wing=({"data","bullion","prototype"})[remix:NextInteger(1,3)]
+ run.guardSet=({"A","B","C"})[remix:NextInteger(1,3)]
+ Heist.set("Wing",run.wing) Heist.set("GuardSet",run.guardSet)
+ run.twist = Twists.pick(Twists.seed(info.runId), Config.Twists)
 	run.params = Twists.apply({ alarmMult = 1, sentryMult = 1, visionMult = 1, bumpMult = {} }, run.twist and Config.Twists[run.twist])
 	for i, p in ipairs(players) do
 		run.slot[p] = i
 		p:SetAttribute("BC_Slot", i)
 	end
 	Heist.run = run
+ if S.Telemetry then S.Telemetry.started() end
 	Heist.set("Phase", "running")
 	Heist.set("CrewSize", info.crewSize)
 	Heist.set("Difficulty", info.difficulty)
@@ -81,12 +86,17 @@ function Heist.finish(S, outcome, amounts, detail)
 		return nil -- idempotent: a second finish never pays twice
 	end
 	run.ended, run.outcome = true, outcome
+ if S.Telemetry then S.Telemetry.finished(outcome=="done") end
 	for _, sys in ipairs(Heist.systems) do
 		if sys.stop then
 			sys.stop(S, run)
 		end
 	end
 	local granted = S.session:grant(S.profiles, amounts or {})
+	for p in pairs(granted) do
+		local d=S.profiles.loaded[p]
+		if d then require(shared.Economy).runReward(d,outcome=="done") end
+	end
 	Heist.set("Phase", outcome)
 	for p, amt in pairs(granted) do
 		task.spawn(function()

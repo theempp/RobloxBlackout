@@ -1,0 +1,69 @@
+Date: 2026-10-01 (America/New_York)
+Unmodified working-copy regression: python3 tools/test.py --timeout 240
+Result: exit 1; lobby 866/866; heist 540/551; multi 29/29; grand 1435/1446
+All three suites reported render throttling; FPS is invalid.
+Runtime result lines:
+[lobby] BC_SUITE Armory.spec 52/52
+[lobby] BC_SUITE Build3.spec 68/68
+[lobby] BC_SUITE Client.spec 13/13
+[lobby] BC_SUITE Config.spec 171/171
+[lobby] BC_SUITE Crews.spec 21/21
+[lobby] BC_SUITE Economy.spec 30/30
+[lobby] BC_SUITE Fire.spec 64/64
+[lobby] BC_SUITE Garage.spec 41/41
+[lobby] BC_TRI dart9 1746 192 mesh
+[lobby] BC_TRI buzz 2578 432 mesh
+[lobby] BC_TRI ranger 2246 336 mesh
+[lobby] BC_TRI scatter 168 168 primitive
+[lobby] BC_TRI needle 2136 648 mesh
+[lobby] BC_TRI rattler 276 276 primitive
+[lobby] BC_SUITE GunFeel.spec 29/29
+[lobby] BC_SUITE Guns.spec 168/168
+[lobby] BC_SUITE Hud.spec 17/17
+[lobby] BC_SUITE Lobby.spec 49/49
+[lobby] BC_SUITE Locker.spec 41/41
+[lobby] BC_SUITE Profiles.spec 63/63
+[lobby] BC_SUITE Receipts.spec 15/15
+[lobby] BC_SUITE Wheel.spec 24/24
+[lobby] BC_TOTAL 866/866
+[heist] BC_FAIL Alarm.spec: real gunfire bumps the alarm (got 60, want 30)
+[heist] BC_FAIL Alarm.spec: published (got 60, want 30)
+[heist] BC_SUITE Alarm.spec 27/29
+[heist] BC_SUITE Carry.spec 49/49
+[heist] BC_SUITE City.spec 23/23
+[heist] BC_SUITE Content.spec 91/91
+[heist] BC_SUITE Cosmetics.spec 5/5
+[heist] BC_FAIL Downed.spec: downed bumps the alarm (medium) (got 40, want 20)
+[heist] BC_SUITE Downed.spec 22/23
+[heist] BC_FAIL Enemies.spec: sighting bumps the alarm (got 20, want 10)
+[heist] BC_FAIL Enemies.spec: same target: no second sighting bump (got 20, want 10)
+[heist] BC_FAIL Enemies.spec: camera spot = small bump (got 20, want 10)
+[heist] BC_FAIL Enemies.spec: hacked camera is blind (got 20, want 10)
+[heist] BC_SUITE Enemies.spec 29/33
+[heist] BC_SUITE Escape.spec 49/49
+[heist] BC_SUITE HeistClient.spec 7/7
+[heist] BC_FAIL HudHeist.spec: minimap at a phone-readable size (102)
+[heist] BC_SUITE HudHeist.spec 24/25
+[heist] BC_FAIL Kart.spec: kart HUD: buttons >= 44px, no overlaps, on screen (7 |Touch_doors+Touch_view,Touch_exit+Touch_lights,Touch_doors+Touch_lights,Touch_brake+Touch_gas|Touch_exit,Touch_gas)
+[heist] BC_SUITE Kart.spec 51/52
+[heist] BC_FAIL Lasers.spec: real layout: knee beam hit found 
+[heist] BC_SUITE Lasers.spec 14/15
+[heist] BC_SUITE Map.spec 16/16
+[heist] BC_SUITE Perf.spec 5/5
+[heist] BC_SUITE RouteDrive.spec 3/3
+[heist] BC_SUITE Session.spec 30/30
+[heist] BC_SUITE Suspension.spec 29/29
+[heist] BC_SUITE Twists.spec 17/17
+[heist] BC_FAIL Vortex.spec: measured render triangles within cap (0)
+[heist] BC_TRI Vortex 0 named 117
+[heist] BC_SUITE Vortex.spec 24/25
+[heist] BC_SUITE Zz_Flow.spec 25/25
+[heist] BC_TOTAL 540/551
+[multi] BC_SUITE Multi.spec 29/29
+[multi] BC_TOTAL 29/29
+
+Controlled diagnostic: temporary-copy Config.Twists.Force="doublePatrol" and Heist.start wing="data". Original repository files untouched.
+Command: python3 tools/test.py --only heist --spec Alarm,Downed,Enemies,Lasers --timeout 180
+Result: exit 0; 100/100. This is diagnostic evidence, not a clean full regression.
+Original raw run logs remain at /var/folders/98/j0d_qwd974771b10d9t968p80000gp/T/blackout-audit-w6xcua_g/build/audit-full-{lobby,heist,multi}.log
+Controlled raw log: /var/folders/98/j0d_qwd974771b10d9t968p80000gp/T/blackout-audit-w6xcua_g/build/test-heist.log

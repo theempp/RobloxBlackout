@@ -1,5 +1,6 @@
 -- HUD root + helpers (ported from roblox 1: make/corner/stroke/pad, rescale S, CoreUISafeInsets),
--- crosshair, hit marker, ammo, toast. One per-frame loop animates everything (no tweens allocated).
+-- crosshair, hit marker, ammo, toast, ELIMINATED tag, full-viewport scope reticle. One per-frame loop animates
+-- everything (no tweens allocated).
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local StarterGui = game:GetService("StarterGui")
@@ -7,6 +8,8 @@ local StarterGui = game:GetService("StarterGui")
 local Hud = {}
 local ctx, C, HudScale
 local markerT, markerColor, toastT = 0, nil, 0
+local elimT = 0
+Hud.elimShown = 0
 
 function Hud.make(kind, parent, props)
 	local x = Instance.new(kind)
@@ -85,6 +88,43 @@ function Hud.hitMarker(kind)
 	for _, t in ipairs(Hud.marker:GetChildren()) do
 		t.BackgroundColor3 = markerColor
 	end
+end
+
+-- Server-confirmed defeat (GunClient dedupes by defeat id before calling). Sits below-right of the reticle.
+function Hud.eliminated()
+	elimT = C.HitFx.ElimTime
+	Hud.elimShown += 1
+	Hud.elim.Visible = true
+end
+
+-- Full-viewport scope: reticle lines across the whole play view + light corner shading; behind the controls.
+local function buildScope(lp)
+	local SC = C.Scope
+	local g = Hud.make("ScreenGui", nil, { Name = "BlackoutCrewScope", ResetOnSpawn = false, IgnoreGuiInset = true, DisplayOrder = -1, Enabled = false })
+	local function bar(props)
+		props.BorderSizePixel = 0
+		props.BackgroundColor3 = SC.LineColor
+		return Hud.make("Frame", g, props)
+	end
+	local t, gap = SC.LineThickness, SC.CenterGap
+	bar({ Name = "L", AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.fromScale(0, 0.5), Size = UDim2.new(0.5, -gap, 0, t) })
+	bar({ Name = "R", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.fromScale(1, 0.5), Size = UDim2.new(0.5, -gap, 0, t) })
+	bar({ Name = "T", AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.fromScale(0.5, 0), Size = UDim2.new(0, t, 0.5, -gap) })
+	bar({ Name = "B", AnchorPoint = Vector2.new(0.5, 1), Position = UDim2.fromScale(0.5, 1), Size = UDim2.new(0, t, 0.5, -gap) })
+	local post = 0.5 * (1 - SC.ThickFrom)
+	bar({ Name = "PL", AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.fromScale(0, 0.5), Size = UDim2.new(post, 0, 0, t * 3) })
+	bar({ Name = "PR", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.fromScale(1, 0.5), Size = UDim2.new(post, 0, 0, t * 3) })
+	bar({ Name = "PB", AnchorPoint = Vector2.new(0.5, 1), Position = UDim2.fromScale(0.5, 1), Size = UDim2.new(0, t * 3, post, 0) })
+	local dot = bar({ Name = "Dot", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(SC.Dot, SC.Dot) })
+	Hud.corner(dot, SC.Dot)
+	for _, e in ipairs({ { "ShadeT", Vector2.new(0, 0), UDim2.fromScale(1, 0.14), 90 }, { "ShadeB", Vector2.new(0, 1), UDim2.fromScale(1, 0.14), -90 },
+		{ "ShadeL", Vector2.new(0, 0), UDim2.fromScale(0.1, 1), 0 }, { "ShadeR", Vector2.new(1, 0), UDim2.fromScale(0.1, 1), 180 } }) do
+		local f = Hud.make("Frame", g, { Name = e[1], BorderSizePixel = 0, BackgroundColor3 = Color3.new(0, 0, 0), AnchorPoint = e[2],
+			Position = UDim2.fromScale(e[2].X, e[2].Y), Size = e[3], ZIndex = 0 })
+		Hud.make("UIGradient", f, { Rotation = e[4], Transparency = NumberSequence.new(SC.EdgeShade, 1) })
+	end
+	g.Parent = lp:WaitForChild("PlayerGui")
+	return g
 end
 
 function Hud.toast(text, seconds)
@@ -174,6 +214,14 @@ function Hud.init(c)
 
 	Hud.toastLabel = Hud.label(Hud.root, "", 16, { Name = "Toast", AnchorPoint = Vector2.new(0.5, 0), Size = UDim2.fromOffset(420, 24), TextTransparency = 1, TextStrokeTransparency = 1 })
 
+	-- ELIMINATED: offset from the screen centre (design units) so it never covers the reticle or scope lines.
+	local off = C.HitFx.ElimOffset
+	Hud.elim = Hud.label(Hud.root, C.HitFx.ElimText, 20, { Name = "Eliminated", AnchorPoint = Vector2.new(0, 0), Size = UDim2.fromOffset(150, 24),
+		Position = UDim2.new(0.5, off.X, 0.5, off.Y), TextXAlignment = Enum.TextXAlignment.Left, Font = Enum.Font.GothamBlack,
+		TextColor3 = C.HitFx.ElimColor, TextStrokeColor3 = Color3.fromRGB(20, 16, 22), TextStrokeTransparency = 0.2, Visible = false })
+	Hud.elimScale = Hud.make("UIScale", Hud.elim)
+	Hud.scopeGui = buildScope(lp)
+
 	gui.Parent = lp:WaitForChild("PlayerGui")
 	ctx.on("rescale", function()
 		panel.Position = UDim2.fromOffset(Hud.W - 10, 6)
@@ -191,6 +239,18 @@ function Hud.init(c)
 		if markerT > 0 then
 			markerT -= dt
 			marker.Visible = markerT > 0
+		end
+		if elimT > 0 then
+			elimT -= dt
+			local life = C.HitFx.ElimTime - elimT
+			Hud.elimScale.Scale = life < 0.12 and 1.25 - life / 0.12 * 0.25 or 1
+			Hud.elim.TextTransparency = elimT < 0.3 and 1 - elimT / 0.3 or 0
+			Hud.elim.TextStrokeTransparency = 0.2 + (elimT < 0.3 and (1 - elimT / 0.3) * 0.8 or 0)
+			Hud.elim.Visible = elimT > 0
+		end
+		local scoped = ctx.ViewModel ~= nil and ctx.ViewModel.scoped() and not Hud.menuOpen
+		if Hud.scopeGui.Enabled ~= scoped then
+			Hud.scopeGui.Enabled = scoped
 		end
 		if toastT > 0 then
 			toastT -= dt

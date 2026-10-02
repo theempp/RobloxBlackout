@@ -1,8 +1,8 @@
 # Blackout Crew (Roblox co-op heist, phone-first; owner Enzo)
 Files: DIRECTIVE_GRAY.md (design truth) · BUILD_PLAN.md · SALVAGE.md (audit of ~/Desktop/roblox 1) · gates/ (gate reports) · refs/ (owner reference images + NOTES) · HANDOFF_PROMPT.md
 **Current build: 3** (update only after owner says "go" at a gate). Build ONLY it, then stop at its gate.
-Build 3 is split at the 3A review gate. Read `gates/build-3.md` for current progress and remaining owner checks; 3B–3D remain pending.
-Revision stages (`refs/revisions/CLAUDE_CODE_HANDOFF.md`): stage 1 (locker/armory/queue) delivered — `gates/revision-stage-1.md` (owner phone playtest pending). **Stage 2 (guns) authorised Oct 1**; kickoff: `refs/revisions/STAGE2_KICKOFF.md`. Stages 3–4 (Vortex, city) need the owner's go.
+Owner authorised the Oct 1 local continuation through revision stages 3–4 and Build 3B–3D. Current readiness: `gates/phone-test-readiness.md`; historical 3A gate: `gates/build-3.md`. Phone and visual acceptance remain pending.
+Revision stages (`refs/revisions/CLAUDE_CODE_HANDOFF.md`): stage 1 (locker/armory/queue) delivered — `gates/revision-stage-1.md` (owner phone playtest pending). **Stage 2 (guns) delivered locally Oct 1**; review gate: `gates/revision-stage-2.md` (phone, visual/feel and Needlepoint balance acceptance pending); kickoff: `refs/revisions/STAGE2_KICKOFF.md`. Stages 3–4 are implemented locally for review; the owner authorised a separate phone-budget Vortex derivative and will test on iPhone 16 Pro. Owner approved and published a new private two-place Blackout Crew Phone Test (universe 10768927445); IDs and mesh API access configured. See readiness handoff for the owner link.
 Read order: this file -> BUILD_PLAN.md (current build) -> SALVAGE.md -> ONLY the DIRECTIVE_GRAY.md sections in its Read map (`grep -n '^## '`, read by range). Never load the whole brief.
 Rules:
 - Terse, honest; disagree when warranted.

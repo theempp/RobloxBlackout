@@ -213,9 +213,14 @@ function Weapons.fire(player, seq, origin, dir, ads)
 		return false, "empty"
 	end
 	local s = st.stats
-	st.allowance = math.min(F.Bunch, st.allowance + (now - st.allowAt) / s.interval)
+	-- Token bucket. Bolt guns (bunch 1) bank nothing: each shot needs a full cycle, minus a small jitter slack that
+	-- is paid back on the next shot (allowance may dip below 0), so the sustained rate can never exceed rpm.
+	local cap = s.bunch or F.Bunch
+	local need = cap < 2 and 1 - F.BoltSlack / s.interval or 1
+	local minGap = cap < 2 and s.interval - F.BoltSlack or s.interval * F.MinGap
+	st.allowance = math.min(cap, st.allowance + (now - st.allowAt) / s.interval)
 	st.allowAt = now
-	if st.allowance < 1 or now - st.lastShot < s.interval * F.MinGap then
+	if st.allowance < need or now - st.lastShot < minGap then
 		return false, "rate"
 	end
 	if (origin - head.Position).Magnitude > F.OriginTolerance then
@@ -252,9 +257,10 @@ function Weapons.fire(player, seq, origin, dir, ads)
 		end
 	end
 	for _, h in ipairs(hits) do
-		local dealt, killed = Targets.damage(h.model, h.d)
+		local dealt, killed, defeatId = Targets.damage(h.model, h.d)
 		h.d = math.floor(dealt + 0.5)
 		h.k = killed
+		h.e = defeatId
 		h.model = nil
 	end
 	return true, nil, hits, endPoint
