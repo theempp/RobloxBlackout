@@ -1,0 +1,300 @@
+{
+  "wheel_sweep": [
+    {
+      "piece": "Wheel_FL",
+      "steer": -32,
+      "travel": -0.8,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FL",
+      "steer": -32,
+      "travel": 0,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FL",
+      "steer": -32,
+      "travel": 0.35,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FL",
+      "steer": 0,
+      "travel": -0.8,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FL",
+      "steer": 0,
+      "travel": 0,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FL",
+      "steer": 0,
+      "travel": 0.35,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FL",
+      "steer": 32,
+      "travel": -0.8,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FL",
+      "steer": 32,
+      "travel": 0,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FL",
+      "steer": 32,
+      "travel": 0.35,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": -32,
+      "travel": -0.8,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": -32,
+      "travel": 0,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": -32,
+      "travel": 0.35,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": 0,
+      "travel": -0.8,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": 0,
+      "travel": 0,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": 0,
+      "travel": 0.35,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": 32,
+      "travel": -0.8,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": 32,
+      "travel": 0,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_FR",
+      "steer": 32,
+      "travel": 0.35,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_RL",
+      "steer": 0,
+      "travel": -0.8,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_RL",
+      "steer": 0,
+      "travel": 0,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_RL",
+      "steer": 0,
+      "travel": 0.35,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_RR",
+      "steer": 0,
+      "travel": -0.8,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_RR",
+      "steer": 0,
+      "travel": 0,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    },
+    {
+      "piece": "Wheel_RR",
+      "steer": 0,
+      "travel": 0.35,
+      "intersecting_triangle_pairs": {
+        "BodyShell": 0,
+        "Canopy_L": 0,
+        "Canopy_R": 0,
+        "CockpitFloor": 0,
+        "CockpitTub": 0
+      }
+    }
+  ],
+  "avatar_body_surface_intersections": {
+    "FIT_PROXY_Legs": 0,
+    "FIT_PROXY_Torso": 0,
+    "FIT_PROXY_Head": 0,
+    "FIT_PROXY_Arm_L": 0,
+    "FIT_PROXY_Arm_R": 0
+  },
+  "note": "Surface intersections only; no gameplay, animation, or phone test implied."
+}

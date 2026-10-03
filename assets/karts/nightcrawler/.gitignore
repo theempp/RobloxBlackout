@@ -1,0 +1,5 @@
+.deps/
+*.blend1
+*.npz
+wheel_stage.blend
+raw_intake.blend

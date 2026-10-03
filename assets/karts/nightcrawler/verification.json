@@ -1,0 +1,193 @@
+{
+  "fbx": {
+    "pieces": 20,
+    "triangles": 7400,
+    "hub_errors": {
+      "Wheel_FL": 2.457562461863554e-07,
+      "Wheel_FR": 2.457562461863554e-07,
+      "Wheel_RL": 5.960464477539063e-08,
+      "Wheel_RR": 5.960464477539063e-08
+    },
+    "topology": {
+      "Ballast": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "BodyShell": {
+        "boundary_edges": 548,
+        "nonmanifold_edges": 548
+      },
+      "Canopy_L": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Canopy_R": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Chassis": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "CockpitFloor": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "CockpitTub": {
+        "boundary_edges": 30,
+        "nonmanifold_edges": 30
+      },
+      "Collision": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "DiffuserLamp_L": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "DiffuserLamp_R": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Headlight_L": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Headlight_R": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "SeatBack": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "SeatPan": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Steer": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "TailLamp": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Wheel_FL": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Wheel_FR": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Wheel_RL": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Wheel_RR": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      }
+    },
+    "topology_method": "temporary position weld at 1e-6; exported geometry untouched",
+    "sha256": "47041b89cae54ffb17d31a4d5ee121962f37a81250cba2eb5e2f6467bfcbf245"
+  },
+  "glb": {
+    "pieces": 20,
+    "triangles": 7400,
+    "hub_errors": {
+      "Wheel_FL": 0.0,
+      "Wheel_FR": 0.0,
+      "Wheel_RL": 0.0,
+      "Wheel_RR": 0.0
+    },
+    "topology": {
+      "Ballast": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "BodyShell": {
+        "boundary_edges": 548,
+        "nonmanifold_edges": 548
+      },
+      "Canopy_L": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Canopy_R": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Chassis": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "CockpitFloor": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "CockpitTub": {
+        "boundary_edges": 30,
+        "nonmanifold_edges": 30
+      },
+      "Collision": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "DiffuserLamp_L": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "DiffuserLamp_R": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Headlight_L": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Headlight_R": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "SeatBack": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "SeatPan": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Steer": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "TailLamp": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Wheel_FL": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Wheel_FR": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Wheel_RL": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "Wheel_RR": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      }
+    },
+    "topology_method": "temporary position weld at 1e-6; exported geometry untouched",
+    "sha256": "768e0b409fe27b641cd7d752488855a23f79cd2c97938bc3518bd86326020dba"
+  },
+  "source_sha256_before_and_after": "c8fa2193a762b6ef7dd3cf3f8c3160be5ffa2ddf36c0292830cfd0decd0cdc7d",
+  "Studio_import": "PENDING OWNER",
+  "phone_test": "PENDING OWNER"
+}

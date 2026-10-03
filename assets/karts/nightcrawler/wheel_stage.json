@@ -1,0 +1,37 @@
+{
+  "triangles": 7912,
+  "repairs": [
+    {
+      "piece": "Wheel_FL",
+      "cut_boundary_edges": 108
+    },
+    {
+      "piece": "Wheel_FL",
+      "cut_boundary_edges": 35
+    },
+    {
+      "piece": "Wheel_FR",
+      "cut_boundary_edges": 73
+    },
+    {
+      "piece": "Wheel_FR",
+      "cut_boundary_edges": 4
+    },
+    {
+      "piece": "Wheel_RL",
+      "cut_boundary_edges": 152
+    },
+    {
+      "piece": "Wheel_RL",
+      "cut_boundary_edges": 65
+    },
+    {
+      "piece": "Wheel_RR",
+      "cut_boundary_edges": 168
+    },
+    {
+      "piece": "Wheel_RR",
+      "cut_boundary_edges": 0
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "sha256": "c8fa2193a762b6ef7dd3cf3f8c3160be5ffa2ddf36c0292830cfd0decd0cdc7d",
+  "objects": [
+    {
+      "name": "Mesh_0",
+      "vertices": 681719,
+      "faces": 1364170,
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          4.371138828673793e-08,
+          0.0
+        ],
+        [
+          0.0,
+          -4.371138828673793e-08,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "bbox_min": [
+        -0.951483964920044,
+        -0.4223245084285736,
+        -0.21425670385360718
+      ],
+      "bbox_max": [
+        0.9511967897415161,
+        0.4229430854320526,
+        0.21354007720947266
+      ],
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0
+    }
+  ],
+  "fbx_global_settings": {
+    "UpAxis": 1,
+    "UpAxisSign": 1,
+    "FrontAxis": 2,
+    "FrontAxisSign": 1,
+    "CoordAxis": 0,
+    "CoordAxisSign": 1,
+    "UnitScaleFactor": 1.0,
+    "OriginalUnitScaleFactor": 1.0
+  },
+  "blender_scene_unit_scale": 1.0,
+  "source_hash_after": "c8fa2193a762b6ef7dd3cf3f8c3160be5ffa2ddf36c0292830cfd0decd0cdc7d"
+}
