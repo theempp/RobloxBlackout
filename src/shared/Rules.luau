@@ -138,6 +138,7 @@ function Rules.defaultProfile()
 		settings = Rules.defaultSettings(),
 		receipts = {},
 		progress = require(script.Parent.Economy).clean(nil),
+		daily = require(script.Parent.DailyReward).clean(nil), -- schema 6
 	}
 end
 
@@ -200,6 +201,7 @@ function Rules.clean(raw)
 	end
 	local newer = Rules.finite(raw.schemaVersion) and raw.schemaVersion > P.SchemaVersion
 	p.progress = require(script.Parent.Economy).clean(raw.progress)
+	p.daily = require(script.Parent.DailyReward).clean(raw.daily)
 	p.credits = count(raw.credits, P.MaxCurrency) or 0
 	p.glitchCoins = count(raw.glitchCoins, P.MaxCurrency) or 0
 

@@ -19,7 +19,7 @@ return function(T)
 	T.check("every button >= MinTouchPx at every scale", worst >= C.Hud.MinTouchPx, worst)
 
 	-- Default layout on real device sizes (landscape px, minus approximate safe insets): circular buttons
-	-- must not overlap each other, the settings gear (40,40 r26) or the ammo panel (top-right 170x50).
+	-- must not overlap each other or the lobby ammo panel (top-centre 170x50). The lobby HUD itself: LobbyHud.spec.
 	local devices = { { "iPhone SE", 667, 375, 0, 0 }, { "iPhone 14", 844, 390, 47, 21 }, { "iPhone XR", 896, 414, 48, 21 },
 		{ "Android 20:9", 800, 360, 24, 0 }, { "iPad", 1024, 768, 0, 20 } }
 	for _, d in ipairs(devices) do
@@ -27,8 +27,8 @@ return function(T)
 		local S = HudScale.scale(w, h, false)
 		local W, H = w / S, h / S
 		-- Visibility groups: on-foot and kart buttons are never shown together, so only same-group pairs
-		-- (and the always-visible gear) must stay apart.
-		local circles = { { "gear", 40, 40, 26, "any" } }
+		-- must stay apart.
+		local circles = {}
 		for id, b in pairs(C.Touch.Buttons) do
 			if not b.optional then
 				table.insert(circles, { id, b.x * W, b.y * H, HudScale.touchSize(b.size, S, 1) / 2, b.driving and "kart" or "foot" })
@@ -39,7 +39,7 @@ return function(T)
 			if a[2] - a[4] < 0 or a[3] - a[4] < 0 or a[2] + a[4] > W or a[3] + a[4] > H then
 				table.insert(problems, a[1] .. " off-screen")
 			end
-			if a[2] + a[4] > W - 180 and a[3] - a[4] < 56 then
+			if math.abs(a[2] - W / 2) < 85 + a[4] and a[3] - a[4] < 56 then
 				table.insert(problems, a[1] .. " under ammo panel")
 			end
 			for j = i + 1, #circles do

@@ -53,10 +53,6 @@ function SettingsUI.init(c)
 	ctx = c
 	C = ctx.Config
 	Hud = ctx.Hud
-	local gear = Hud.button(Hud.root, "SettingsButton", "⚙", 52, { Position = UDim2.fromOffset(40, 40), TextSize = 22 })
-	gear.Activated:Connect(function()
-		SettingsUI.set(not SettingsUI.open)
-	end)
 	panel = Hud.make("ScrollingFrame", Hud.root, { Name = "Settings", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5),
 		Size = UDim2.fromOffset(440, 300), BackgroundColor3 = C.UI.Paper, BackgroundTransparency = 0.08, Visible = false, ZIndex = 40,
 		CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y, ScrollBarThickness = 6 })
@@ -119,9 +115,7 @@ function SettingsUI.init(c)
 	btn(row(""), "Close", "CLOSE", 0, 120).Activated:Connect(function()
 		SettingsUI.set(false)
 	end)
-	ctx.on("menu", function(name) -- other menus cover the gear's corner
-		gear.Visible = name == nil or name == "settings" or name == "wheel"
-	end)
+	-- Opened by the lobby HUD SETTINGS button, the heist HUD MENU dock button or the Settings key (no floating gear).
 	ctx.on("toggleSettings", function()
 		SettingsUI.set(not SettingsUI.open)
 	end)

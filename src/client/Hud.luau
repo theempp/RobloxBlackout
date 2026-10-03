@@ -132,16 +132,34 @@ function Hud.toast(text, seconds)
 	toastT = seconds or 2
 end
 
+-- Heist: HUD v2 owns the ammo/weapon plate (HeistHud calls this once); the old panel retires.
+function Hud.useV2(v)
+	Hud.v2 = v
+	Hud.ammoPanel.Visible = false
+	v.setAmmo(Hud.last and Hud.last[1], Hud.last and Hud.last[2], Hud.last and Hud.last[3])
+	v.setGun(Hud.gunLabel.Text)
+end
+
 function Hud.setAmmo(ammo, mag, reloading)
+	Hud.last = { ammo, mag, reloading }
+	if Hud.v2 then
+		Hud.v2.setAmmo(ammo, mag, reloading)
+	end
 	Hud.ammoLabel.Text = reloading and "RELOADING" or (tostring(ammo) .. " / " .. tostring(mag))
 	Hud.ammoLabel.TextColor3 = (not reloading and ammo <= math.ceil(mag * 0.25)) and C.Colors.Kill or C.UI.Ink
 end
 
 function Hud.setGun(name)
 	Hud.gunLabel.Text = name
+	if Hud.v2 then
+		Hud.v2.setGun(name)
+	end
 end
 
 function Hud.setReload(frac)
+	if Hud.v2 then
+		Hud.v2.setReload(frac)
+	end
 	Hud.reloadBar.Visible = frac ~= nil
 	if frac then
 		Hud.reloadFill.Size = UDim2.fromScale(math.clamp(frac, 0, 1), 1)
@@ -224,7 +242,10 @@ function Hud.init(c)
 
 	gui.Parent = lp:WaitForChild("PlayerGui")
 	ctx.on("rescale", function()
-		panel.Position = UDim2.fromOffset(Hud.W - 10, 6)
+		-- lobby: top-centre (the lobby HUD's currency pills own the top-right corner)
+		local lobby = ctx.role == "lobby"
+		panel.AnchorPoint = Vector2.new(lobby and 0.5 or 1, 0)
+		panel.Position = UDim2.fromOffset(lobby and Hud.W / 2 or Hud.W - 10, 6)
 		Hud.toastLabel.Position = UDim2.fromOffset(Hud.W / 2, 56)
 	end)
 	ctx.on("settings", rescale)

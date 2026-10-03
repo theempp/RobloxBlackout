@@ -65,7 +65,7 @@ Config.Heist = {
 Config.Profile = {
 	StoreName = "BlackoutCrew_Profile_v1",
 	Persistence = true, -- live DataStore outside Studio; Studio is always session-only
-	SchemaVersion = 5, -- 3: saved onboarding completion; 4: equipped cosmetics
+	SchemaVersion = 6, -- 3: saved onboarding completion; 4: equipped cosmetics; 6: daily reward
 	LockSeconds = 180,
 	AutosaveSeconds = 55,
 	Retries = 3,
@@ -251,6 +251,7 @@ Config.RateLimits = {
 	KartAction = { 4, 6 }, -- driver controls for doors and white LEDs
 	Repair = { 6, 10 },
 	RepairSkip = { 1, 2 },
+	DailyClaim = { 1, 3 },
 }
 
 -- Tri budgets (§6 REC-AUTO, verify on low-end phone) and per-primitive estimates used to check them.
@@ -427,23 +428,23 @@ Config.Hud = {
 }
 
 -- Touch buttons: centre as fraction of the HUD root (safe-inset area), size in design units.
--- Players can move/resize each (settings.layout); user scale is clamped to UserScale.
+-- Players can move/resize each (settings.layout); user scale is clamped to UserScale. ref = HudRef.Buttons slot that
+-- sets the default spot + size in the heist (HUD v2 cluster); a saved layout still wins.
 Config.Touch = {
 	UserScale = { 0.6, 1.6 },
 	FireDragAims = true, -- dragging from the Fire button also aims
 	ForceShow = false, -- show touch buttons without a touchscreen (tests force this on)
 	Buttons = {
-		fire = { x = 0.885, y = 0.72, size = 86, label = "FIRE" },
-		ads = { x = 0.765, y = 0.585, size = 60, label = "ADS" },
-		reload = { x = 0.765, y = 0.87, size = 50, label = "R" },
-		jump = { x = 0.935, y = 0.43, size = 56, label = "JUMP" },
-		weapon = { x = 0.65, y = 0.86, size = 58, label = "GUN" },
-		-- Mirrored, off by default. Right of the heist minimap (§5e puts the map top-left) so the claw-grip
-		-- index finger still reaches it without covering the map.
-		fireLeft = { x = 0.34, y = 0.4, size = 64, label = "FIRE", optional = true },
+		fire = { x = 0.885, y = 0.72, size = 86, label = "FIRE", ref = "fire" },
+		ads = { x = 0.765, y = 0.585, size = 60, label = "ADS", ref = "aim" },
+		reload = { x = 0.765, y = 0.87, size = 50, label = "R", ref = "reload" },
+		jump = { x = 0.935, y = 0.48, size = 56, label = "JUMP", ref = "jump" }, -- lobby: under SETTINGS/FRIENDS
+		weapon = { x = 0.65, y = 0.86, size = 58, label = "GUN", ref = "swap" },
+		-- Mirrored, off by default. Left-centre, below the heist squad portraits and right of the objective list.
+		fireLeft = { x = 0.34, y = 0.55, size = 64, label = "FIRE", optional = true },
 		-- Heist only. action = context HOLD button (§5f), shown only when something is in reach.
 		action = { x = 0.64, y = 0.62, size = 72, label = "", heist = true, context = true },
-		sneak = { x = 0.935, y = 0.25, size = 50, label = "SNEAK", heist = true },
+		sneak = { x = 0.935, y = 0.25, size = 50, label = "SNEAK", heist = true, ref = "sneak" },
 		-- Kart (shown only while driving; left thumb = Roblox stick steers + throttles).
 		gas = { x = 0.885, y = 0.72, size = 86, label = "GAS", driving = true },
 		brake = { x = 0.75, y = 0.8, size = 62, label = "BRAKE", driving = true },
@@ -689,6 +690,81 @@ for i,name in ipairs(names) do
  table.insert(Config.Cosmetics,{id=id,slot="mask",name=name,parts={piece("Head","Block",V3(.85,.35,.1),V3(0,0,-.55),col)}})
  table.insert(Config.Economy.SpinItems,{id=id,weight=weights[i],rank=i<=6 and 1 or (i<=9 and 2 or (i<=11 and 3 or 4))})
 end
+
+-- Daily reward (Getaway Route, D2 look). Lobby only (DailyService). Amounts are placeholders.
+-- kind: credits | token (earned cosmetic-spin token) | cosmetic (Config.Cosmetics id) | keepsake (daily-owned item until
+-- the spray/decal/ping systems exist). prop picks the diorama model. Cosmetic-only, no power, no Glitch Coins.
+Config.DailyReward = {
+	DayLength = 86400, -- UTC day boundary, server clock only
+	MaxClaims = 100000,
+	Rewards = {
+		{ kind = "credits", amount = 150, name = "Credits Stack", prop = "cash" },
+		{ kind = "keepsake", item = "spray_tag", name = "Spray Tag", prop = "spray" },
+		{ kind = "keepsake", item = "kart_decal_sheet", name = "Kart Decal Sheet", prop = "case" },
+		{ kind = "keepsake", item = "ping_icon", name = "Ping Icon Token", prop = "token" },
+		{ kind = "token", amount = 1, name = "Cosmetic Crate", prop = "crate" },
+		{ kind = "credits", amount = 300, name = "Credits Stack", prop = "crate2" },
+		{ kind = "cosmetic", item = "static_7", name = "Static Face Mask", prop = "vault" },
+	},
+	Pulse = 1.6, -- seconds per TODAY glow pulse (off under reduced motion)
+	Colors = {
+		Night = Color3.fromRGB(9, 10, 14), Panel = Color3.fromRGB(14, 14, 16), Gold = Color3.fromRGB(226, 174, 62),
+		GoldDim = Color3.fromRGB(120, 92, 36), Ink = Color3.fromRGB(240, 240, 242), Muted = Color3.fromRGB(150, 152, 160),
+		Claimed = Color3.fromRGB(46, 160, 92), Led = Color3.fromRGB(235, 240, 255), Kart = Color3.fromRGB(86, 150, 220),
+	},
+}
+
+-- Heist HUD v2 (owner reference refs/hud/hud-reference.webp), drawn by HeistHud. Design units
+-- (HudScale: 340 high); ref px x 0.36. Left items offset from left/top, right items from right/top, sticks and
+-- buttons from the bottom corners. Icon ids stay "" until owner-approved art is uploaded (text fallback shows).
+Config.HudRef = {
+	ShowNames = true, -- name under each portrait (directive 5e); false = reference-exact
+	TopInset = 40, -- below Roblox's own menu/chat icons (phone-test this)
+	Map = { x = 9, y = 7, w = 115, h = 81 },
+	Objective = { x = 12, y = 93, w = 103 },
+	Squad = { x = 139, y = 11, d = 43, step = 46, max = 4 },
+	Health = { w = 110, h = 23, y = 10 },
+	Ammo = { w = 110, h = 25, y = 36 },
+	Stick = { x = 9, y = 15, outer = 92, thumb = 40 },
+	Buttons = { -- centre offset from the bottom-right corner, diameter
+		fire = { x = 42, y = 47, d = 63 },
+		aim = { x = 39, y = 103, d = 48 },
+		swap = { x = 95, y = 96, d = 49 },
+		jump = { x = 105, y = 43, d = 51 }, -- reference shows sprint; no sprint mechanic exists, so the slot is Jump
+		reload = { x = 160, y = 40, d = 46 },
+		sneak = { x = 152, y = 100, d = 46 },
+	},
+	Dock = { y = 14, d = 30, step = 35 }, -- bottom-centre: inventory, menu, map
+	Colors = {
+		Panel = Color3.fromRGB(26, 26, 28), Edge = Color3.fromRGB(10, 10, 11), Rim = Color3.fromRGB(70, 70, 74),
+		Ink = Color3.fromRGB(236, 236, 238), Muted = Color3.fromRGB(128, 128, 134), Bar = Color3.fromRGB(205, 205, 208),
+		Low = Color3.fromRGB(255, 70, 70), Button = Color3.fromRGB(34, 34, 36),
+	},
+	Icons = { inventory = "", menu = "", map = "", swap = "", aim = "", jump = "", fire = "" },
+	DockSoon = { inventory = true, map = true }, -- no backpack / full-map system yet: shown greyed (owner to decide)
+	ObjectiveTitle = "HIT THE DATA VAULT",
+	Steps = { -- BC_Step -> checklist row; dash shares the escape row
+		{ id = "park", text = "Park at your spot" },
+		{ id = "vault", text = "Grab the vault loot" },
+		{ id = "load", text = "Load it in your kart" },
+		{ id = "escape", text = "Reach the exit gate", also = "dash" },
+	},
+}
+
+-- Lobby HUD (owner reference refs/hud/lobby-hud-reference.jpg). Same plate style as HudRef. Design units; left items
+-- from the left/top, right items from the right/top, bottom row from the bottom. LVL = season tier (Economy.tier,
+-- 0..40, XpPerTier each); the bar is progress inside the current tier.
+Config.LobbyHud = {
+	Card = { x = 34, y = 8, w = 145, h = 40, avatar = 50 },
+	Column = { x = 27, y = 88, step = 56, d = 44 }, -- SHOP, VIP, INVENTORY
+	Pills = { w = 118, h = 24, y = 6, gap = 4 }, -- Credits, Glitch Coins
+	Right = { y = 88, x = 30, step = 56, d = 44 }, -- SETTINGS (rightmost), FRIENDS: one row above Jump; label inside (no room for captions)
+	Daily = { x = 8, y = 8, w = 116, h = 42, icon = 46 },
+	Squad = { cx = 0.4, y = 8, d = 42, step = 50 }, -- centre as a fraction of width (left of the Gun / Reload buttons)
+	Contract = { y = 8, w = 106, h = 42 },
+	VipSoon = true, -- paid actions are off in the private test
+	Neutral = "Step on a queue pad",
+}
 
 -- Lookup tables (built once).
 Config.GunsById = {} :: { [string]: Gun }

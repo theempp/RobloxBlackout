@@ -29,6 +29,18 @@ local function follow(input, onEnd)
 	end)
 end
 
+-- Default centre (fraction of the HUD root) and size of a button. In the heist the HUD v2 cluster sets them
+-- (Config.Touch ref -> HudRef.Buttons, offsets from the bottom-right corner); a saved layout overrides both.
+local function home(id)
+	local def = C.Touch.Buttons[id]
+	local ref = ctx.role == "heist" and def.ref and C.HudRef.Buttons[def.ref]
+	if ref and Hud.W then
+		return 1 - ref.x / Hud.W, 1 - ref.y / Hud.H, ref.d
+	end
+	return def.x, def.y, def.size
+end
+Controls.home = home
+
 function Controls.layout()
 	local S = Hud.S or 1
 	local layout = ctx.settings.layout or {}
@@ -37,8 +49,9 @@ function Controls.layout()
 	for id, b in pairs(Controls.buttons) do
 		local def = C.Touch.Buttons[id]
 		local e = layout[id]
-		local x, y, u = e and e.x or def.x, e and e.y or def.y, e and e.s or 1
-		local size = HudScale.touchSize(def.size, S, u)
+		local hx, hy, base = home(id)
+		local x, y, u = e and e.x or hx, e and e.y or hy, e and e.s or 1
+		local size = HudScale.touchSize(base, S, u)
 		b.Size = UDim2.fromOffset(size, size)
 		b.Position = UDim2.fromOffset(x * Hud.W, y * Hud.H)
 		b.TextSize = math.max(11, math.floor(size * 0.22))
@@ -99,7 +112,8 @@ local function editDrag(b, id, input)
 	Controls.editLabel.Text = "Selected: " .. C.Touch.Buttons[id].label
 	local root = Hud.root.AbsolutePosition
 	local function place(pos)
-		local e = ctx.settings.layout[id] or { x = C.Touch.Buttons[id].x, y = C.Touch.Buttons[id].y, s = 1 }
+		local hx, hy = home(id)
+		local e = ctx.settings.layout[id] or { x = hx, y = hy, s = 1 }
 		e.x = math.clamp((pos.X - root.X) / Hud.S / Hud.W, 0.02, 0.98)
 		e.y = math.clamp((pos.Y - root.Y) / Hud.S / Hud.H, 0.02, 0.98)
 		ctx.settings.layout[id] = e
@@ -120,7 +134,7 @@ function Controls.setEditing(on)
 	Controls.editBar.Visible = on
 	ctx.cursorFree = on
 	for _, b in pairs(Controls.buttons) do
-		b:FindFirstChildOfClass("UIStroke").Color = on and C.Colors.Accent or C.UI.Ink
+		b:FindFirstChildOfClass("UIStroke").Color = on and C.Colors.Accent or (b:GetAttribute("RestStroke") or C.UI.Ink)
 	end
 	Controls.layout()
 	if not on then
@@ -133,7 +147,8 @@ local function resize(delta)
 	if not id then
 		return
 	end
-	local e = ctx.settings.layout[id] or { x = C.Touch.Buttons[id].x, y = C.Touch.Buttons[id].y, s = 1 }
+	local hx, hy = home(id)
+	local e = ctx.settings.layout[id] or { x = hx, y = hy, s = 1 }
 	e.s = math.clamp(e.s + delta, C.Touch.UserScale[1], C.Touch.UserScale[2])
 	ctx.settings.layout[id] = e
 	Controls.layout()

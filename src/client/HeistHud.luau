@@ -1,27 +1,19 @@
--- Heist HUD (§5e): minimalist, corners/borders only; mid-screen only small centred-top items.
--- Minimap top-left under the settings gear (inside Roblox's safe insets): north-up, player-centred,
--- squad dots in slot colours, own parking spot, exit gate, the current objective pin, enemies pinged by
--- proximity (fade in 45 -> 30 studs; Purge jams it to 20 + flicker; hacked cameras drop off).
--- Squad cards under it: name + colour badge, HP bar (bleed-out ring when downed), heavy-loot icon,
--- kart-status dot; shrink to name + badge when calm. Top centre: alarm meter, objective, dash timer.
--- Teammates' name tags in slot colours. Results panel at run end. Texts/bars refresh at 10 Hz; per
--- frame only the map offset + own arrow move. Pooled markers, no per-frame allocation.
+-- Heist HUD (§5e) on the owner's HUD v2 reference (HudV2 draws it; this module feeds it). Minimap top-left below
+-- Roblox's own icons: north-up, player-centred, squad dots in slot colours, own parking spot, exit gate, the
+-- current objective pin, enemies pinged by proximity (fade in 45 -> 30 studs; Purge jams it to 20 + flicker;
+-- hacked cameras drop off). Objective checklist under it (Config.HudRef.Steps from BC_Step). Squad portraits:
+-- headshot, health bar (bleed-out when downed), slot dot + name, heavy-loot and kart-status pips. Health + ammo
+-- top-right (Hud forwards ammo). Top centre keeps the alarm meter, downed/recall line and dash timer.
+-- Teammates' name tags in slot colours. Results panel at run end. Texts/bars refresh at 10 Hz; per frame only
+-- the map offset + own arrow move. Pooled markers, no per-frame allocation.
 local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
-local HeistHud = { cards = {}, pins = {}, pings = {} }
-local ctx, C, Hud, M
+local HeistHud = { pins = {}, pings = {} }
+local ctx, C, Hud, M, v
 local lp = Players.LocalPlayer
-local MAP, SCALE = 120, 120 / 300 -- design units; 300 studs across
-local STEP_TEXT = {
-	park = "Drive to your glowing spot and park",
-	vault = "Get into the Data Vault: grab the loot",
-	load = "Take the loot to your kart and LOAD it",
-	escape = "Drive to the exit gate",
-	dash = "Reach the gate!",
-	done = "Banked. Waiting for the crew",
-}
+local SCALE = 120 / 300 -- design units per stud (300 studs across 120 units)
 local ALARM_COL = { Color3.fromRGB(220, 225, 240), Color3.fromRGB(255, 170, 40), Color3.fromRGB(255, 60, 70) }
 local STATUS_COL = { hidden = Color3.fromRGB(150, 160, 170), spotted = Color3.fromRGB(255, 170, 40), sabotaged = Color3.fromRGB(255, 50, 60) }
 
@@ -54,10 +46,8 @@ local function squad()
 	return list
 end
 
-local function buildMap(root)
-	local box = frame(root, { Name = "Minimap", Size = UDim2.fromOffset(MAP, MAP), BackgroundTransparency = 0.25, ClipsDescendants = true })
-	Hud.corner(box, 10)
-	Hud.surface(box, true)
+local function buildMap()
+	local box = v.mapClip
 	local world = frame(box, { Name = "World", BackgroundTransparency = 1, Size = UDim2.fromOffset(0, 0) })
 	local route=require(ctx.shared.CityRoute)
  frame(world,{Name="BayMap",Position=toMap(Vector3.new(1040,0,-240)),Size=UDim2.fromOffset(1140*SCALE,620*SCALE),BackgroundColor3=Color3.fromRGB(65,130,145)})
@@ -94,25 +84,7 @@ local function buildMap(root)
 			BackgroundColor3 = Color3.fromRGB(255, 50, 60), ZIndex = 5, Visible = false })
 		HeistHud.pings[i] = e
 	end
-	local me = Hud.label(box, "^", 16, { Name = "Me", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(14, 14),
-		Font = Enum.Font.GothamBlack, ZIndex = 6 })
-	HeistHud.map, HeistHud.world, HeistHud.me = box, world, me
-end
-
-local function buildCard(root, i)
-	local c = frame(root, { Name = "Card" .. i, Size = UDim2.fromOffset(150, 22), BackgroundTransparency = 0.35, Visible = false })
-	Hud.surface(c, true)
-	local badge = frame(c, { Name = "Badge", Position = UDim2.fromOffset(4, 3), Size = UDim2.fromOffset(8, 16) })
-	Hud.corner(badge, 3)
-	local name = Hud.label(c, "", 12, { Name = "Name", Position = UDim2.fromOffset(16, 0), Size = UDim2.new(1, -44, 0, 14), TextXAlignment = Enum.TextXAlignment.Left,
-		TextTruncate = Enum.TextTruncate.AtEnd })
-	local hpBg = frame(c, { Name = "HpBg", Position = UDim2.fromOffset(16, 14), Size = UDim2.new(1, -44, 0, 4), BackgroundColor3 = Color3.new(0, 0, 0), BackgroundTransparency = 0.3 })
-	local hp = frame(hpBg, { Name = "Hp", Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.fromRGB(90, 230, 120) })
-	local heavy = frame(c, { Name = "Heavy", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -18, 0.5, 0), Size = UDim2.fromOffset(9, 9),
-		BackgroundColor3 = Color3.fromRGB(230, 159, 0), Visible = false })
-	local dot = frame(c, { Name = "KartDot", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -5, 0.5, 0), Size = UDim2.fromOffset(9, 9) })
-	Hud.corner(dot, UDim.new(0.5, 0))
-	HeistHud.cards[i] = { frame = c, badge = badge, name = name, hpBg = hpBg, hp = hp, heavy = heavy, dot = dot }
+	HeistHud.map, HeistHud.world, HeistHud.me = box, world, v.me
 end
 
 local function buildTop(root)
@@ -180,17 +152,32 @@ local function refresh()
 	local phase = st and st:GetAttribute("Phase")
 	local running = phase == "running"
 	local sNow = workspace:GetServerTimeNow()
-	HeistHud.map.Visible = running
+	v.map.Visible, v.north.Visible, v.objective.Visible = running, running, running
 	HeistHud.top.Visible = running
 	-- Alarm
 	local AC = C.Alarm
-	local v, t = st and st:GetAttribute("Alarm") or 0, st and st:GetAttribute("Tier") or 1
-	HeistHud.fill.Size = UDim2.fromScale(math.clamp((v - (t - 1) * AC.PerTier) / AC.PerTier, 0.04, 1), 1)
+	local alarm, t = st and st:GetAttribute("Alarm") or 0, st and st:GetAttribute("Tier") or 1
+	HeistHud.fill.Size = UDim2.fromScale(math.clamp((alarm - (t - 1) * AC.PerTier) / AC.PerTier, 0.04, 1), 1)
 	HeistHud.fill.BackgroundColor3 = ALARM_COL[t] or ALARM_COL[1]
 	HeistHud.tier.Text = AC.Tiers[t] or ""
 	-- Objective / downed / dash
 	local stepName = lp:GetAttribute("BC_Step")
-	local text = STEP_TEXT[stepName] or ""
+	local steps, activeText, active = {}, "", nil
+	for i, st2 in ipairs(C.HudRef.Steps) do
+		if st2.id == stepName or st2.also == stepName then
+			active = i
+		end
+	end
+	for i, st2 in ipairs(C.HudRef.Steps) do
+		local state = (stepName == "done" or (active and i < active)) and "done" or (i == active and "active" or "todo")
+		steps[i] = { text = st2.text, state = state }
+		if state == "active" then
+			activeText = st2.text
+		end
+	end
+	v.setObjective(stepName == "done" and "BANKED: WAIT FOR CREW" or C.HudRef.ObjectiveTitle, steps)
+	HeistHud.activeStep = activeText
+	local text = ""
 	if lp:GetAttribute("BC_Downed") then
 		local left = math.max(0, math.ceil((lp:GetAttribute("BC_BleedEnd") or sNow) - sNow))
 		text = string.format("DOWNED %ds: %s", left, (lp:GetAttribute("BC_Override") or 0) > 0 and "hold OVERRIDE or wait for a revive" or "wait for a revive")
@@ -198,6 +185,9 @@ local function refresh()
 		text = string.format("RECALLED: back at the entrance in %ds", math.max(0, math.ceil(lp:GetAttribute("BC_Recall") - sNow)))
 	end
 	HeistHud.goal.Text = text
+	HeistHud.goal.Visible = text ~= ""
+	local myHp = lp:GetAttribute("BC_HP") or C.Downed.MaxHP
+	v.setHealth(lp:GetAttribute("BC_Downed") and 0 or myHp, C.Downed.MaxHP)
 	local dashEnd = lp:GetAttribute("BC_DashEnd")
 	HeistHud.timer.Visible = dashEnd ~= nil
 	if dashEnd then
@@ -219,12 +209,12 @@ local function refresh()
 	if goalPos then
 		HeistHud.pins.goal.Position = toMap(goalPos)
 	end
-	-- Squad: dots + cards
+	-- Squad: map dots + portraits
 	local list = squad()
-	local calm = t == 1
+	local entries = {}
 	for i = 1, 4 do
 		local p = list[i]
-		local dot, card = HeistHud.pins["mate" .. i], HeistHud.cards[i]
+		local dot = HeistHud.pins["mate" .. i]
 		local root = p and p.Character and p.Character:FindFirstChild("HumanoidRootPart")
 		local col = p and C.Colors.Slots[p:GetAttribute("BC_Slot")] or C.UI.Ink
 		dot.Visible = root ~= nil and p ~= lp
@@ -232,34 +222,19 @@ local function refresh()
 			dot.Position = toMap(root.Position)
 			dot.BackgroundColor3 = col
 		end
-		card.frame.Visible = p ~= nil
 		if p then
-			card.badge.BackgroundColor3 = col
-			card.name.Text = p.DisplayName
 			local downed, recall = p:GetAttribute("BC_Downed"), p:GetAttribute("BC_Recall")
-			local hp = (p:GetAttribute("BC_HP") or C.Downed.MaxHP) / C.Downed.MaxHP
-			local hurt = hp < 1 or downed or recall
-			local compact = calm and not hurt and not p:GetAttribute("BC_Heavy") and not p:GetAttribute("BC_Loaded")
-			card.frame.Size = UDim2.fromOffset(compact and 110 or 150, compact and 18 or 22)
-			card.hpBg.Visible = not compact
-			if downed then
-				local left = math.clamp(((p:GetAttribute("BC_BleedEnd") or sNow) - sNow) / C.Downed.BleedOut, 0, 1)
-				card.hp.Size = UDim2.fromScale(left, 1) -- bleed-out
-				card.hp.BackgroundColor3 = Color3.fromRGB(255, 60, 70)
-			elseif recall then
-				card.hp.Size = UDim2.fromScale(0, 1)
-			else
-				card.hp.Size = UDim2.fromScale(hp, 1)
-				card.hp.BackgroundColor3 = Color3.fromRGB(90, 230, 120)
-			end
-			card.heavy.Visible = p:GetAttribute("BC_Heavy") ~= nil or p:GetAttribute("BC_Loaded") == true
-			card.heavy.BackgroundTransparency = p:GetAttribute("BC_Loaded") and 0 or 0.5
-			card.dot.BackgroundColor3 = STATUS_COL[p:GetAttribute("BC_KartStatus") or "hidden"] or STATUS_COL.hidden
+			entries[i] = { userId = p.UserId, name = p.DisplayName, slot = col, downed = downed == true,
+				hp = recall and 0 or (p:GetAttribute("BC_HP") or C.Downed.MaxHP) / C.Downed.MaxHP,
+				bleed = downed and math.clamp(((p:GetAttribute("BC_BleedEnd") or sNow) - sNow) / C.Downed.BleedOut, 0, 1) or nil,
+				heavy = p:GetAttribute("BC_Loaded") == true and 2 or (p:GetAttribute("BC_Heavy") ~= nil and 1 or 0),
+				kart = STATUS_COL[p:GetAttribute("BC_KartStatus") or "hidden"] or STATUS_COL.hidden }
 			if p ~= lp then
 				tag(p)
 			end
 		end
 	end
+	v.setSquad(entries)
 	for p, t2 in pairs(tags) do
 		if not p.Parent or not p:GetAttribute("BC_Slot") then
 			t2:Destroy()
@@ -311,17 +286,19 @@ function HeistHud.init(c)
 	C, Hud = ctx.Config, ctx.Hud
 	M = require(ctx.shared.HeistMap)
 	local root = Hud.root
-	buildMap(root)
-	for i = 1, 4 do
-		buildCard(root, i)
+	v = require(script.Parent.HudV2).build(root, ctx)
+	HeistHud.v = v
+	Hud.useV2(v) -- ammo/gun/reload now land in the v2 plate; the old ammo panel retires
+	v.adopt(ctx.Controls.buttons)
+	local function touchVisible()
+		v.setTouchVisible(ctx.inputKind == "Touch" or C.Touch.ForceShow or workspace:GetAttribute("BCTesting") == true)
 	end
+	ctx.on("inputKind", touchVisible)
+	touchVisible()
+	buildMap()
 	buildTop(root)
 	buildResults(root)
 	local function place()
-		HeistHud.map.Position = UDim2.fromOffset(6, 72) -- under the settings gear (top-left, inside safe insets)
-		for i = 1, 4 do
-			HeistHud.cards[i].frame.Position = UDim2.fromOffset(6, 72 + MAP + 4 + (i - 1) * 24)
-		end
 		HeistHud.top.Position = UDim2.fromOffset(Hud.W / 2, 4)
 		HeistHud.results.frame.Position = UDim2.fromOffset(Hud.W / 2, Hud.H * 0.42)
 	end
@@ -346,7 +323,8 @@ function HeistHud.init(c)
 		local r = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
 		if r then
 			local p = r.Position
-			HeistHud.world.Position = UDim2.fromOffset(MAP / 2 - p.X * SCALE, MAP / 2 - p.Z * SCALE)
+			local m = C.HudRef.Map
+			HeistHud.world.Position = UDim2.fromOffset(m.w / 2 - p.X * SCALE, m.h / 2 - p.Z * SCALE)
 			local look = workspace.CurrentCamera.CFrame.LookVector
 			HeistHud.me.Rotation = math.deg(math.atan2(look.X, -look.Z))
 		end
@@ -371,16 +349,35 @@ function HeistHud.init(c)
 			return { g.AbsolutePosition.X, g.AbsolutePosition.Y, g.AbsoluteSize.X, g.AbsoluteSize.Y, g.Visible }
 		end
 		local cards, colors = {}, {}
-		for i = 1, 4 do
-			local cd = HeistHud.cards[i]
-			if cd.frame.Visible then
-				table.insert(cards, rect(cd.frame))
-				table.insert(colors, cd.badge.BackgroundColor3:ToHex())
+		for _, pt in ipairs(v.portraits) do
+			if pt.frame.Visible then
+				table.insert(cards, rect(pt.frame))
+				table.insert(colors, pt.slot.BackgroundColor3:ToHex())
 			end
 		end
-		return { map = rect(HeistHud.map), top = rect(HeistHud.meter), cards = cards, colors = colors, screen = { Hud.gui.AbsoluteSize.X, Hud.gui.AbsoluteSize.Y },
-			tier = HeistHud.tier.Text, goal = HeistHud.goal.Text, timer = HeistHud.timer.Visible and HeistHud.timer.Text or nil, pings = HeistHud.lastPings,
-			dot = HeistHud.cards[1].dot.BackgroundColor3:ToHex(), results = HeistHud.results.frame.Visible, resultCredits = HeistHud.results.credits.Text,
+		local function name(b)
+			return b.Name
+		end
+		local cluster = {}
+		for id, b in pairs(ctx.Controls.buttons) do
+			if b.Visible then
+				cluster[id] = rect(b)
+			end
+		end
+		return { map = rect(v.map), objective = rect(v.objective), steps = (function()
+				local out = {}
+				for _, r in ipairs(v.rows) do
+					if r.text.Visible then
+						table.insert(out, r.text.Text)
+					end
+				end
+				return out
+			end)(), title = v.objTitle.Text, health = rect(v.health), hp = v.hpText.Text, ammo = rect(v.ammo), mag = v.mag.Text, cap = v.reserve.Text,
+			stick = rect(v.stick.outer), dock = { rect(v.buttons.inventory), rect(v.buttons.menu), rect(v.buttons.map) }, menuName = name(v.buttons.menu), cluster = cluster,
+			oldAmmo = Hud.ammoPanel.Visible,
+			top = rect(HeistHud.meter), cards = cards, colors = colors, screen = { Hud.gui.AbsoluteSize.X, Hud.gui.AbsoluteSize.Y },
+			tier = HeistHud.tier.Text, goal = HeistHud.goal.Text ~= "" and HeistHud.goal.Text or HeistHud.activeStep, timer = HeistHud.timer.Visible and HeistHud.timer.Text or nil, pings = HeistHud.lastPings,
+			dot = v.portraits[1].kart.BackgroundColor3:ToHex(), results = HeistHud.results.frame.Visible, resultCredits = HeistHud.results.credits.Text,
 			tags = (function()
 				local n = 0
 				for _ in pairs(tags) do

@@ -42,8 +42,7 @@ function Shop.set(on)
 end
 function Shop.init(c)
  ctx=c H=c.Hud C=c.Config E=require(c.shared.Economy)
- local launch=H.button(H.root,'ShopButton','SHOP',60,{Position=UDim2.fromOffset(105,40),TextSize=14})
- launch.Activated:Connect(function() Shop.set(not Shop.open) end)
+ -- Opened by the lobby HUD SHOP button (LobbyHud).
  panel=H.make('Frame',H.root,{Name='Shop',AnchorPoint=Vector2.new(.5,.5),Position=UDim2.fromScale(.5,.5),Size=UDim2.fromOffset(520,300),BackgroundColor3=C.UI.Paper,Visible=false,ZIndex=50}) H.surface(panel)
  header=H.label(panel,'',14,{Position=UDim2.fromOffset(8,4),Size=UDim2.new(1,-80,0,35),ZIndex=51})
  local close=H.button(panel,'ShopClose','BACK',60,{Position=UDim2.new(1,-68,0,0),ZIndex=52}) close.Activated:Connect(function() Shop.set(false) end)

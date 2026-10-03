@@ -32,7 +32,7 @@ server:SetAttribute("BCRole", S.role)
 local function pushProfile(player)
 	local d = profiles.loaded[player]
 	if d then
-		remotes.Profile:FireClient(player, { settings = d.settings, guns = d.guns, attachments = d.attachments, cosmetics = d.cosmetics, credits = d.credits, glitchCoins = d.glitchCoins, progress = d.progress, wheel = d.wheel, karts = d.karts })
+		remotes.Profile:FireClient(player, { settings = d.settings, guns = d.guns, attachments = d.attachments, cosmetics = d.cosmetics, credits = d.credits, glitchCoins = d.glitchCoins, progress = d.progress, wheel = d.wheel, karts = d.karts, daily = d.daily })
 	end
 end
 S.pushProfile = pushProfile
@@ -119,6 +119,7 @@ else
 	S.Lobby = require(server.Lobby)
 	S.Lobby.init(S)
 	require(server.Social).init(S)
+	require(server.DailyService).init(S)
 	S.onTeleportGiveUp = function(players, why)
 		for _, p in ipairs(players) do
 			S.rejoin(p)

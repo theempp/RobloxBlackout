@@ -4,9 +4,9 @@
 -- Server -> client: Hit(list), State(tbl), Profile(tbl), Notify(text), HeistEvent(kind, data);
 -- FX is unreliable (others' tracers). Run state travels as attributes, not remotes.
 local Net = {}
-Net.Events = { "SocialAction", "SocialEvent", "EconomyAction", "EconomyEvent", "GarageAction", "GarageEvent", "Fire", "Reload", "Aim", "Equip", "SaveSettings", "ClientReady", "RangeEquip", "Queue", "Action", "Sneak", "KartInput", "KartAction", "Repair", "RepairSkip",
+Net.Events = { "SocialAction", "SocialEvent", "DailyClaim", "DailyEvent", "EconomyAction", "EconomyEvent", "GarageAction", "GarageEvent", "Fire", "Reload", "Aim", "Equip", "SaveSettings", "ClientReady", "RangeEquip", "Queue", "Action", "Sneak", "KartInput", "KartAction", "Repair", "RepairSkip",
 	"Hit", "State", "Profile", "Notify", "HeistEvent" }
-Net.ToClient = { SocialEvent = true, EconomyEvent = true, GarageEvent = true, Hit = true, State = true, Profile = true, Notify = true, HeistEvent = true }
+Net.ToClient = { SocialEvent = true, DailyEvent = true, EconomyEvent = true, GarageEvent = true, Hit = true, State = true, Profile = true, Notify = true, HeistEvent = true }
 Net.Unreliable = { "FX" }
 
 local function folder()

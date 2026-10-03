@@ -1,50 +1,14 @@
--- Heist HUD (§5e): layout math on real device sizes (both HUD scales), the squad palette, and the live
--- HUD through the client probe (placement, cards, colours, alarm meter, objective, dash timer,
--- proximity pings + Purge jam, results panel).
+-- Heist HUD (§5e) on the HUD v2 reference: the squad palette, and the live HUD through the client probe
+-- (minimap/objective/portraits/health/ammo placement, the restyled touch cluster, alarm meter, objective,
+-- dash timer, proximity pings + Purge jam, results panel).
 local RS = game:GetService("ReplicatedStorage")
 local SSS = game:GetService("ServerScriptService")
 local C = require(RS.BlackoutCrew.Config)
-local HudScale = require(RS.BlackoutCrew.HudScale)
 local S = require(SSS.BlackoutCrew.ServerState)
 local V = Vector3.new
 
-local function hit(r, cx, cy, rad)
-	local nx, ny = math.clamp(cx, r[1], r[1] + r[3]), math.clamp(cy, r[2], r[2] + r[4])
-	return (Vector2.new(cx, cy) - Vector2.new(nx, ny)).Magnitude < rad + 2
-end
-
 return function(T)
-	local devices = { { "iPhone SE", 667, 375, 0, 0 }, { "iPhone 14", 844, 390, 47, 21 }, { "iPhone XR", 896, 414, 48, 21 },
-		{ "Android 20:9", 800, 360, 24, 0 }, { "iPad", 1024, 768, 0, 20 } }
-	for _, large in ipairs({ false, true }) do
-		for _, d in ipairs(devices) do
-			local w, h = d[2] - 2 * d[4], d[3] - d[5]
-			local Sc = HudScale.scale(w, h, large)
-			local W, H = w / Sc, h / Sc
-			local rects = { { "map", { 6, 72, 120, 120 } }, { "top", { W / 2 - 140, 4, 280, 52 } } }
-			for i = 1, 4 do
-				table.insert(rects, { "card" .. i, { 6, 72 + 120 + 4 + (i - 1) * 24, 150, 22 } })
-			end
-			local problems = {}
-			local gearBottom = 40 + 26
-			if rects[1][2][2] < gearBottom then
-				table.insert(problems, "map over gear")
-			end
-			for _, r in ipairs(rects) do
-				local b = r[2]
-				if b[1] < 0 or b[2] < 0 or b[1] + b[3] > W or b[2] + b[4] > H then
-					table.insert(problems, r[1] .. " off-screen")
-				end
-				for id, bt in pairs(C.Touch.Buttons) do
-					if hit(b, bt.x * W, bt.y * H, HudScale.touchSize(bt.size, Sc, 1) / 2) then
-						table.insert(problems, r[1] .. "+" .. id)
-					end
-				end
-			end
-			T.eq("HUD clear of buttons on " .. d[1] .. (large and " (large)" or ""), table.concat(problems, ","), "")
-		end
-	end
-
+	-- (Static HUD v2 layout on six phone sizes: HudRef.spec in the lobby suite.)
 	-- Squad palette: 4 fixed, distinct, no red (alarm) / no yellow (roll-up door) hues.
 	local hexes = {}
 	for i, c in ipairs(C.Colors.Slots) do
@@ -79,9 +43,21 @@ return function(T)
 	end
 	local W, H = h.screen[1], h.screen[2]
 	T.check("minimap top-left", h.map[5] and h.map[1] < W * 0.12 and h.map[2] < H * 0.35)
-	T.check("minimap at a phone-readable size", h.map[3] >= 110 and h.map[3] == h.map[4], h.map[3])
-	T.eq("one squad card (solo)", #h.cards, 1)
-	T.eq("card colour = slot 1", h.colors[1]:upper(), hexes[1])
+	T.check("minimap at a phone-readable size", h.map[3] >= C.HudRef.Map.w * C.Hud.MinScale - 1 and h.map[4] >= C.HudRef.Map.h * C.Hud.MinScale - 1, h.map[3])
+	T.check("objective under the map", h.objective[5] and h.objective[2] >= h.map[2] + h.map[4] and h.objective[1] < W * 0.12)
+	T.eq("objective has every step", #h.steps, #C.HudRef.Steps)
+	T.eq("objective title", h.title, C.HudRef.ObjectiveTitle)
+	T.check("health + ammo top-right", h.health[1] + h.health[3] > W * 0.95 and h.health[2] < H * 0.15 and h.ammo[2] > h.health[2] and h.ammo[1] + h.ammo[3] > W * 0.95,
+		string.format("screen %dx%d health %d,%d", W, H, h.health[1], h.health[2]))
+	T.check("health number shown", tonumber(h.hp) ~= nil, h.hp)
+	T.check("ammo in the v2 plate", tonumber(h.mag) ~= nil and tonumber(h.cap) ~= nil and h.oldAmmo == false, tostring(h.mag) .. "|" .. tostring(h.cap))
+	T.check("stick bottom-left", h.stick[1] < W * 0.2 and h.stick[2] > H * 0.55)
+	T.check("dock bottom-centre", math.abs(h.dock[2][1] + h.dock[2][3] / 2 - W / 2) < 2 and h.dock[2][2] > H * 0.8 and h.menuName == "menu")
+	local cl = h.cluster
+	T.check("fire / ADS / gun / jump in the bottom-right cluster", cl.fire and cl.ads and cl.weapon and cl.jump
+		and cl.fire[1] > W * 0.75 and cl.fire[2] > H * 0.6 and cl.ads[2] < cl.fire[2] and cl.weapon[1] < cl.fire[1], cl.fire and cl.fire[1])
+	T.eq("one squad portrait (solo)", #h.cards, 1)
+	T.eq("portrait slot dot = slot 1", h.colors[1]:upper(), hexes[1])
 	T.check("alarm meter centred-top", math.abs(h.top[1] + h.top[3] / 2 - W / 2) < W * 0.03 and h.top[2] < H * 0.12)
 	T.check("objective shown", type(h.goal) == "string" and #h.goal > 0, h.goal)
 	local st = player:GetAttribute("BC_KartStatus") or "hidden"

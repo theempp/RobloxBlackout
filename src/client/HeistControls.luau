@@ -37,7 +37,7 @@ local function toggleSneak()
 	ctx.netSends += 1
 	local b = ctx.Controls.buttons.sneak
 	if b then
-		b.BackgroundColor3 = HeistControls.sneak and C.Colors.Accent or C.Colors.Panel
+		b.BackgroundColor3 = HeistControls.sneak and C.Colors.Accent or (b:GetAttribute("RestFill") or C.Colors.Panel)
 	end
 end
 HeistControls.toggleSneak = toggleSneak

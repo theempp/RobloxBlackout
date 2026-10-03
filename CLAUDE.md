@@ -15,3 +15,4 @@ Rules:
 - Don't build beyond the ask; confirm before any large new deliverable.
 Token discipline: batch independent tool calls; read ranges, not whole files; don't re-read files you just edited; tests print summaries only; keep .md files terse; compact context at milestones; no subagents unless independent and parallel.
 Gate: write gates/build-N.md, list owner phone-test steps, stop.
+Oct 2: HUD v2 (heist + lobby) + daily reward **wired** (owner go): gate `gates/hud-and-daily.md` (phone test + batched questions pending). Order after that: locker/armory/queue pads -> guns + feel + Vortex -> Oceanside city last.

@@ -1,0 +1,21 @@
+# Heist HUD v2 — owner reference (Oct 2)
+Image: `hud-reference.webp` (1672x941). Owner: "the exact in-game HUD" for heists. Concept art, grey placeholder background.
+Structure (ref px -> design units x0.36; all numbers in `Config.HudRef`):
+- Top-left: minimap (octagonal chamfered frame, "N" tab, dashed route, white arrow, pin) ; under it the objective checklist (diamond + title, 3 steps: active white dot, rest grey).
+- Top, right of map: 4 circular squad portraits (avatar headshots), white health bar across each bottom.
+- Top-right: health bar + number; under it weapon silhouette + big magazine count | reserve.
+- Bottom-left: round move stick (grey thumb). Bottom-right: fire (largest), aim/crosshair, swap-weapon, sprint. Bottom-centre: three bare icons (backpack, phone, map).
+- Style: matte near-black panels, dark outer edge + thin grey rim, light-grey ink, one white/grey accent. No colour, no glow.
+Wired Oct 2: `HeistHud` builds `HudV2` and feeds it (map clip, squad portraits, objective steps `HudRef.Steps` from `BC_Step`, health from `BC_HP`); `Hud` forwards ammo/gun/reload; `Controls` places its own touch buttons at the `HudRef.Buttons` slots in the heist (`Config.Touch` `ref`; saved layouts and edit mode still work) and HudV2 restyles them matte. Old minimap box + squad cards retired; alarm meter, downed/recall line, dash timer, pings, tags, results kept. Layout spec `HudRef.spec`, live `HudHeist.spec`.
+Deviations (owner to confirm): **sprint slot = JUMP** (no sprint mechanic exists; reload + sneak get their own slots); slot-colour dot + name under each portrait (directive 5e, `HudRef.ShowNames=false` for reference-exact); heavy-loot + kart-status pips on portraits (5e info kept); settings gear removed everywhere (MENU dock opens settings); BAG + MAP dock buttons greyed "coming soon" (no backpack/full-map system, `HudRef.DockSoon`); ammo right number = magazine size (no reserve-ammo system); move stick is a visual that mirrors Roblox's thumbstick (Roblox still draws its own stick where you touch: phone-test for double stick); minimap pushed down by `TopInset` (phone-test); frame rounded, not chamfered; icons are text until art is uploaded (`HudRef.Icons`).
+
+# Lobby HUD (owner reference, Oct 2) — `lobby-hud-reference.jpg` (640x359)
+Same matte near-black plate style as the heist HUD. Layout:
+- Top-left: player card (avatar circle, "LVL 24", white XP bar, "420 / 650 XP"). Under it a left column of round icon buttons with caption: SHOP, VIP, INVENTORY.
+- Top-right: Credits pill ("$ 124,750" + cash icon) and Glitch Coins pill ("1,350" + coin icon, with a "+" button). Under them: FRIENDS, SETTINGS round buttons.
+- Bottom-left: DAILY REWARD plate (gift icon, live countdown 23:59:17) -> opens the daily reward screen.
+- Bottom-centre: 4 squad slots: your avatar + 3 "+" circles (invite a squadmate; max 4).
+- Bottom-right: CURRENT CONTRACT plate (document icon, diamond + objective line, e.g. "Get to parking garage").
+Rules that still apply: paid actions (VIP, Glitch Coin "+") stay disabled/unavailable in the private test (see readiness gate); LVL/XP must come from real profile data (`Economy.tier` / `progress.xp`, not decorative numbers); no neon/glow; 44px touch targets.
+Built Oct 2: `src/client/LobbyHud.luau` + `Config.LobbyHud`, spec `LobbyHud.spec`. **LVL = season tier** = `Economy.tier` = floor(xp / `Economy.XpPerTier` 250), 0..40; bar + "x / 250 XP" = XP inside the tier, "MAX" at 40. SHOP -> ShopClient, INVENTORY -> armory loadout when at the armory bench (else a "go to the bench" toast: the armory is range-checked), SETTINGS -> settings, FRIENDS + squad "+" -> SocialClient invite panel, DAILY REWARD -> DailyRewardUI. Squad row = you + your crew (server publishes `BC_CrewLeader`/`BC_CrewIndex`). Contract = your queue pad's heist + status, else "Step on a queue pad". VIP greyed (toast), Glitch "+" greyed label. Old floating SHOP / SQUAD / gear launchers removed; Hud's ammo panel moves top-centre in the lobby.
+Lobby deviations: SETTINGS/FRIENDS sit in one row under the pills with the label inside (the lobby Jump button sits right below; captions would collide); squad row centred at 40% width (clears the GUN/R buttons); icons are text placeholders. Large HUD: the bottom row can touch GUN/R/FIRE on phones (spec checks normal size only).

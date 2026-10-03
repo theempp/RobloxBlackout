@@ -32,6 +32,19 @@ function Social.init(s)
  S.Remotes.bind(S.remotes,'SocialAction',function(p,action,id)
   local ok,msg=Social.action(p,action,id) S.remotes.SocialEvent:FireClient(p,'result',ok,msg or (ok and 'Squad updated' or 'Invite unavailable'))
  end)
+ -- Publish crews for the lobby HUD squad row (2 Hz; attributes only replicate when the crew changes).
+ task.spawn(function()
+  while true do
+   local crews=S.Lobby.crews
+   for _,p in ipairs(Players:GetPlayers()) do
+    local leader=crews.leaderOf[p] local list=leader and crews.lists[leader]
+    local shared=list and #list>1
+    p:SetAttribute('BC_CrewLeader',shared and leader.UserId or nil)
+    p:SetAttribute('BC_CrewIndex',shared and table.find(list,p) or nil)
+   end
+   task.wait(.5)
+  end
+ end)
  Players.PlayerRemoving:Connect(function(p)
   Social.blocked[p]=nil Social.muted[p]=nil Social.last[p]=nil
   for _,map in ipairs({Social.blocked,Social.muted}) do for _,set in pairs(map) do set[p]=nil end end
