@@ -1,4 +1,5 @@
 # Gun concept brief — Meshy image-to-3D (Oct 2)
+**Owner override Oct 2 (after concepts): NO orange anywhere — no orange muzzle tips on any gun, no orange accent strip/charging handle on the AR. Paint those parts black/dark grey in Blender. Concept images still show orange; ignore it. Supersedes the orange lines below.**
 Owner decisions (Oct 2, this chat): refs = baseline, tweaked *slightly* toward an airsoft/foam-blaster look; winners **replace** `dart9` (pistol), `ranger` (AR), `needle` (sniper) and give `scatter` (shotgun) its first real art. Buzzline/Rattler untouched. IDs, prices, ownership unchanged. Route: Meshy concept image -> image-to-3D **preview, untextured** -> owner review -> Blender. Driven via Claude in Chrome on owner's account.
 Refs: `refs/ref1-pistol.jpg` `ref2-ar.jpg` `ref3-sniper.jpg` `ref4-shotgun.jpg` (contain real brands — never upload them to Meshy as-is; prompts only).
 

@@ -1,0 +1,10 @@
+# Shotgun (scatter) concepts — Oct 2
+- Job: Meshy Image, **GPT Image 2**, 16:9, 1 image, no refs. **9 credits**, balance 1,051 -> **1,042**. Owner-approved ("go 27" for AR+sniper+shotgun).
+- Prompt: "Concept sheet, two stylized airsoft-style toy blaster pump shotguns, strict side profile, barrels pointing right, stacked top and bottom, plain white background. Clean 3D game asset render, flat colours, soft toon shading, bold dark outlines, chunky simplified forms, no fine detail. Both: black barrel and furniture, brushed silver receiver, ribbed black pump, orange muzzle tip. TOP: magazine tube under barrel, bare pistol grip with no stock, short barrel, top rail. BOTTOM: extended magazine tube with clamp, fixed chunky stock, longer barrel, ghost-ring sights, side shell-carrier block. Low-poly game prop. No text, logos, brands, numbers, bullets, hands, stand or scene."
+- `concept-G1G2-screencap.png` = screen capture for review only. Original not downloaded yet (owner approval then Meshy download button -> `source/`).
+- Brief prompt trimmed to fit Meshy's 800-char cap (shared traits moved to 'Both:').
+- **Owner override Oct 2: no orange.** Muzzle tips/caps (and AR accent strip + charging handle) become black/dark grey in the Blender paint pass. Concept image not regenerated (untextured 3D ignores colour).
+- **Owner approved Oct 2.** Original: `source/G1G2-gptimage2.png` (Meshy download, AI label off, 1536x864; byte-intact copy of ~/Downloads/Meshy_AI_75c696bb….png).
+- **3D run Oct 2–3 (Claude via Chrome):** Meshy Image-to-3D, Smart Topology, **Meshy T2**, texture off, pose off, poly target 1500, **5 credits each**, owner-approved "all 8" (40 total). Untextured, auto-split into 5 parts. Download pending owner geometry approval.
+  - Screencaps: `3d-G1-screencap.jpg`, `3d-G2-screencap.jpg`.
+- **Owner kept all 8 (Oct 3).** Downloaded byte-intact (cmp-verified) to `source/<ID>-meshy-t2.{glb,fbx}`. GLB = 1 mesh, 1 primitive (Meshy part colours are viewer-only). Tris: P1 1476, P2 1591, A1 1509, A2 1519, S1 1566, S2 1546, G1 1589, G2 1572.
