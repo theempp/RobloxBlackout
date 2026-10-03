@@ -21,3 +21,21 @@ Gotchas added: narrow Chrome window forces Meshy mobile layout (Toolkit/Viewer/A
 Owner: keep all 8. GLB+FBX in `assets/guns/<class>/source/<ID>-meshy-t2.{glb,fbx}` (byte-identical to ~/Downloads Meshy_AI_* originals; tri counts match Meshy viewer). Each GLB is ONE mesh — piece split (slide/mag/optic/etc.) must happen in Blender.
 Balance after: **1,032** — a 20-credit race-car generation appeared in the account at ~00:27 Oct 3 that this session did not start (other session/owner?). Owner to confirm.
 **Next (step 5, Codex or `bl_*`):** per gun: import GLB, split into named pieces, black-out orange parts, budget check, export FBX+GLB to `<class>/export/`, `manifest.json`, `verify_*.py` — per CLAUDE.md asset rules.
+
+## Step 5 done Oct 3 (Blender, local headless — `/opt/homebrew/bin/blender` exists, no bridge needed)
+Owner answers: bisect-cut mags+slides; muzzle **Blender +Y** (Roblox -Z via (x,z,-y)); decimate to **≤1500** (Config.TriBudget.WorldGun); lengths pistol 1.43 / AR 2.97 / sniper 3.10 / shotgun 2.6 studs (1 Blender unit = 1 stud).
+Script: `tools/guns_blender.py` (piece boxes per gun in `PIECES`, lengths in `CLASS`; sources read-only, sha-checked unchanged). Check: `tools/verify_guns.py` re-imports every GLB+FBX: piece names, tris = manifest ≤1500, length on Y, muzzle at +Y, every material near-black -> **PASS 8/8**. Split sheet: `assets/guns/export-check.png` (debug colours only; shipped mats are Gunmetal .05 / Black .015 — no orange anywhere).
+Out: `<class>/<ID>.blend`, `<class>/export/<ID>.{fbx,glb}`, `<class>/export/manifest.json` (per piece: tris, pivot Blender+Roblox, material). Objects `<ID>_<Piece>` under empty `<ID>`; origin at grip; pivots = piece bbox centre, Mag = its top.
+| Gun | tris | pieces |
+|-|-|-|
+| P1 | 1476 | Body Slide Optic Muzzle Mag Light |
+| P2 | 1478 | Body Slide Optic Muzzle Mag |
+| A1 | 1484 | Body Optic Muzzle Stock Mag Foregrip |
+| A2 | 1482 | Body Optic Muzzle Stock Mag Foregrip |
+| S1 | 1478 | Body Barrel Optic Muzzle Stock Mag Bipod |
+| S2 | 1484 | Body Optic Muzzle Stock Mag |
+| G1 | 1483 | Body Barrel Pump Stock |
+| G2 | 1483 | Body Barrel Pump Stock |
+Known limits: AR charging handle + sniper bolt stay in Body (no clean shell; black-out is via materials anyway); G1 grip top stays Body; bisect caps are flat fills. `gun_points.json` / v2 blends use muzzle **-Y** — flip Z sign if reused with these.
+Rebuild/verify: `blender -b -P tools/guns_blender.py` (subset: `-- P1 S2`), then `blender -b -P tools/verify_guns.py`.
+**Next (owner):** Studio 3D Importer -> `assets/guns/pistol/export/P1.fbx` first; confirm it lands ~1.43 studs long, muzzle along -Z, 6 MeshParts named `P1_*` (if ~100× off, set importer units to studs/scale and tell me). Then the other 7. Phone test: equip in Phone Test place on iPhone 16 Pro, check silhouette/darkness readability and FPS. Commit when owner says.
