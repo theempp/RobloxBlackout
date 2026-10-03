@@ -16,7 +16,7 @@ return function(T)
 	T.eq("short press = tap", WL.classify(0.1), "tap")
 	T.eq("long press = hold", WL.classify(C.Wheel.HoldTime + 0.05), "hold")
 
-	local loadout = { "dart9", "buzz", "" }
+	local loadout = { "P1", "A2", "" }
 	local st = WL.new(1)
 	T.eq("coming soon slot 4", select(2, WL.select(st, 4, loadout)), "comingSoon")
 	T.eq("coming soon slot 5", select(2, WL.select(st, 5, loadout)), "comingSoon")

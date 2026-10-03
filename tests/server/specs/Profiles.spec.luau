@@ -49,35 +49,43 @@ return function(T)
 	T.eq("glitchCoins validated", Rules.clean({ glitchCoins = -1 }).glitchCoins, 0)
 	T.eq("glitchCoins kept", Rules.clean({ glitchCoins = 40 }).glitchCoins, 40)
 
-	local g = Rules.clean({ guns = { owned = { buzz = true, fake_gun = true, ranger = "yes" }, loadout = { "buzz", "ranger", "buzz" } } })
-	T.check("owned gun kept", g.guns.owned.buzz == true)
+	local retired = Rules.clean({ schemaVersion = 5, credits = 1234,
+		guns = { owned = { dart9 = true, ranger = true }, loadout = { "dart9", "ranger", "" } },
+		attachments = { owned = { red_dot = true }, equipped = { ranger = { optic = "red_dot" } } } })
+	T.eq("retired gun save keeps credits", retired.credits, 1234)
+	T.check("retired gun IDs removed", not retired.guns.owned.dart9 and not retired.guns.owned.ranger)
+	T.eq("retired loadout receives P1", retired.guns.loadout[1], "P1")
+	T.check("retired gun attachment binding removed", retired.attachments.equipped.ranger == nil and retired.attachments.owned.red_dot)
+
+	local g = Rules.clean({ guns = { owned = { A2 = true, fake_gun = true, A1 = "yes" }, loadout = { "A2", "A1", "A2" } } })
+	T.check("owned gun kept", g.guns.owned.A2 == true)
 	T.check("unknown gun stripped", g.guns.owned.fake_gun == nil)
-	T.check("non-true owned stripped", g.guns.owned.ranger == nil)
+	T.check("non-true owned stripped", g.guns.owned.A1 == nil)
 	T.check("free gun always owned", g.guns.owned[free] == true)
-	T.eq("loadout owned kept", g.guns.loadout[1], "buzz")
+	T.eq("loadout owned kept", g.guns.loadout[1], "A2")
 	T.eq("loadout unowned cleared", g.guns.loadout[2], "")
 	T.eq("loadout duplicate cleared", g.guns.loadout[3], "")
 	T.eq("empty loadout -> free", Rules.clean({ guns = { loadout = { "", "", "" } } }).guns.loadout[1], free)
-	T.eq("loadout wrong type ignored", Rules.clean({ guns = { loadout = "buzz" } }).guns.loadout[1], free)
+	T.eq("loadout wrong type ignored", Rules.clean({ guns = { loadout = "A2" } }).guns.loadout[1], free)
 
 	local a = Rules.clean({
-		guns = { owned = { buzz = true } },
+		guns = { owned = { A2 = true } },
 		attachments = {
 			owned = { ext_mag = true, vert_grip = true, fake = true, red_dot = true },
 			equipped = {
-				buzz = { mag = "ext_mag", grip = "red_dot", optic = "scope2x" },
-				dart9 = { grip = "vert_grip" },
-				ranger = { mag = "ext_mag" },
+				A2 = { mag = "ext_mag", grip = "red_dot", optic = "scope2x" },
+				P1 = { grip = "vert_grip" },
+				A1 = { mag = "ext_mag" },
 			},
 		},
 	})
 	T.check("attachment owned kept", a.attachments.owned.ext_mag == true)
 	T.check("unknown attachment stripped", a.attachments.owned.fake == nil)
-	T.eq("equipped valid slot kept", a.attachments.equipped.buzz and a.attachments.equipped.buzz.mag, "ext_mag")
-	T.check("equipped wrong slot dropped", a.attachments.equipped.buzz.grip == nil)
-	T.check("equipped unowned attachment dropped", a.attachments.equipped.buzz.optic == nil)
-	T.check("slot not allowed on gun dropped", a.attachments.equipped.dart9 == nil)
-	T.check("unowned gun attachments dropped", a.attachments.equipped.ranger == nil)
+	T.eq("equipped valid slot kept", a.attachments.equipped.A2 and a.attachments.equipped.A2.mag, "ext_mag")
+	T.check("equipped wrong slot dropped", a.attachments.equipped.A2.grip == nil)
+	T.check("equipped unowned attachment dropped", a.attachments.equipped.A2.optic == nil)
+	T.check("slot not allowed on gun dropped", a.attachments.equipped.P1 == nil)
+	T.check("unowned gun attachments dropped", a.attachments.equipped.A1 == nil)
 
 	T.check("karts whitelist retains starter only", Rules.clean({ karts = { owned = { any = true } } }).karts.owned.any == nil and Rules.clean({}).karts.owned.base == true)
 	local cos = Rules.clean({ cosmetics = { owned = { hat = true } } }).cosmetics.owned

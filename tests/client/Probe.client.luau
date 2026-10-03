@@ -316,7 +316,7 @@ RS:WaitForChild("BCTestCmd").OnClientEvent:Connect(function(id, name, ...)
 			back.Anchored, back.Size, back.Color, back.Material = true, Vector3.new(40, 30, 1), Color3.fromRGB(128, 128, 132), Enum.Material.SmoothPlastic
 			back.CFrame = at * CFrame.new(0, 0, -12)
 			back.Parent = f
-			local ids = args[1] or { "dart9", "buzz", "ranger", "needle" }
+			local ids = args[1] or { "P1", "A2", "A1", "S1" }
 			for i, id in ipairs(ids) do
 				local m = GunModel.buildFirstPerson(cs.Config.GunsById[id])
 				m.PrimaryPart.Anchored = true
@@ -376,9 +376,44 @@ RS:WaitForChild("BCTestCmd").OnClientEvent:Connect(function(id, name, ...)
 				elimShown = cs.Hud.elimShown, eliminations = cs.GunClient.eliminations, menu = cs.Menus.current,
 				elimRect = { x = e.AbsolutePosition.X - vp.X / 2, y = e.AbsolutePosition.Y + game:GetService("GuiService"):GetGuiInset().Y - vp.Y / 2, w = e.AbsoluteSize.X, h = e.AbsoluteSize.Y },
 				status = cs.ViewModel.status, sfx = cs.GunSfx.played, ammo = cs.GunClient.ammo[cs.GunClient.gunId] }
+		elseif name == "gunMotion" then
+			local vm = cs.ViewModel
+			local m = assert(vm.model(), "view model missing")
+			local gun = cs.Config.GunsById[cs.GunClient.gunId]
+			local bases, peak, hiddenMag = {}, 0, false
+			for _, p in ipairs(m:GetChildren()) do
+				local w = p:IsA("BasePart") and p:FindFirstChildOfClass("Weld")
+				if w and p:GetAttribute("Group") == args[1] then bases[p] = w.C0 end
+			end
+			vm.setEmpty(false)
+			local duration
+			if args[1] == "Mag" then duration = 0.5; vm.reload(duration)
+			else
+				local mover = assert(gun.fp.mover)
+				duration = (mover.delay or 0) + mover.time * 2
+				vm.cycle()
+			end
+			local elapsed, deadline = 0, os.clock() + 8
+			repeat
+				elapsed += math.min(game:GetService("RunService").RenderStepped:Wait(), 0.1)
+				for p, base in pairs(bases) do
+					peak = math.max(peak, (p:FindFirstChildOfClass("Weld").C0.Position - base.Position).Magnitude)
+					hiddenMag = hiddenMag or p.LocalTransparencyModifier == 1
+				end
+			until elapsed >= duration + 0.1 or os.clock() >= deadline
+			local restored, count = true, 0
+			for p, base in pairs(bases) do
+				count += 1
+				restored = restored and (p:FindFirstChildOfClass("Weld").C0.Position - base.Position).Magnitude < 0.001 and p.LocalTransparencyModifier == 0
+			end
+			return { count = count, peak = peak, restored = restored, hiddenMag = hiddenMag }
 		elseif name == "gunAds" then -- input-equivalent ADS toggle; waits n seconds
 			cs.GunClient.setAds(args[1] == true)
-			if args[2] then task.wait(args[2]) end
+			if args[2] then
+				local elapsed, deadline = 0, os.clock() + 8
+				repeat elapsed += math.min(game:GetService("RunService").RenderStepped:Wait(), 0.1)
+				until elapsed >= args[2] or os.clock() >= deadline
+			end
 			return cs.ViewModel.adsProgress()
 		elseif name == "adsSpam" then -- rapid toggles, ends released
 			for i = 1, args[1] do

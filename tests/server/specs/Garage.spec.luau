@@ -45,14 +45,14 @@ return function(T)
 	S.Lobby.paused = true
 	d.guns, d.attachments, d.tutorial = Rules.defaultProfile().guns, { owned = {}, equipped = {} }, { done = false }
 	p:SetAttribute("BC_Tutorial", "gun")
-	T.check("remote gun action rejected from range", not G.action(p, "gun", "dart9"))
+	T.check("remote gun action rejected from range", not G.action(p, "gun", "P1"))
 	T.check("tutorial cannot skip to invite", not G.action(p, "invite"))
 	T.check("rejected actions leave stage unchanged", p:GetAttribute("BC_Tutorial") == "gun")
-	T.check("walk into armory", move(Map.guns.dart9.Position + Vector3.new(4, 0, 0)))
-	T.cmd("garage", "gun", "dart9")
+	T.check("walk into armory", move(Map.guns.P1.Position + Vector3.new(4, 0, 0)))
+	T.cmd("garage", "gun", "P1")
 	T.check("free gun advances tutorial through remote", waitFor(function() return p:GetAttribute("BC_Tutorial") == "friend" end))
-	T.check("free gun equipped without loan", S.Weapons.state(p).gunId == "dart9" and next(S.Weapons.state(p).loan) == nil)
-	T.check("unowned gun cannot be equipped", not G.action(p, "gun", "buzz") and not d.guns.owned.buzz)
+	T.check("free gun equipped without loan", S.Weapons.state(p).gunId == "P1" and next(S.Weapons.state(p).loan) == nil)
+	T.check("unowned gun cannot be equipped", not G.action(p, "gun", "A2") and not d.guns.owned.A2)
 	move(Map.point(C.Garage.Friend) + Vector3.new(0, 3, 3))
 	T.cmd("garage", "talk")
 	T.check("guide conversation", waitFor(function() return p:GetAttribute("BC_Tutorial") == "invite" end))
@@ -85,18 +85,18 @@ return function(T)
 		T.check("exit restores driver state", waitFor(function() return not p:GetAttribute("BC_Driving") and not S.Weapons.state(p).holstered end))
 	end
 	move(Map.terminal.Position + Vector3.new(0, 2, 4))
-	T.check("loadout rejects locked gun", not G.action(p, "equip", "buzz", 2))
-	T.check("loadout rejects Coming Soon slot", not G.action(p, "equip", "dart9", 4))
-	T.check("loadout equips owned gun in selected slot", G.action(p, "equip", "dart9", 2) and d.guns.loadout[2] == "dart9" and d.guns.loadout[1] == "")
+	T.check("loadout rejects locked gun", not G.action(p, "equip", "A2", 2))
+	T.check("loadout rejects Coming Soon slot", not G.action(p, "equip", "P1", 4))
+	T.check("loadout equips owned gun in selected slot", G.action(p, "equip", "P1", 2) and d.guns.loadout[2] == "P1" and d.guns.loadout[1] == "")
 	move(Map.bench.Position + Vector3.new(0, 2, 5))
 	local a = C.Attachments[1]
-	T.check("bench rejects unowned attachment", not G.action(p, "attach", a.id, "dart9"))
+	T.check("bench rejects unowned attachment", not G.action(p, "attach", a.id, "P1"))
 	local compatible
-	for _, att in ipairs(C.Attachments) do if table.find(C.GunsById.dart9.slots, att.slot) then compatible = att; break end end
+	for _, att in ipairs(C.Attachments) do if table.find(C.GunsById.P1.slots, att.slot) then compatible = att; break end end
 	if compatible then
 		d.attachments.owned[compatible.id] = true
-		T.check("bench applies owned compatible attachment", G.action(p, "attach", compatible.id, "dart9"))
-		T.check("bench toggles attachment off", G.action(p, "attach", compatible.id, "dart9") and d.attachments.equipped.dart9[compatible.slot] == nil)
+		T.check("bench applies owned compatible attachment", G.action(p, "attach", compatible.id, "P1"))
+		T.check("bench toggles attachment off", G.action(p, "attach", compatible.id, "P1") and d.attachments.equipped.P1[compatible.slot] == nil)
 	end
 	local pad = S.Lobby.parts.A
 	move(pad.Position + Vector3.new(0, 3, 0))

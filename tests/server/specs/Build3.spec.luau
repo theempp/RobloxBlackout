@@ -19,12 +19,12 @@ return function(T)
  local d=Rules.defaultProfile() d.credits=1000
  local fake={role='lobby',profiles={loaded={[player]=d}},pushProfile=function() end}
  function fake.profiles:save() return false end
- local ok=Service.transact(fake,player,'buyGun','buzz')
+ local ok=Service.transact(fake,player,'buyGun','A2')
  T.eq('failed save denies transaction',ok,false)
- T.check('failed purchase restores ownership and credits',not fake.profiles.loaded[player].guns.owned.buzz and fake.profiles.loaded[player].credits==1000)
+ T.check('failed purchase restores ownership and credits',not fake.profiles.loaded[player].guns.owned.A2 and fake.profiles.loaded[player].credits==1000)
  function fake.profiles:save() return true end
- T.eq('retry succeeds',Service.transact(fake,player,'buyGun','buzz'),true)
- T.eq('duplicate request never debits twice',Service.transact(fake,player,'buyGun','buzz'),false)
+ T.eq('retry succeeds',Service.transact(fake,player,'buyGun','A2'),true)
+ T.eq('duplicate request never debits twice',Service.transact(fake,player,'buyGun','A2'),false)
  player:SetAttribute('BC_Pad','A') T.eq('no shop while queueing',Service.transact(fake,player,'freeSpin'),false)
  player:SetAttribute('BC_Pad',oldPad) player:SetAttribute('BC_Driving',oldDriving)
  local crews=Crews.new(4,20) local a,b={},{}

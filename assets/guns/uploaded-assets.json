@@ -1,0 +1,475 @@
+{
+  "S1_Barrel": {
+    "name": "S1_Barrel",
+    "assetId": "80620574960744",
+    "sha256": "5faeb1e4cdf9bfdc705bb015c5749c8063099ed5797ff948193662ef0c474b7a",
+    "export_sha256": "bd1553f5161fc130448e55d6429dbf95edfa4e2b10c1ab4eb50b431c12bdbd22",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S1_Bipod": {
+    "name": "S1_Bipod",
+    "assetId": "135462345403196",
+    "sha256": "091fe48de3f9184e4b82fd5d7e5c3cdba20ff46ed4348e41b044751e519337ea",
+    "export_sha256": "bd1553f5161fc130448e55d6429dbf95edfa4e2b10c1ab4eb50b431c12bdbd22",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S1_Body": {
+    "name": "S1_Body",
+    "assetId": "116372611657740",
+    "sha256": "b94b8ae6d84d5e0bc3aa0658517d8cc11742dc9709acdd61ba354d1bab747c4d",
+    "export_sha256": "bd1553f5161fc130448e55d6429dbf95edfa4e2b10c1ab4eb50b431c12bdbd22",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S1_Mag": {
+    "name": "S1_Mag",
+    "assetId": "72849737718775",
+    "sha256": "4ed8c297c12a0dc2a4524a13ea4d9882b49f48feded037d12047822e9de683a9",
+    "export_sha256": "bd1553f5161fc130448e55d6429dbf95edfa4e2b10c1ab4eb50b431c12bdbd22",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S1_Muzzle": {
+    "name": "S1_Muzzle",
+    "assetId": "124236962320937",
+    "sha256": "3e41a3020121a8bfe0c3fc28cb8f7d301e11754aa6b8c5e5215dcdfda069709a",
+    "export_sha256": "bd1553f5161fc130448e55d6429dbf95edfa4e2b10c1ab4eb50b431c12bdbd22",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S1_Optic": {
+    "name": "S1_Optic",
+    "assetId": "91647217947836",
+    "sha256": "aff4b9c01838b2ee9a534a3c4ab28672d97d9be63456f099efd1bffd41702df5",
+    "export_sha256": "bd1553f5161fc130448e55d6429dbf95edfa4e2b10c1ab4eb50b431c12bdbd22",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S1_Stock": {
+    "name": "S1_Stock",
+    "assetId": "123332297683917",
+    "sha256": "914a10f53be85d9ae3b4986238ef3cda6baf627081c7e01f2688cf17c5b399fd",
+    "export_sha256": "bd1553f5161fc130448e55d6429dbf95edfa4e2b10c1ab4eb50b431c12bdbd22",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P2_Body": {
+    "name": "P2_Body",
+    "assetId": "91409053276200",
+    "sha256": "f6f23036c414f1c6d4096fd03cde4261b31784721638b77b7204549020d2e9d1",
+    "export_sha256": "08a5951f3667b3f1bbbc364a06a7c295348d823a2f81037db853ea8518c639e1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P2_Mag": {
+    "name": "P2_Mag",
+    "assetId": "85985766581555",
+    "sha256": "0c1ba0963dba855267595a292fe7d9901cbd961071fb476f8b82fb699b29a25b",
+    "export_sha256": "08a5951f3667b3f1bbbc364a06a7c295348d823a2f81037db853ea8518c639e1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P2_Muzzle": {
+    "name": "P2_Muzzle",
+    "assetId": "136084405002111",
+    "sha256": "356060954b1362d64879281a66c390dd723a20806dc1c7348a9aa9b6d9c12234",
+    "export_sha256": "08a5951f3667b3f1bbbc364a06a7c295348d823a2f81037db853ea8518c639e1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P2_Optic": {
+    "name": "P2_Optic",
+    "assetId": "108144259079576",
+    "sha256": "925443bda62cc6cb5d195bccbde0f33f44d3646f05a449297cb12f05d4f8c19c",
+    "export_sha256": "08a5951f3667b3f1bbbc364a06a7c295348d823a2f81037db853ea8518c639e1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P2_Slide": {
+    "name": "P2_Slide",
+    "assetId": "121627947053456",
+    "sha256": "0a05f0ae6b415c1724e9f96405e7e46f7d848d48fe4fae6df45539bea281b61a",
+    "export_sha256": "08a5951f3667b3f1bbbc364a06a7c295348d823a2f81037db853ea8518c639e1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A1_Body": {
+    "name": "A1_Body",
+    "assetId": "98429613323215",
+    "sha256": "9c98e3a0411e2985767ef072b22d383e500b47485478de8d5119f56e3d4dac5d",
+    "export_sha256": "11291184fa2edbd52b3498ae21cf848c5b6da8907d2ba8837ce56a01ddf9a986",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A1_Foregrip": {
+    "name": "A1_Foregrip",
+    "assetId": "118867145340609",
+    "sha256": "a3b5cd29079296617354e0a37ec078a6807c2b991052534e863f98a5252ee529",
+    "export_sha256": "11291184fa2edbd52b3498ae21cf848c5b6da8907d2ba8837ce56a01ddf9a986",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A1_Mag": {
+    "name": "A1_Mag",
+    "assetId": "115008756509340",
+    "sha256": "de187ae169aebe82ad6ed18c66d01c304c41ca31ffedc521fd97f2b1be9ee0b9",
+    "export_sha256": "11291184fa2edbd52b3498ae21cf848c5b6da8907d2ba8837ce56a01ddf9a986",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A1_Muzzle": {
+    "name": "A1_Muzzle",
+    "assetId": "114604814846246",
+    "sha256": "e1ffe13824ff17a18019f9af6c8a1fa464b3836375df49570a0acf2721d7020d",
+    "export_sha256": "11291184fa2edbd52b3498ae21cf848c5b6da8907d2ba8837ce56a01ddf9a986",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A1_Optic": {
+    "name": "A1_Optic",
+    "assetId": "113684159471029",
+    "sha256": "c32665e0c461dce03c78c692fa7c12fca2b2cdad3bd1a4cb2ca72a6a26a89634",
+    "export_sha256": "11291184fa2edbd52b3498ae21cf848c5b6da8907d2ba8837ce56a01ddf9a986",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A1_Stock": {
+    "name": "A1_Stock",
+    "assetId": "106236696476151",
+    "sha256": "f3b9a0be77d39ec4ac20e9e845c6ec7554229348ba1282b72c66f96fba7235ec",
+    "export_sha256": "11291184fa2edbd52b3498ae21cf848c5b6da8907d2ba8837ce56a01ddf9a986",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "G2_Barrel": {
+    "name": "G2_Barrel",
+    "assetId": "122662289915116",
+    "sha256": "ffda2de00483c5fb4b5ad4ffe0116868225bb4a995bf4ab9ef9376887db16731",
+    "export_sha256": "6db1aa32272b30aaa25499b1ee786c520bd0e6a39ded1c910035fbdfc74efcb5",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "G2_Body": {
+    "name": "G2_Body",
+    "assetId": "86682022738844",
+    "sha256": "177597abfae75a54624231685be327b9ad1e490905215e04642162d76ee4577b",
+    "export_sha256": "6db1aa32272b30aaa25499b1ee786c520bd0e6a39ded1c910035fbdfc74efcb5",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "G2_Pump": {
+    "name": "G2_Pump",
+    "assetId": "91388609201805",
+    "sha256": "e6ac6133a5585c65518cd2d552e4d82b31674bdc37704d13d78a7a7933646ebf",
+    "export_sha256": "6db1aa32272b30aaa25499b1ee786c520bd0e6a39ded1c910035fbdfc74efcb5",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "G2_Stock": {
+    "name": "G2_Stock",
+    "assetId": "125043995074817",
+    "sha256": "7040b0eab3a3b2156bd4e9902958661122242ef6cb415b93dc554dfc21f5d19d",
+    "export_sha256": "6db1aa32272b30aaa25499b1ee786c520bd0e6a39ded1c910035fbdfc74efcb5",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "G1_Barrel": {
+    "name": "G1_Barrel",
+    "assetId": "139400260632223",
+    "sha256": "07d5ada8721f81b6d0172149d794694878c72ef2bdb3fdce03e14a87ff00b384",
+    "export_sha256": "dec0e76883ace782d5c323d24d95f3e1ee6bd11cb948c39c4f72cc49e4c170c1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "G1_Body": {
+    "name": "G1_Body",
+    "assetId": "84049534889278",
+    "sha256": "917eccde62c980b383df35cf48507492a5ad64534fda3cd59e3a4049cc82eeef",
+    "export_sha256": "dec0e76883ace782d5c323d24d95f3e1ee6bd11cb948c39c4f72cc49e4c170c1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "G1_Pump": {
+    "name": "G1_Pump",
+    "assetId": "139148777030954",
+    "sha256": "c72ff56ab96357c1f2206580d97b911b25d342126f16d14755a09aa7e9c5a168",
+    "export_sha256": "dec0e76883ace782d5c323d24d95f3e1ee6bd11cb948c39c4f72cc49e4c170c1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "G1_Stock": {
+    "name": "G1_Stock",
+    "assetId": "76757486031044",
+    "sha256": "d0dd535e400fb9cbd256f88afca8f609488d33fe22e59d4ec1f5f73f8b990ed5",
+    "export_sha256": "dec0e76883ace782d5c323d24d95f3e1ee6bd11cb948c39c4f72cc49e4c170c1",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A2_Body": {
+    "name": "A2_Body",
+    "assetId": "104052492021379",
+    "sha256": "07f510bdebfe260cf346139257dc67638a60cdc9caa951a016a1acbf81d84c2f",
+    "export_sha256": "c56c0e7f5deebeaf612d7b86148ed2dce539cb503854ef0f8dc423113fce515f",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A2_Foregrip": {
+    "name": "A2_Foregrip",
+    "assetId": "129564475148745",
+    "sha256": "64647973b4cb940a10f39ec7ddeba1f95bd07e0f4cf576cfa34c117dd50a5d31",
+    "export_sha256": "c56c0e7f5deebeaf612d7b86148ed2dce539cb503854ef0f8dc423113fce515f",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A2_Mag": {
+    "name": "A2_Mag",
+    "assetId": "103275460746937",
+    "sha256": "908a35ca34d8510bbab5ea8ba74d983d06ee616bd91130e15dd34e1bbdbbda2a",
+    "export_sha256": "c56c0e7f5deebeaf612d7b86148ed2dce539cb503854ef0f8dc423113fce515f",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A2_Muzzle": {
+    "name": "A2_Muzzle",
+    "assetId": "83977517781018",
+    "sha256": "13a3cea5caed29e753388eaa9387ef6f38128889a5c0fbcfc97b8b1469fb9eed",
+    "export_sha256": "c56c0e7f5deebeaf612d7b86148ed2dce539cb503854ef0f8dc423113fce515f",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A2_Optic": {
+    "name": "A2_Optic",
+    "assetId": "106233074824339",
+    "sha256": "370e21602de4641c61d876e7a69ccc1634114dedc3c8c04904fc03b840f006f9",
+    "export_sha256": "c56c0e7f5deebeaf612d7b86148ed2dce539cb503854ef0f8dc423113fce515f",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "A2_Stock": {
+    "name": "A2_Stock",
+    "assetId": "140579100093535",
+    "sha256": "a8038546a7c13230bb5354e4dad832902b5c45195040fde474589f6784a34ebb",
+    "export_sha256": "c56c0e7f5deebeaf612d7b86148ed2dce539cb503854ef0f8dc423113fce515f",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S2_Body": {
+    "name": "S2_Body",
+    "assetId": "112886235502702",
+    "sha256": "5c1782c8780da840bd1a4ef0984185d082439e4b27350fd4eff9811856c4f01e",
+    "export_sha256": "846e8549f7cd9324b390f01e59c67a4defd7c6545bf39696e8a3720d98a596d6",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S2_Mag": {
+    "name": "S2_Mag",
+    "assetId": "106977996259512",
+    "sha256": "8d1850923c4cc227c377ba1f14096770b63127f2c67c64697e741bd15eb95fcf",
+    "export_sha256": "846e8549f7cd9324b390f01e59c67a4defd7c6545bf39696e8a3720d98a596d6",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S2_Muzzle": {
+    "name": "S2_Muzzle",
+    "assetId": "131097625091945",
+    "sha256": "9bee9f9f2ca3da628d923a71af57eb24871369a115a47a0e00ebb4596683a733",
+    "export_sha256": "846e8549f7cd9324b390f01e59c67a4defd7c6545bf39696e8a3720d98a596d6",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S2_Optic": {
+    "name": "S2_Optic",
+    "assetId": "104150617220830",
+    "sha256": "f9ccd0ef6f1f05c929ba916d371a7e1d4bf5f2713eee6eb3258371e1ae2f9556",
+    "export_sha256": "846e8549f7cd9324b390f01e59c67a4defd7c6545bf39696e8a3720d98a596d6",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "S2_Stock": {
+    "name": "S2_Stock",
+    "assetId": "123304452177354",
+    "sha256": "bc92a83c718de99b0a66c51aafe4d60bee25792e5e3ec67b9d03322124f1f195",
+    "export_sha256": "846e8549f7cd9324b390f01e59c67a4defd7c6545bf39696e8a3720d98a596d6",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P1_Body": {
+    "name": "P1_Body",
+    "assetId": "90540599203361",
+    "sha256": "caccc233e25af3c7d69dcfad96023bbc861d40be3b49ed0a74580e5434374d74",
+    "export_sha256": "16c83ecbecbc1ffbf00cd2f12aa0dbcb579d288880671d28724547faa9611eae",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P1_Light": {
+    "name": "P1_Light",
+    "assetId": "97002651180956",
+    "sha256": "295f5c760757f7a261eb57ecc7fcc3e7f59e17e2006f7858313e9aa610099bfc",
+    "export_sha256": "16c83ecbecbc1ffbf00cd2f12aa0dbcb579d288880671d28724547faa9611eae",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P1_Mag": {
+    "name": "P1_Mag",
+    "assetId": "119562718162810",
+    "sha256": "47e8267dcf2587b53b1c72b956121e1a179099079b58639a504cfce497723da6",
+    "export_sha256": "16c83ecbecbc1ffbf00cd2f12aa0dbcb579d288880671d28724547faa9611eae",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P1_Muzzle": {
+    "name": "P1_Muzzle",
+    "assetId": "98268414969659",
+    "sha256": "a20f736ebaa3a3bf1c2efc383008d64b2a4c52bffa83e1615e1e2208381ca0f5",
+    "export_sha256": "16c83ecbecbc1ffbf00cd2f12aa0dbcb579d288880671d28724547faa9611eae",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P1_Optic": {
+    "name": "P1_Optic",
+    "assetId": "100819519288853",
+    "sha256": "57f2be070a0589fae4d553970e14bb47081e75e7d206f7472a2d20846512561a",
+    "export_sha256": "16c83ecbecbc1ffbf00cd2f12aa0dbcb579d288880671d28724547faa9611eae",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  },
+  "P1_Slide": {
+    "name": "P1_Slide",
+    "assetId": "136007745055700",
+    "sha256": "b0eb71c0ae20510d282151bc62b46dcddab8ed1c6c5f5d5cb57000b7f89004cf",
+    "export_sha256": "16c83ecbecbc1ffbf00cd2f12aa0dbcb579d288880671d28724547faa9611eae",
+    "rotation": [
+      0,
+      180,
+      0
+    ]
+  }
+}

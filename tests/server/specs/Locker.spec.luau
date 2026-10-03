@@ -48,9 +48,9 @@ return function(T)
 
 	-- 2. Migration + validation
 	local old = Rules.clean({ schemaVersion = 3, credits = 9, tutorial = { done = true }, settings = { sfx = false }, receipts = { r1 = true },
-		guns = { owned = { buzz = true }, loadout = { "buzz", "", "" } }, cosmetics = { owned = { hat = true } } })
+		guns = { owned = { A2 = true }, loadout = { "A2", "", "" } }, cosmetics = { owned = { hat = true } } })
 	T.check("schema 3 save migrates without losing data", old.schemaVersion == C.Profile.SchemaVersion and C.Profile.SchemaVersion >= 4 and old.credits == 9
-		and old.tutorial.done and old.settings.sfx == false and old.receipts.r1 and old.guns.loadout[1] == "buzz")
+		and old.tutorial.done and old.settings.sfx == false and old.receipts.r1 and old.guns.loadout[1] == "A2")
 	T.check("migrated save: own look, free starters owned, unknown ids dropped", next(old.cosmetics.equipped) == nil and old.cosmetics.owned.fit_crew
 		and old.cosmetics.owned.hat == nil)
 	local eq = Rules.clean({ cosmetics = { equipped = { outfit = "fit_crew", disguise = "dis_maint", mask = "fit_night", hat = "mask_bandana" } } }).cosmetics.equipped

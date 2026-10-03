@@ -11,9 +11,21 @@ return function(T)
    if g.art then T.eq(g.id .. " real meshes render", r.kind, "mesh") end
   end
  end
+ for _, gun in ipairs(C.Guns) do
+  local equipped, state = T.cmdLong(30, "gunEquip", gun.id)
+  T.check(gun.id .. " equips uploaded model", equipped and state.built and state.gun == gun.id and state.status == "mesh")
+  if gun.fp.mover and (gun.fp.mover.kind == "slide" or gun.fp.mover.kind == "pump") then
+   local ok, motion = T.cmdLong(10, "gunMotion", "Mover")
+   T.check(gun.id .. " mover travels and returns", ok and motion.count == 1 and motion.peak > 0.05 and motion.restored, game:GetService("HttpService"):JSONEncode(motion))
+  end
+  if gun.class ~= "Shotgun" then
+   local ok, motion = T.cmdLong(10, "gunMotion", "Mag")
+   T.check(gun.id .. " magazine drops, hides and returns", ok and motion.count == 1 and motion.peak > 0.05 and motion.hiddenMag and motion.restored, game:GetService("HttpService"):JSONEncode(motion))
+  end
+ end
  local function state() local ok, r = T.cmd("gunState"); assert(ok, "gunState failed"); return r end
- local ok, r = T.cmdLong(30, "gunEquip", "needle")
- T.check("Needlepoint equipped", ok and r.gun == "needle" and r.built)
+ local ok, r = T.cmdLong(30, "gunEquip", "S1")
+ T.check("S1 equipped", ok and r.gun == "S1" and r.built)
  T.cmd("gunAds", true, 0.5)
  r = state()
  T.check("scope full view enabled", r.scoped and r.scopeGui and r.hidden > 0 and r.shown == 0)
@@ -25,7 +37,7 @@ return function(T)
  r = state()
  T.check("rapid toggles restore view", not r.ads and not r.scoped and not r.scopeGui and r.shown > 0)
  T.cmd("gunAds", true, 0.5)
- T.cmdLong(30, "gunEquip", "dart9")
+ T.cmdLong(30, "gunEquip", "P1")
  r = state()
  T.check("swap resets scope", not r.ads and not r.scoped and r.alpha == 0)
  local ok, delta = T.cmd("elimReplay", 1000000000)
@@ -34,11 +46,11 @@ return function(T)
  T.eq("later repeated confirmation suppressed", delta, 0)
  r = state()
  T.check("tag avoids centre reticle", r.elimRect.x > 10 and r.elimRect.y > 10)
- T.cmdLong(30, "gunEquip", "ranger")
+ T.cmdLong(30, "gunEquip", "A1")
  T.cmd("gunAds", true, 0.5)
  r = state()
- T.check("Ranger sights centred and aligned", r.sight and r.front and math.abs(r.sight.x) < 3 and math.abs(r.sight.y) < 3 and math.abs(r.front.x) < 3 and math.abs(r.front.y) < 3)
- T.cmdLong(30, "gunEquip", "needle")
+ T.check("A1 sights centred and aligned", r.sight and r.front and math.abs(r.sight.x) < 3 and math.abs(r.sight.y) < 3 and math.abs(r.front.x) < 3 and math.abs(r.front.y) < 3, game:GetService("HttpService"):JSONEncode(r))
+ T.cmdLong(30, "gunEquip", "S1")
  T.cmd("gunAds", true, 0.5)
  T.player.Character.Humanoid.Health = 0
  task.wait(0.2)
@@ -48,5 +60,5 @@ return function(T)
  local untilAt = os.clock() + 15
  repeat task.wait(0.1) until (T.player.Character ~= old and T.player.Character and T.player.Character:FindFirstChild("Head")) or os.clock() > untilAt
  T.check("respawn completed", T.player.Character ~= old)
- T.cmdLong(30, "gunEquip", "dart9")
+ T.cmdLong(30, "gunEquip", "P1")
 end

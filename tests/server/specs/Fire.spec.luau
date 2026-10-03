@@ -42,7 +42,7 @@ return function(T)
 		Weapons.states[player] = nil
 		T.check("equip slot 1", Weapons.equip(player, 1))
 		local st = Weapons.states[player]
-		T.eq("slot 1 = free gun", st.gunId, "dart9")
+		T.eq("slot 1 = free gun", st.gunId, "P1")
 		T.eq("range default loan fills slot 2", Weapons.gunInSlot(player, 2), C.Range.DefaultLoan[2])
 		st.loan = {} -- below: profile-only loadout
 		T.eq("coming-soon slot rejected", select(2, Weapons.equip(player, 4)), "comingSoon")
@@ -62,7 +62,7 @@ return function(T)
 		local expected = math.floor(GunStats.damageAt(s, dist, false) + 0.5)
 		T.eq("damage applied = stats", hits and hits[1] and hits[1].d, expected)
 		T.eq("dummy health reduced", d1:GetAttribute("Health"), 1000 - expected)
-		T.eq("ammo decremented", st.ammo.dart9, s.mag - 1)
+		T.eq("ammo decremented", st.ammo.P1, s.mag - 1)
 		T.eq("instant second shot rate-limited", select(2, shoot(d1)), "rate")
 		now += s.interval
 		T.check("shot after interval accepted", shoot(d1))
@@ -76,7 +76,7 @@ return function(T)
 		T.eq("non-integer seq rejected", select(2, Weapons.fire(player, 1.5, head.Position, Vector3.yAxis, true)), "badArgs")
 		T.eq("wrong arg type rejected", select(2, Weapons.fire(player, seq + 1, "x", Vector3.yAxis, true)), "badArgs")
 
-		st.ammo.dart9 = 0
+		st.ammo.P1 = 0
 		now += 1
 		T.eq("empty mag rejected", select(2, shoot(d1)), "empty")
 		T.check("reload accepted", Weapons.reload(player))
@@ -84,8 +84,8 @@ return function(T)
 		T.eq("double reload rejected", select(2, Weapons.reload(player)), "reloading")
 		now += s.reload
 		T.check("fire after reload accepted", shoot(d1))
-		T.eq("mag refilled", st.ammo.dart9, s.mag - 1)
-		st.ammo.dart9 = s.mag
+		T.eq("mag refilled", st.ammo.P1, s.mag - 1)
+		st.ammo.P1 = s.mag
 		T.eq("reload when full rejected", select(2, Weapons.reload(player)), "full")
 		d1:Destroy() -- targets share the column above the head: clear each before the next
 
@@ -138,8 +138,8 @@ return function(T)
 		Weapons.setAds(player, false)
 		T.near("ADS off restores walk", player.Character.Humanoid.WalkSpeed, C.Movement.WalkSpeed)
 
-		T.check("range loan equips", Weapons.loan(player, "scatter"))
-		T.eq("loaned gun active", st.gunId, "scatter")
+		T.check("range loan equips", Weapons.loan(player, "G1"))
+		T.eq("loaned gun active", st.gunId, "G1")
 		T.check("bad loan rejected", not Weapons.loan(player, "nope"))
 		now += 1
 		local d3 = dummy(12)
@@ -147,7 +147,7 @@ return function(T)
 		local one = GunStats.damageAt(st.stats, 10, false)
 		T.check("pellets aggregate into one hit > 1 pellet", pellets[1] and #pellets == 1 and pellets[1].d > one, pellets[1] and pellets[1].d)
 		d3:Destroy()
-        T.check("bolt loan equips", Weapons.loan(player, "needle"))
+        T.check("bolt loan equips", Weapons.loan(player, "S1"))
         now += 2
         T.check("bolt first shot accepted", shoot(nil))
         now += st.stats.interval * 0.5

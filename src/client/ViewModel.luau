@@ -1,5 +1,4 @@
--- First-person blaster (no arms): the locked v2 meshes (GunModel.buildFirstPerson, built async per equip) or the
--- primitive model for guns without art. ADS puts the gun's own Sight point on the screen centre (FrontSight on the
+-- First-person gun (no arms): uploaded Blender pieces, loaded asynchronously per equip. ADS puts the gun's own Sight point on the screen centre (FrontSight on the
 -- same line), so irons/optics line up per gun. Motion: draw, walk bob, look sway, per-gun recoil spring (kick back,
 -- rise, roll), slide / bolt / mag animation, reload tilt. Scope guns (fp.scope) hide the model once ADS passes
 -- Config.ViewModel.ScopeShowAt and the Hud draws the full-view reticle instead. All tuning: Config.ViewModel + Guns[i].fp.
@@ -194,11 +193,11 @@ local function moverOffset(info)
 	if not m then
 		return CFrame.identity, false
 	end
-	if m.kind == "slide" then
+	if m.kind == "slide" or m.kind == "pump" then
 		local s = 0
-		if empty then
+		if empty and m.kind == "slide" then
 			s = 1
-		elseif cycleT < m.time * 2 then
+		elseif cycleT >= 0 and cycleT < m.time * 2 then
 			s = cycleT < m.time and smooth(cycleT / m.time) or 1 - smooth((cycleT - m.time) / m.time)
 		end
 		return CFrame.new(0, 0, m.travel * s), false

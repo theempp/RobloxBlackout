@@ -9,7 +9,7 @@ return function(T)
 	T.check("client compiled + initialised all modules", c.ready == true and c.modules == c.expected and c.expected > 0,
 		tostring(c.modules) .. "/" .. tostring(c.expected) .. " " .. tostring(c.failed))
 	T.check("e2e ran without error", c.e2eError == nil, c.e2eError)
-	T.eq("spawned with free blaster", c.e2eGun, "dart9")
+	T.eq("spawned with free blaster", c.e2eGun, "P1")
 	T.check("aim-assist cone detects target under reticle", c.e2eAimOnTarget == true)
 	T.eq("semi-auto: one trigger pull = one shot", c.e2eShots, 1)
 	T.eq("client ammo decremented once", c.e2eAmmoDelta, 1)

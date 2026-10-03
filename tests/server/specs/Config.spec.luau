@@ -22,7 +22,7 @@ return function(T)
 	walk(C, "Config")
 	T.check("all numbers finite", #bad == 0, table.concat(bad, ","))
 
-	T.eq("6 guns", #C.Guns, 6)
+	T.eq("8 guns", #C.Guns, 8)
 	local prices, free, ids = {}, 0, {}
 	for _, g in ipairs(C.Guns) do
 		table.insert(prices, g.price)
@@ -44,7 +44,7 @@ return function(T)
 		end
 	end
 	table.sort(prices)
-	T.eq("prices 0/1k/3k/6k/10k/15k", table.concat(prices, ","), "0,1000,3000,6000,10000,15000")
+	T.eq("eight provisional gun prices", table.concat(prices, ","), "0,1000,2000,3000,6000,10000,12000,15000")
 	T.eq("exactly one free gun", free, 1)
 
 	local usable, left, right, top = 0, 0, 0, 0

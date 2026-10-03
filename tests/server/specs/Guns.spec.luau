@@ -10,79 +10,60 @@ return function(T)
 		local s = GunStats.resolve(g.id)
 		T.check(g.id .. " resolves", s ~= nil and math.abs(s.interval - 60 / g.rpm) < 1e-9)
 		local art = GunModel.art(g.id)
-		T.eq(g.id .. " art flag matches GunArt module", g.art == true, art ~= nil)
-		if art then
-			-- generated data agrees with Config and the budgets (render cost is measured separately: GunFeel.spec)
-			T.check(g.id .. " art first-person tris <= budget", art.tris <= C.TriBudget.FirstPersonGun, art.tris)
-			local est = 0
-			for _, w in ipairs(art.world) do
-				est += w.kind == "Cylinder" and C.TriEstimate.Cylinder or C.TriEstimate.Block
-			end
-			T.check(g.id .. " world LOD estimate <= budget", est <= C.TriBudget.WorldGun, est)
-			T.check(g.id .. " world LOD has >= 8 primitives", #art.world >= 8, #art.world)
-			local p = art.points
-			T.check(g.id .. " points: Sight, FrontSight, Grip, Engrave", p.Sight and p.FrontSight and p.Grip and p.Engrave ~= nil)
-			T.check(g.id .. " sight line parallel to bore", math.abs(p.Sight.Y - p.FrontSight.Y) < 0.004 and math.abs(p.Sight.X) < 1e-3
-				and math.abs(p.FrontSight.X) < 1e-3, p.Sight.Y - p.FrontSight.Y)
-			T.check(g.id .. " front sight ahead of rear sight", p.FrontSight.Z < p.Sight.Z - 0.2)
-			T.check(g.id .. " sight above bore", p.Sight.Y > g.muzzle.Y)
-			T.check(g.id .. " fp tuning present", g.fp and typeof(g.fp.hip) == "Vector3" and type(g.fp.eye) == "number" and g.fp.kick ~= nil)
-			for _, m in ipairs(art.meshes) do
-				T.check(g.id .. " mesh " .. m.group .. "/" .. m.zone .. " zone known", art.zones[m.zone] ~= nil)
-			end
-			local okGroups = true
-			for _, m in ipairs(art.meshes) do
-				okGroups = okGroups and (m.group == "Receiver" or m.group == "Mover" or m.group == "Mag")
-			end
-			T.check(g.id .. " mesh groups valid", okGroups)
-			-- decode round trip: first vertex inside its declared bounds
-			local m1 = art.meshes[1]
-			local buf = GunModel.decode(m1.data)
-			T.eq(g.id .. " decoded byte length", buffer.len(buf), m1.verts * 6 + m1.tris * 6)
-		else
-			local tris = GunModel.estimateTris(g)
-			T.check(g.id .. " world tri budget", tris <= C.TriBudget.WorldGun, tris)
-			T.check(g.id .. " first-person tri budget", tris <= C.TriBudget.FirstPersonGun, tris)
-		end
-		local m = GunModel.build(g)
-		local parts, collide, engr = 0, 0, 0
-		for _, d in ipairs(m:GetDescendants()) do
-			if d:IsA("BasePart") then
-				parts += 1
-				if d.CanCollide or d.CanQuery or not d.Massless then
-					collide += 1
-				end
-			elseif d.Name == "Engraving" then
-				engr += 1
+		T.check(g.id .. " generated art present", art ~= nil and g.art)
+		T.check(g.id .. " world triangle budget", art.tris <= C.TriBudget.WorldGun)
+		T.check(g.id .. " first person triangle budget", art.tris <= C.TriBudget.FirstPersonGun)
+		T.check(g.id .. " muzzle faces -Z", art.muzzle.Z < 0 and art.muzzle == g.muzzle)
+		T.check(g.id .. " sight line parallel to bore", art.points.Sight.X == 0 and art.points.FrontSight.X == 0 and art.points.Sight.Y == art.points.FrontSight.Y)
+		T.check(g.id .. " front sight ahead", art.points.FrontSight.Z < art.points.Sight.Z)
+		T.check(g.id .. " first person tuning", g.fp and g.fp.kick and g.fp.eye > 0)
+		local m, kind = GunModel.build(g)
+		T.eq(g.id .. " uploaded art loaded", kind, "mesh")
+		T.eq(g.id .. " one part per piece plus root", #m:GetChildren(), #art.pieces + 1)
+		local total, names = 0, {}
+		for _, spec in ipairs(art.pieces) do
+			total += spec.tris
+			T.check(spec.name .. " unique name", not names[spec.name]); names[spec.name] = true
+			local p = m:FindFirstChild(spec.name)
+			T.check(spec.name .. " named mesh present", p and p:IsA("MeshPart"))
+			T.check(spec.name .. " noncolliding massless", p and not p.CanCollide and not p.CanTouch and not p.CanQuery and p.Massless)
+			T.check(spec.name .. " near black", p and math.max(p.Color.R, p.Color.G, p.Color.B) <= C.GunMeshes.NearBlackMax)
+			T.check(spec.name .. " dimensions", p and (p.Size - spec.size).Magnitude < 0.002)
+			T.check(spec.name .. " position", p and (p.Position - spec.center).Magnitude < 0.001)
+			T.check(spec.name .. " exported pivot", p and (p:GetPivot().Position - spec.pivot).Magnitude < 0.001)
+			T.check(spec.name .. " uploaded ID", p and tostring(p.MeshId):find(spec.assetId, 1, true) ~= nil)
+			if spec.piece == "Mag" then
+				T.eq(spec.name .. " mag animation group", p:GetAttribute("Group"), "Mag")
+				T.near(spec.name .. " pivot at top", spec.pivot.Y, spec.center.Y + spec.size.Y / 2, 0.001)
+			elseif spec.piece == "Slide" or spec.piece == "Pump" then
+				T.eq(spec.name .. " mover animation group", p:GetAttribute("Group"), "Mover")
+				T.check(spec.name .. " mover configured", g.fp.mover ~= nil)
 			end
 		end
-		T.eq(g.id .. " world model parts", parts, (art and #art.world or #g.shape) + 1)
-		T.eq(g.id .. " parts non-colliding/massless", collide, 0)
-		T.eq(g.id .. " one engraving layer", engr, 1)
-		local mz = m.PrimaryPart and m.PrimaryPart:FindFirstChild("Muzzle")
-		T.check(g.id .. " muzzle attachment = Config", mz ~= nil and (mz.Position - g.muzzle).Magnitude < 1e-4)
-		if art then
-			local sightAtt = m.PrimaryPart:FindFirstChild("Sight")
-			T.check(g.id .. " art points on the model", sightAtt ~= nil and (sightAtt.Position - art.points.Sight).Magnitude < 1e-4)
-			-- the traced muzzle tip lands on Config's muzzle (length kept, bore height from the art)
-			local tip = Vector3.zero
-			for _, w in ipairs(art.world) do
-				if w.zone == "Foam" then
-					tip = w.pos - Vector3.new(0, 0, w.size.Z / 2)
-				end
-			end
-			T.check(g.id .. " foam tip at Config muzzle", math.abs(tip.Z - g.muzzle.Z) < 0.03 and math.abs(tip.Y - g.muzzle.Y) < 0.01, tostring(tip))
+		T.eq(g.id .. " sum of piece tris", total, art.tris)
+		for name, pos in pairs(art.points) do
+			local a = m.PrimaryPart:FindFirstChild(name)
+			T.check(g.id .. " attachment " .. name, a and (a.Position - pos).Magnitude < 0.001)
 		end
+		T.check(g.id .. " muzzle attachment", (m.PrimaryPart.Muzzle.Position - art.muzzle).Magnitude < 0.001)
 		m:Destroy()
+		local enabled = C.GunMeshes.UseUploaded
+		C.GunMeshes.UseUploaded = false
+		local fallback, fallbackKind = GunModel.build(g)
+		C.GunMeshes.UseUploaded = enabled
+		T.eq(g.id .. " single flag selects fallback", fallbackKind, "primitive")
+		T.eq(g.id .. " fallback keeps all pieces", #fallback:GetChildren(), #art.pieces + 1)
+		T.check(g.id .. " fallback within budget", fallback:GetAttribute("Tris") <= C.TriBudget.WorldGun)
+		fallback:Destroy()
 	end
 
-	local r = GunStats.resolve("ranger", { mag = "ext_mag", barrel = "compensator", grip = "vert_grip" })
+	local r = GunStats.resolve("A1", { mag = "ext_mag", barrel = "compensator", grip = "vert_grip" })
 	T.eq("ext_mag rounds mag", r.mag, math.floor(28 * 1.4 + 0.5))
 	T.near("ext_mag slows reload", r.reload, 2.1 * 1.2)
 	T.near("compensator * vert_grip recoil", r.recoil.up, 0.5 * 0.85 * 0.88)
 	T.near("compensator widens hip spread", r.hipSpread, 2.2 * 1.15)
-	T.eq("Config recoil not mutated", C.GunsById.ranger.recoil.up, 0.5)
-	local p = GunStats.resolve("dart9", { grip = "vert_grip", mag = "scope2x" })
+	T.eq("Config recoil not mutated", C.GunsById.A1.recoil.up, 0.5)
+	local p = GunStats.resolve("P1", { grip = "vert_grip", mag = "scope2x" })
 	T.check("disallowed slot / wrong-slot attachment ignored", next(p.attachments) == nil and p.recoil.up == 0.9)
 	T.eq("unknown gun resolves nil", GunStats.resolve("nope"), nil)
 
@@ -102,7 +83,7 @@ return function(T)
 	end
 
 	-- Recoil: deterministic, learnable, per-blaster
-	local s = GunStats.resolve("ranger")
+	local s = GunStats.resolve("A1")
 	local u1, x1 = Recoil.kick(s, 3)
 	local u2, x2 = Recoil.kick(s, 3)
 	T.check("kick deterministic", u1 == u2 and x1 == x2)
