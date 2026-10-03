@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "MCP error -32602: Input validation error: Invalid arguments for tool meshy_image_to_image: Prompt must not exceed 600 characters at prompt"
+    }
+  ],
+  "isError": true
+}

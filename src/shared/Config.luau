@@ -690,6 +690,56 @@ for i,name in ipairs(names) do
  table.insert(Config.Economy.SpinItems,{id=id,weight=weights[i],rank=i<=6 and 1 or (i<=9 and 2 or (i<=11 and 3 or 4))})
 end
 
+-- Daily reward (Getaway Route, D2 look). Staged: nothing requires this yet. Amounts are placeholders.
+-- kind: credits | token (earned cosmetic-spin token) | cosmetic (Config.Cosmetics id) | keepsake (daily-owned item until
+-- the spray/decal/ping systems exist). prop picks the diorama model. Cosmetic-only, no power, no Glitch Coins.
+Config.DailyReward = {
+	DayLength = 86400, -- UTC day boundary, server clock only
+	MaxClaims = 100000,
+	Rewards = {
+		{ kind = "credits", amount = 150, name = "Credits Stack", prop = "cash" },
+		{ kind = "keepsake", item = "spray_tag", name = "Spray Tag", prop = "spray" },
+		{ kind = "keepsake", item = "kart_decal_sheet", name = "Kart Decal Sheet", prop = "case" },
+		{ kind = "keepsake", item = "ping_icon", name = "Ping Icon Token", prop = "token" },
+		{ kind = "token", amount = 1, name = "Cosmetic Crate", prop = "crate" },
+		{ kind = "credits", amount = 300, name = "Credits Stack", prop = "crate2" },
+		{ kind = "cosmetic", item = "static_7", name = "Static Face Mask", prop = "vault" },
+	},
+	Pulse = 1.6, -- seconds per TODAY glow pulse (off under reduced motion)
+	Colors = {
+		Night = Color3.fromRGB(9, 10, 14), Panel = Color3.fromRGB(14, 14, 16), Gold = Color3.fromRGB(226, 174, 62),
+		GoldDim = Color3.fromRGB(120, 92, 36), Ink = Color3.fromRGB(240, 240, 242), Muted = Color3.fromRGB(150, 152, 160),
+		Claimed = Color3.fromRGB(46, 160, 92), Led = Color3.fromRGB(235, 240, 255), Kart = Color3.fromRGB(86, 150, 220),
+	},
+}
+
+-- Heist HUD v2 (owner reference refs/hud/hud-reference.webp). Staged: nothing requires this yet. Design units
+-- (HudScale: 340 high); ref px x 0.36. Left items offset from left/top, right items from right/top, sticks and
+-- buttons from the bottom corners. Icon ids stay "" until owner-approved art is uploaded (text fallback shows).
+Config.HudRef = {
+	ShowNames = true, -- name under each portrait (directive 5e); false = reference-exact
+	TopInset = 40, -- below Roblox's own menu/chat icons (phone-test this)
+	Map = { x = 9, y = 7, w = 115, h = 81 },
+	Objective = { x = 12, y = 93, w = 103 },
+	Squad = { x = 139, y = 11, d = 43, step = 46, max = 4 },
+	Health = { w = 110, h = 23, y = 10 },
+	Ammo = { w = 110, h = 25, y = 36 },
+	Stick = { x = 9, y = 15, outer = 92, thumb = 40 },
+	Buttons = { -- centre offset from the bottom-right corner, diameter
+		fire = { x = 42, y = 47, d = 63 },
+		aim = { x = 39, y = 103, d = 48 },
+		swap = { x = 95, y = 96, d = 49 },
+		sprint = { x = 105, y = 43, d = 51 },
+	},
+	Dock = { y = 14, d = 30, step = 35 }, -- bottom-centre: inventory, menu, map
+	Colors = {
+		Panel = Color3.fromRGB(26, 26, 28), Edge = Color3.fromRGB(10, 10, 11), Rim = Color3.fromRGB(70, 70, 74),
+		Ink = Color3.fromRGB(236, 236, 238), Muted = Color3.fromRGB(128, 128, 134), Bar = Color3.fromRGB(205, 205, 208),
+		Low = Color3.fromRGB(255, 70, 70), Button = Color3.fromRGB(34, 34, 36),
+	},
+	Icons = { inventory = "", menu = "", map = "", swap = "", aim = "", sprint = "", fire = "" },
+}
+
 -- Lookup tables (built once).
 Config.GunsById = {} :: { [string]: Gun }
 for _, g in ipairs(Config.Guns) do

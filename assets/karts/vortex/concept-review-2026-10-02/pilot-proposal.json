@@ -1,0 +1,57 @@
+{
+  "status": "front images complete; other views require review and approval",
+  "balance_verified": 1100,
+  "reference_paths_missing": [],
+  "baseline": {
+    "locator_size_studs": [
+      5.16,
+      3.14,
+      11.2
+    ],
+    "wheelbase_studs": 7,
+    "track_studs": 3.85,
+    "note": "locator dimensions are not measured exterior mesh bounds"
+  },
+  "proposed_visual_envelope": {
+    "length_studs": 12.5,
+    "width_studs": 5.8,
+    "physics_changes": false
+  },
+  "pilot": {
+    "tool": "meshy_image_to_image",
+    "ai_model": "nano-banana-pro",
+    "generate_multi_view": false,
+    "operations_per_concept": [
+      "front three-quarter using supplied reference",
+      "side using generated front three-quarter as reference",
+      "rear three-quarter using generated front and side as references"
+    ],
+    "credits_per_operation": 9,
+    "credits_per_concept": 27,
+    "total_credits": 54,
+    "deliverables": "six concept images, no meshes",
+    "uploads": "one supplied reference per direction; generated images reused as references; local files encoded in request, no separate public upload",
+    "retries_authorized": false
+  },
+  "tool_enablement_plan": {
+    "enabled_tools": [
+      "meshy_check_balance",
+      "meshy_image_to_image",
+      "meshy_get_task_status"
+    ],
+    "applied": false
+  },
+  "prompts": "prompts.json",
+  "references_inspected_with": "view_image",
+  "approved_scope": {
+    "operations": 2,
+    "credits": 18,
+    "views": "front three-quarter only"
+  },
+  "actual_credits_consumed": 18,
+  "balance_after": 1082,
+  "results": {
+    "A": "01a0ff3d-f247-7447-87df-3811e81aa607",
+    "B": "01a0ff3d-f711-752e-ae79-d5832d13f875"
+  }
+}

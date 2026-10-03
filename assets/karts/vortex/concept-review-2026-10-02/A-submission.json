@@ -1,0 +1,14 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"task_id\": \"01a0ff3d-f247-7447-87df-3811e81aa607\",\n  \"status\": \"PENDING\",\n  \"message\": \"Image-to-image task created successfully. Task ID: 01a0ff3d-f247-7447-87df-3811e81aa607\",\n  \"estimated_time\": \"~30 seconds\"\n}"
+    }
+  ],
+  "structuredContent": {
+    "task_id": "01a0ff3d-f247-7447-87df-3811e81aa607",
+    "status": "PENDING",
+    "message": "Image-to-image task created successfully. Task ID: 01a0ff3d-f247-7447-87df-3811e81aa607",
+    "estimated_time": "~30 seconds"
+  }
+}

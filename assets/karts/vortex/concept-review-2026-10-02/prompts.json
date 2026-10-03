@@ -1,0 +1,12 @@
+{
+  "A": {
+    "front_three_quarter": "Original compact Blackout Crew sports kart, charcoal black, 12.5x5.8 studs. Exactly two seamed doors, one per side; one CENTERED driver seat, finished cockpit. Completely roofless, no glass. Realistic manufactured paint/carbon/rubber, low wide fenders, deep skirts, splitter, diffuser, fitted wheels. Short kart overhangs, no logos. Grey studio, front LEFT 3/4, whole vehicle, doors closed. Reference-inspired smooth curved nose, thin lights, flowing flanks, muscular rear haunches, integrated side aero and single seat-back fairing, rear lip. Original Elva-like architecture.",
+    "side": "Use the generated front view as the exact design reference. Preserve body shape, dimensions, materials, single centered seat, exactly two doors and all details. Change camera only to a clean full left side profile; entire vehicle in frame, same studio and light.",
+    "rear_three_quarter": "Use the generated front and side images as the exact design reference. Preserve shape, proportions, materials, cockpit, door seams, wheels and aero. Show rear left three-quarter view with credible tail lamps and substantial diffuser, entire vehicle in frame, same studio and light."
+  },
+  "B": {
+    "front_three_quarter": "Original compact Blackout Crew sports kart, charcoal black, 12.5x5.8 studs. Exactly two seamed doors, one per side; one CENTERED driver seat, finished cockpit. Completely roofless, no glass. Realistic manufactured paint/carbon/rubber, low wide fenders, deep skirts, splitter, diffuser, fitted wheels. Short kart overhangs, no logos. Grey studio, front LEFT 3/4, whole vehicle, doors closed. Reference-inspired angular wedge nose, inset segmented lights, sharp arches, deep faceted side aero, vertical rear intake, single cockpit hoop and pronounced separate rear wing.",
+    "side": "Use the generated front view as the exact design reference. Preserve body shape, dimensions, materials, single centered seat, exactly two doors and all details. Change camera only to a clean full left side profile; entire vehicle in frame, same studio and light.",
+    "rear_three_quarter": "Use the generated front and side images as the exact design reference. Preserve shape, proportions, materials, cockpit, door seams, wheels and aero. Show rear left three-quarter view with credible tail lamps and substantial diffuser, entire vehicle in frame, same studio and light."
+  }
+}

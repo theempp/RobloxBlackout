@@ -1,0 +1,20 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "# Task Completed\n\n[████████████████████] 100% — SUCCEEDED (25s, 4 polls)\n\n**Task ID**: 01a0ff3d-f711-752e-ae79-d5832d13f875\n**Credits Consumed**: 9\n\n## Generated Image(s)\n1 image(s) available.\n\n**Next Steps**: Use `meshy_download_model` with task_id \"01a0ff3d-f711-752e-ae79-d5832d13f875\" and task_type \"image-to-image\" to get download URLs."
+    }
+  ],
+  "structuredContent": {
+    "outcome": "SUCCEEDED",
+    "task_id": "01a0ff3d-f711-752e-ae79-d5832d13f875",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "wait_time_seconds": 25,
+    "poll_count": 4,
+    "image_urls": [
+      "https://assets.meshy.ai/0954edd6-8392-459a-8e74-f7ea677c71a5/uploads/image_01a0ff3d-f711-752e-ae79-d5832d13f875_0.png?Expires=1791247885&Signature=ATmZ3C3wmSlZAGwj5pJJFt3St~~Y762fxbaTdyO0vpJSA5z2Y4TltjpfUXTsc-uJNNfqObSWaoBR7JREEdFWNTNDa~X5pDpYx7VVKRLTa3vuwXKVrN4IhAsrdzkku02rr1ymSw4QWiG53FQQKpxdGvutG4w3~mj2MI4L5mCo4ulrBIVbrJlZNOkdrKfHa5vHzIBp8i0YGeLq1qq8TRxndMKkqEseM4A0LezB7-0Hw5KBe7bet4e4Bozn7tp-n5kyrHEhKkvfY3VtvNeykf697g2No7TIx5GXjBzhcYONFWT6XtNvebjxxKHnVPMnuq-OxnFTDH0kel8P6bXStbDCFA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+    ],
+    "consumed_credits": 9
+  }
+}
