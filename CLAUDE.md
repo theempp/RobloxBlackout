@@ -30,3 +30,5 @@ Rules:
 - Axis convention on export to Roblox: Blender Z-up -> Roblox `(x, z, -y)` (see `tools/export_vortex.py`).
 - Nothing is "done" until the owner has run it on iPhone; agents mark Studio/phone results as pending, never assumed.
 Handoff between agents: whoever finishes a stage writes the next agent's exact command(s) into the relevant `gates/*.md`, with file paths, so neither re-derives the pipeline.
+
+Oct 3: Nightcrawler Meshy draft generated (20 credits, balance 1,032) + downloaded; Blender stage next via Codex — `gates/nightcrawler-blender-handoff.md`.
